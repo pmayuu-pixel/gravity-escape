@@ -5,620 +5,626 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>GRAVITY HUNT</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0a0a0f">
+<meta name="theme-color" content="#63b4e8">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="icon-180.png">
 <style>
-/* ── カラーパレット(CYBER × HIP-HOP) ── */
+/* ── ポケモンGO風パレット: 明るい空・白カード・丸ボタン ── */
 :root {
-  --bg: #0a0a0f; --card: #111118;
-  --green: #00ff88; --purple: #bf00ff; --gold: #ffd700; --cyan: #00e5ff;
-  --text: #e0e0e0; --dim: #555570; --danger: #ff3366;
-  --glow-green: 0 0 12px rgba(0,255,136,.4);
-  --glow-purple: 0 0 12px rgba(191,0,255,.4);
-  --glow-gold: 0 0 12px rgba(255,215,0,.4);
+  --sky1: #63b4e8; --sky2: #a8e2d0;
+  --night1: #4a4a8a; --night2: #7a6aae;
+  --bg: #eef5f2; --card: #ffffff;
+  --blue: #3d9fe0; --green: #45b878; --yellow: #ffcb3d; --orange: #ff9046;
+  --purple: #a76fd6; --red: #f06a5c;
+  --text: #33434a; --muted: #8aa0aa; --line: #e4ecea;
+  --shadow: 0 3px 10px rgba(51,67,74,.12);
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
-  font-family: 'Hiragino Sans','Noto Sans JP',sans-serif; }
-.mono { font-family: 'Courier New', Courier, monospace; }
-body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px,
-    rgba(0,255,136,.012) 2px, rgba(0,255,136,.012) 4px); }
-#app { max-width: 430px; margin: 0 auto; min-height: 100vh; padding: 12px 14px 92px; }
+  font-family: 'Hiragino Maru Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif; }
+#app { max-width: 430px; margin: 0 auto; min-height: 100vh; padding: 0 14px 100px; }
 
-header { display: flex; justify-content: space-between; align-items: center; padding: 4px 2px 10px; }
-.logo { font-family: 'Courier New', monospace; font-weight: bold; font-size: 15px;
-  letter-spacing: 2px; color: var(--green); text-shadow: var(--glow-green); }
-.logo span { color: var(--purple); text-shadow: var(--glow-purple); }
-.rank-chip { font-family: 'Courier New', monospace; font-size: 11px; text-align: right; line-height: 1.5; }
-.rank-chip .rk { color: var(--gold); text-shadow: var(--glow-gold); font-weight: bold; }
-.rank-chip .xp { color: var(--dim); }
+/* ── ヘッダー(空) ── */
+.sky { margin: 0 -14px; padding: 18px 20px 22px; border-radius: 0 0 28px 28px;
+  background: linear-gradient(170deg, var(--sky1), var(--sky2)); color: #fff;
+  box-shadow: var(--shadow); }
+.sky.night { background: linear-gradient(170deg, var(--night1), var(--night2)); }
+.sky-top { display: flex; justify-content: space-between; align-items: center; }
+.sky .app-name { font-size: 13px; font-weight: bold; letter-spacing: 1px; opacity: .95; }
+.rank-pill { background: rgba(255,255,255,.25); border-radius: 999px; padding: 5px 12px;
+  font-size: 11px; font-weight: bold; }
+.sky .clock { font-size: 54px; font-weight: 800; text-align: center; letter-spacing: 2px;
+  margin: 8px 0 0; text-shadow: 0 2px 6px rgba(0,0,0,.12); }
+.sky .date { text-align: center; font-size: 12px; opacity: .9; }
+.lure-pill { margin: 10px auto 0; width: fit-content; background: rgba(255,255,255,.92);
+  color: var(--text); border-radius: 999px; padding: 7px 16px; font-size: 12px;
+  font-weight: bold; box-shadow: var(--shadow); }
+.lure-pill b { color: var(--blue); }
 
-.card { background: var(--card); border: 1px solid rgba(0,255,136,.33); border-radius: 12px;
-  box-shadow: 0 0 16px rgba(0,255,136,.14); padding: 16px; margin-bottom: 12px; }
-.card.p { border-color: rgba(191,0,255,.33); box-shadow: 0 0 16px rgba(191,0,255,.14); }
-.card.g { border-color: rgba(255,215,0,.33); box-shadow: 0 0 16px rgba(255,215,0,.14); }
-.card h3 { margin: 0 0 10px; font-size: 12px; letter-spacing: 2px; color: var(--dim);
-  font-family: 'Courier New', monospace; }
+/* ── カード ── */
+.card { background: var(--card); border-radius: 20px; box-shadow: var(--shadow);
+  padding: 18px 16px; margin: 14px 0; }
+.step-h { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.step-no { width: 24px; height: 24px; border-radius: 50%; background: var(--blue);
+  color: #fff; font-size: 13px; font-weight: bold; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; }
+.step-h .t { font-size: 15px; font-weight: bold; }
+.step-h .opt { margin-left: auto; font-size: 11px; color: var(--muted);
+  background: var(--bg); border-radius: 999px; padding: 3px 10px; }
+.helper { font-size: 12px; color: var(--muted); line-height: 1.7; margin: 2px 0 12px; }
 
-.clock { font-family: 'Courier New', monospace; font-size: 52px; font-weight: bold;
-  color: var(--green); text-shadow: var(--glow-green); text-align: center; letter-spacing: 3px; }
-.clock-sub { text-align: center; color: var(--dim); font-size: 12px; margin-top: 2px;
-  font-family: 'Courier New', monospace; }
+/* ── 巨大メインボタン ── */
+.big-wrap { text-align: center; padding: 20px 0 6px; }
+.big-btn { width: 168px; height: 168px; border-radius: 50%; border: 6px solid #fff;
+  cursor: pointer; color: #fff; font-weight: 800; font-size: 26px; letter-spacing: 2px;
+  box-shadow: 0 8px 24px rgba(51,67,74,.25); transition: transform .1s; }
+.big-btn:active { transform: scale(.94); }
+.big-btn.sun { background: radial-gradient(circle at 35% 30%, #ffe08a, #ffb43d 60%, #ff9046); }
+.big-btn.moon { background: radial-gradient(circle at 35% 30%, #b8a8e8, #8a72c8 60%, #5a4a9a); }
+.big-cap { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.7; }
+.big-cap b { color: var(--text); }
 
-.daily-msg { font-size: 13px; line-height: 1.8; }
-.daily-msg .src { display: block; margin-top: 6px; color: var(--dim); font-size: 11px;
-  font-family: 'Courier New', monospace; }
+/* ── 選択ボタン(重力) ── */
+.pick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pick { border: none; border-radius: 16px; padding: 16px 8px; cursor: pointer;
+  font-size: 15px; font-weight: bold; color: #fff; box-shadow: var(--shadow);
+  transition: transform .1s; font-family: inherit; }
+.pick:active { transform: scale(.95); }
+.pick small { display: block; font-size: 11px; font-weight: normal; opacity: .9; margin-top: 3px; }
+.pick.g0 { background: var(--green); } .pick.g1 { background: var(--blue); }
+.pick.g2 { background: var(--orange); } .pick.g3 { background: var(--red); }
 
-.btn { width: 100%; min-height: 56px; border-radius: 12px; font-weight: bold;
-  font-size: 15px; letter-spacing: 2px; cursor: pointer; transition: all .15s;
-  font-family: 'Courier New', monospace; }
-.btn:active { transform: scale(.97); }
-.btn-launch { min-height: 88px; font-size: 22px; background: rgba(0,255,136,.12);
-  border: 2px solid var(--green); color: var(--green);
-  box-shadow: 0 0 24px rgba(0,255,136,.35); }
-.btn-night { background: rgba(191,0,255,.12); border: 2px solid var(--purple); color: var(--purple);
-  box-shadow: 0 0 20px rgba(191,0,255,.3); min-height: 72px; font-size: 18px; }
-.btn-sub { background: transparent; border: 1px solid var(--dim); color: var(--text);
-  min-height: 44px; font-size: 13px; }
-.btn:disabled { opacity: .35; pointer-events: none; }
+/* ── タスク行(できたらタップ) ── */
+.task { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  border: 2px solid var(--line); background: var(--card); border-radius: 16px;
+  padding: 14px 14px; margin-bottom: 10px; cursor: pointer; font-family: inherit;
+  transition: all .15s; }
+.task:active { transform: scale(.98); }
+.task .ring { width: 30px; height: 30px; border-radius: 50%; border: 3px solid #c8d4d8;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 15px; font-weight: bold; transition: all .15s; }
+.task .lbl { font-size: 14px; font-weight: bold; color: var(--text); line-height: 1.4; }
+.task .lbl small { display: block; font-size: 11px; font-weight: normal; color: var(--muted); }
+.task .tap { margin-left: auto; font-size: 11px; color: var(--blue); font-weight: bold;
+  flex-shrink: 0; }
+.task.done { border-color: var(--green); background: #f0faf4; }
+.task.done .ring { background: var(--green); border-color: var(--green); }
+.task.done .tap { color: var(--green); }
 
-@keyframes neon-flash { 0% { box-shadow: 0 0 12px var(--gold), 0 0 30px var(--purple); }
-  50% { box-shadow: 0 0 60px var(--gold), 0 0 100px var(--purple), 0 0 140px var(--green); }
-  100% { box-shadow: 0 0 12px var(--gold), 0 0 30px var(--purple); } }
-.flash { animation: neon-flash .6s ease; }
-@keyframes fadein { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-.fadein { animation: fadein .35s ease forwards; }
-@keyframes rustle { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-3px); }
-  75% { transform: translateX(3px); } }
-.rustle { animation: rustle .5s ease infinite; display: inline-block; }
-@keyframes pop { 0% { transform: scale(.3); opacity: 0; } 70% { transform: scale(1.12); }
+/* ── エンカウント ── */
+.stage { margin: -18px -16px 12px; padding: 26px 16px 18px; border-radius: 20px 20px 0 0;
+  background: linear-gradient(180deg, #bfe4f5 0%, #d5efe2 70%, #a8d8a8 100%);
+  text-align: center; }
+.stage svg.creature { width: 150px; height: auto; filter: drop-shadow(0 6px 8px rgba(51,67,74,.2)); }
+@keyframes pop { 0% { transform: scale(.3); opacity: 0; } 70% { transform: scale(1.1); }
   100% { transform: scale(1); opacity: 1; } }
 .pop { animation: pop .5s ease forwards; }
+@keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.bounce { animation: bounce 2.2s ease-in-out infinite; }
+.rar-chip { display: inline-block; color: #fff; font-size: 11px; font-weight: bold;
+  border-radius: 999px; padding: 4px 14px; letter-spacing: 1px; }
+.rar-C { background: #8aab9a; } .rar-R { background: var(--blue); }
+.rar-E { background: var(--purple); } .rar-L { background: var(--orange); }
+.new-badge { display: inline-block; background: var(--yellow); color: #6a5410;
+  font-size: 11px; font-weight: 800; border-radius: 999px; padding: 4px 12px; margin-left: 6px; }
+.sp-name { font-size: 22px; font-weight: 800; margin: 8px 0 2px; text-align: center; }
+.sp-desc { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.6; }
+.sp-count { font-size: 11px; color: var(--muted); text-align: center; margin-top: 6px; }
+.sp-count b { color: var(--orange); }
+
+/* 捕獲メーター(モンスターボール風ドット) */
+.qual { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 12px 0 2px; }
+.qdot { width: 26px; height: 26px; border-radius: 50%; background: #e4ecea;
+  border: 3px solid #d0dcda; position: relative; }
+.qdot.on { background: linear-gradient(180deg, var(--red) 46%, #fff 46%, #fff 54%, #f5f5f5 54%);
+  border-color: #5a6a70; }
+.qdot.on::after { content: ''; position: absolute; top: 50%; left: 50%; width: 7px; height: 7px;
+  border: 2px solid #5a6a70; border-radius: 50%; background: #fff; transform: translate(-50%, -50%); }
+.qual-lbl { text-align: center; font-size: 12px; font-weight: bold; color: var(--muted); margin-bottom: 8px; }
+.qual-lbl b { color: var(--orange); }
+
+/* ── ミッション ── */
+input[type=text], input[type=time], textarea {
+  width: 100%; background: var(--bg); color: var(--text); border: 2px solid var(--line);
+  border-radius: 14px; padding: 12px 14px; font-size: 15px; font-family: inherit; }
+input:focus, textarea:focus { outline: none; border-color: var(--blue); }
+input[type=time] { font-size: 24px; font-weight: bold; text-align: center; color: var(--blue); }
+.btn-mid { width: 100%; border: none; border-radius: 999px; background: var(--blue);
+  color: #fff; font-size: 15px; font-weight: bold; padding: 14px; cursor: pointer;
+  box-shadow: var(--shadow); font-family: inherit; transition: transform .1s; }
+.btn-mid:active { transform: scale(.97); }
+.btn-mid.gray { background: #b8c8cc; }
+.two-btn { display: flex; gap: 10px; }
+.two-btn .btn-mid { flex: 1; }
+.done-line { text-align: center; font-size: 14px; font-weight: bold; color: var(--green);
+  padding: 6px 0; }
+
+/* ── ケアトグル ── */
+.care-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.care-grid .task { margin-bottom: 0; padding: 12px 10px; }
+.meal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+.meal-grid .task { margin-bottom: 0; padding: 12px 6px; justify-content: center; }
+.meal-grid .lbl { font-size: 13px; text-align: center; }
+
+/* ── たまご ── */
+.egg-row { display: flex; align-items: center; gap: 14px; }
+.egg-row svg { width: 46px; flex-shrink: 0; }
+.egg-bar { height: 12px; background: var(--bg); border-radius: 6px; overflow: hidden; margin-top: 6px; }
+.egg-bar div { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+.egg-txt { font-size: 13px; font-weight: bold; }
+
+/* ── 図鑑 ── */
+.dex-summary { display: flex; gap: 10px; }
+.dex-stat { flex: 1; background: var(--bg); border-radius: 16px; padding: 12px; text-align: center; }
+.dex-stat .n { font-size: 24px; font-weight: 800; color: var(--blue); }
+.dex-stat .c { font-size: 11px; color: var(--muted); }
+.ch-head { display: flex; justify-content: space-between; align-items: baseline; margin: 18px 2px 8px; }
+.ch-head .t { font-size: 15px; font-weight: 800; }
+.ch-head .pc { font-size: 12px; color: var(--muted); font-weight: bold; }
+.dex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.dex-cell { background: var(--card); border-radius: 16px; box-shadow: var(--shadow);
+  padding: 10px 4px 8px; text-align: center; position: relative; }
+.dex-cell svg { width: 56px; height: auto; }
+.dex-cell.uncaught { background: #e8efed; box-shadow: none; }
+.dex-cell.uncaught svg * { fill: #c2d0cc !important; stroke: none !important; }
+.dex-cell .nm { font-size: 11px; font-weight: bold; margin-top: 2px; }
+.dex-cell .cnt { font-size: 10px; color: var(--muted); }
+.dex-cell .hint { font-size: 10px; color: #9ab0ac; line-height: 1.4; padding: 0 4px; }
+.dex-cell .mark { position: absolute; top: 6px; right: 8px; font-size: 12px; }
+.ch-locked { color: var(--muted); font-size: 12px; padding: 14px; background: #e8efed;
+  border-radius: 16px; text-align: center; font-weight: bold; }
+
+/* ── きろく ── */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-box { background: var(--bg); border-radius: 16px; padding: 12px 10px; text-align: center; }
+.stat-box .num { font-size: 21px; font-weight: 800; color: var(--blue); }
+.stat-box .num.gold { color: var(--orange); } .stat-box .num.purple { color: var(--purple); }
+.stat-box .cap { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.delta-up { color: var(--green); } .delta-down { color: var(--purple); }
+.jr { padding: 10px 2px; border-bottom: 1px solid var(--line); font-size: 12px; }
+.jr .d { color: var(--muted); font-weight: bold; margin-bottom: 2px; }
+.jr .d b { color: var(--blue); }
+.jr .memo { line-height: 1.6; }
+.note { font-size: 11px; color: var(--muted); line-height: 1.8; }
+.divider { border: none; border-top: 1px solid var(--line); margin: 14px 0; }
+
+/* ── トースト ── */
+#toast { position: fixed; left: 50%; bottom: 110px; transform: translateX(-50%) translateY(20px);
+  background: var(--text); color: #fff; font-size: 13px; font-weight: bold;
+  border-radius: 999px; padding: 12px 22px; box-shadow: var(--shadow);
+  opacity: 0; pointer-events: none; transition: all .3s; z-index: 300; max-width: 90%; text-align: center; }
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── パーティクル ── */
 @keyframes particle { 0% { transform: translate(0,0) scale(1); opacity: 1; }
   100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; } }
 .pwrap { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
-.pt { position: absolute; width: 8px; height: 8px; border-radius: 50%; opacity: 0; }
+.pt { position: absolute; width: 9px; height: 9px; border-radius: 50%; opacity: 0; }
 
-.chips { display: flex; gap: 8px; }
-.chip { flex: 1; min-height: 58px; border-radius: 10px; border: 1px solid var(--dim);
-  background: transparent; color: var(--text); font-size: 13px; cursor: pointer;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
-  transition: all .15s; padding: 6px 2px; }
-.chip small { font-size: 10px; color: var(--dim); font-family: 'Courier New', monospace; letter-spacing: 1px; }
-.chip.on { border-color: var(--green); color: var(--green); box-shadow: var(--glow-green); transform: scale(1.04); }
-.chip.on small { color: var(--green); }
-.chip.on.heavy { border-color: var(--purple); color: var(--purple); box-shadow: var(--glow-purple); }
-.chip.on.heavy small { color: var(--purple); }
-.chip.locked { pointer-events: none; opacity: .5; }
-.chip.locked.on { opacity: 1; }
-
-.seq-item { display: flex; align-items: center; gap: 12px; padding: 12px 10px;
-  border: 1px solid rgba(85,85,112,.6); border-radius: 10px; margin-bottom: 8px;
-  cursor: pointer; transition: all .15s; }
-.seq-item .box { width: 22px; height: 22px; border: 2px solid var(--dim); border-radius: 6px;
-  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-  font-size: 14px; color: var(--green); }
-.seq-item.done { border-color: rgba(0,255,136,.5); box-shadow: var(--glow-green); }
-.seq-item.done .box { border-color: var(--green); }
-.seq-item .lbl { font-size: 13px; line-height: 1.5; }
-.seq-item .lbl small { display: block; color: var(--dim); font-size: 11px; }
-.seq-item .pts { margin-left: auto; font-family: 'Courier New', monospace; font-size: 11px; color: var(--dim); }
-.seq-item.done .pts { color: var(--green); }
-
-/* ケアトグル(夜) */
-.care-row { display: flex; gap: 8px; margin-bottom: 8px; }
-.care-t { flex: 1; min-height: 48px; border: 1px solid var(--dim); border-radius: 10px;
-  background: transparent; color: var(--text); font-size: 12px; cursor: pointer; transition: all .15s; }
-.care-t.on { border-color: var(--purple); color: var(--purple); box-shadow: var(--glow-purple); }
-.care-t small { display: block; font-size: 10px; color: var(--dim); font-family: 'Courier New', monospace; }
-.care-t.on small { color: var(--purple); }
-
-input[type=text], input[type=time], textarea {
-  width: 100%; background: #0d0d14; color: var(--text); border: 1px solid var(--dim);
-  border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; }
-input:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: var(--glow-green); }
-input[type=time] { font-family: 'Courier New', monospace; font-size: 18px; color: var(--green); }
-
-.xp-pop { font-family: 'Courier New', monospace; color: var(--gold); text-shadow: var(--glow-gold);
-  font-weight: bold; font-size: 14px; text-align: center; }
-.result-line { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 2px;
-  border-bottom: 1px dashed rgba(85,85,112,.4); }
-.result-line .v { font-family: 'Courier New', monospace; color: var(--green); }
-
-/* スポーン演出 */
-.spawn-stage { text-align: center; padding: 6px 0 2px; }
-.spawn-stage svg { width: 140px; height: auto; }
-.rar-badge { display: inline-block; font-size: 11px; font-family: 'Courier New', monospace;
-  border: 1px solid; border-radius: 4px; padding: 2px 10px; letter-spacing: 2px; }
-.rar-C { color: #9ab8a0; border-color: #3a4a3e; }
-.rar-R { color: var(--cyan); border-color: #1a5560; }
-.rar-E { color: var(--purple); border-color: #4a2058; }
-.rar-L { color: var(--gold); border-color: #5a4a10; text-shadow: var(--glow-gold); }
-.sp-name { font-size: 18px; font-weight: bold; margin: 6px 0 2px; }
-.sp-desc { font-size: 12px; color: #8a8a9a; line-height: 1.6; }
-.new-tag { color: var(--gold); font-family: 'Courier New', monospace; font-size: 12px;
-  text-shadow: var(--glow-gold); letter-spacing: 3px; }
-.q-meter { display: flex; gap: 4px; margin: 8px 0 4px; }
-.q-meter div { flex: 1; height: 7px; border-radius: 3px; background: #22222c; }
-.q-meter div.f1 { background: #9ab8a0; } .q-meter div.f2 { background: var(--cyan); }
-.q-meter div.f3 { background: var(--purple); } .q-meter div.f4 { background: var(--gold); box-shadow: var(--glow-gold); }
-
-/* 図鑑 */
-.dex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.dex-cell { background: #0d0d14; border: 1px solid rgba(85,85,112,.4); border-radius: 10px;
-  padding: 8px 4px 6px; text-align: center; position: relative; }
-.dex-cell svg { width: 52px; height: auto; }
-.dex-cell.uncaught svg * { fill: #1e1e28 !important; stroke: none !important; }
-.dex-cell .nm { font-size: 10px; margin-top: 2px; }
-.dex-cell .cnt { font-size: 9px; color: var(--dim); font-family: 'Courier New', monospace; }
-.dex-cell .hint { font-size: 9px; color: #4a4a5c; line-height: 1.4; padding: 0 2px; }
-.dex-cell .mark { position: absolute; top: 4px; right: 6px; font-size: 11px; }
-.ch-head { display: flex; justify-content: space-between; align-items: baseline;
-  margin: 14px 0 8px; }
-.ch-head .t { font-size: 13px; font-weight: bold; }
-.ch-head .pc { font-family: 'Courier New', monospace; font-size: 11px; color: var(--green); }
-.ch-locked { color: var(--dim); font-size: 12px; padding: 10px 4px; border: 1px dashed rgba(85,85,112,.4);
-  border-radius: 10px; text-align: center; }
-
-/* タマゴ */
-.egg-row { display: flex; align-items: center; gap: 12px; }
-.egg-row svg { width: 40px; flex-shrink: 0; }
-.egg-bar { height: 8px; background: #22222c; border-radius: 4px; overflow: hidden; margin-top: 6px; }
-.egg-bar div { height: 100%; background: linear-gradient(90deg, var(--purple), var(--gold)); }
-
-/* 統計 */
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.stat-box { background: #0d0d14; border: 1px solid rgba(85,85,112,.5); border-radius: 10px;
-  padding: 12px 10px; text-align: center; }
-.stat-box .num { font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; color: var(--green); }
-.stat-box .num.gold { color: var(--gold); } .stat-box .num.purple { color: var(--purple); }
-.stat-box .cap { font-size: 10px; color: var(--dim); letter-spacing: 1px; margin-top: 3px;
-  font-family: 'Courier New', monospace; }
-.delta-up { color: var(--green); } .delta-down { color: var(--purple); }
-svg text { font-family: 'Courier New', monospace; }
-.jr { padding: 10px 4px; border-bottom: 1px dashed rgba(85,85,112,.35); font-size: 12px; }
-.jr .d { font-family: 'Courier New', monospace; color: var(--dim); margin-bottom: 3px; }
-.jr .d b { color: var(--green); }
-.jr .memo { line-height: 1.6; }
-
+/* ── ボトムナビ ── */
 nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(10,10,15,.95); border-top: 1px solid rgba(0,255,136,.25);
-  backdrop-filter: blur(8px); }
-.nav-inner { max-width: 430px; margin: 0 auto; display: flex; }
-.nav-btn { flex: 1; background: none; border: none; color: var(--dim); padding: 12px 0 16px;
-  font-size: 10px; letter-spacing: 1px; cursor: pointer; font-family: 'Courier New', monospace; }
-.nav-btn .ic { display: block; font-size: 17px; margin-bottom: 3px; }
-.nav-btn.on { color: var(--green); text-shadow: var(--glow-green); }
+  background: var(--card); box-shadow: 0 -3px 14px rgba(51,67,74,.1); }
+.nav-inner { max-width: 430px; margin: 0 auto; display: flex; padding: 6px 8px calc(8px + env(safe-area-inset-bottom)); }
+.nav-btn { flex: 1; background: none; border: none; color: var(--muted); padding: 8px 0 6px;
+  font-size: 11px; font-weight: bold; cursor: pointer; font-family: inherit;
+  border-radius: 14px; transition: all .15s; }
+.nav-btn svg { display: block; width: 24px; height: 24px; margin: 0 auto 2px; }
+.nav-btn.on { color: var(--blue); background: #e8f3fb; }
 .screen { display: none; } .screen.on { display: block; }
-.note { font-size: 11px; color: var(--dim); line-height: 1.7; }
-.divider { border: none; border-top: 1px dashed rgba(85,85,112,.4); margin: 14px 0; }
-.tag { display: inline-block; font-family: 'Courier New', monospace; font-size: 10px;
-  border: 1px solid var(--dim); border-radius: 4px; padding: 2px 6px; color: var(--dim);
-  letter-spacing: 1px; margin-bottom: 8px; }
 </style>
 </head>
 <body>
 <div id="app">
-  <header>
-    <div class="logo">GRAVITY<span>//</span>HUNT</div>
-    <div class="rank-chip"><div class="rk" id="hRank">ROOKIE</div><div class="xp" id="hXp">0 XP</div></div>
-  </header>
 
-  <!-- ══════════ HUNT(朝) ══════════ -->
+  <!-- ══════════ あさ ══════════ -->
   <section class="screen" id="scr-hunt">
-    <div class="card">
-      <div class="clock mono" id="clock">--:--</div>
-      <div class="clock-sub" id="clockDate"></div>
+    <div class="sky">
+      <div class="sky-top"><span class="app-name">GRAVITY HUNT</span>
+        <span class="rank-pill" id="hRank">Lv.— ROOKIE</span></div>
+      <div class="clock" id="clock">--:--</div>
+      <div class="date" id="clockDate"></div>
+      <div class="lure-pill" id="lureReminder" style="display:none;"></div>
     </div>
 
-    <div class="card g" id="msgCard">
-      <h3>TODAY'S TRANSMISSION</h3>
-      <div class="daily-msg" id="dailyMsg"></div>
-    </div>
-
-    <!-- 起床前 -->
+    <!-- 起床前: ボタン1個だけ -->
     <div id="preLaunch">
-      <button class="btn btn-launch" id="btnLaunch">▲ LAUNCH<br><span style="font-size:12px;letter-spacing:3px;">重力を振り切る</span></button>
-      <div id="lureReminder" style="display:none;margin-top:10px;" class="xp-pop"></div>
-      <p class="note" style="text-align:center;margin-top:10px;">
-        押した瞬間が起床時刻。何時でもいい。<br>朝(4:00-11:00)はクリーチャーの活動時間。</p>
+      <div class="big-wrap">
+        <button class="big-btn sun" id="btnLaunch">おきた!</button>
+        <p class="big-cap">タップすると <b>いまの時刻が起床時間として記録</b> されて、<br>今朝のクリーチャーが現れる。<br>何時でもOK。おそくても何も失わない。</p>
+      </div>
     </div>
 
-    <!-- 起床後・重力観測前(気配) -->
+    <!-- 気配 → 重力しつもん -->
     <div id="presence" style="display:none;">
       <div class="card">
-        <h3>PRESENCE DETECTED</h3>
-        <div class="spawn-stage"><span class="rustle" style="font-size:40px;color:var(--dim);">…?</span></div>
-        <p class="note" style="text-align:center;">なにかいる。<br>重力観測を送信すると姿を現す。</p>
-      </div>
-      <div class="card">
-        <h3>GRAVITY CHECK <span style="float:right;">+10 XP</span></h3>
-        <p class="note" style="margin:0 0 10px;">今朝の重力(めまい・だるさ)は? 一度きり・訂正なしの正直観測。</p>
-        <div class="chips" id="gravityChips">
-          <button class="chip" data-v="0">軽い<small>G-0</small></button>
-          <button class="chip" data-v="1">普通<small>G-1</small></button>
-          <button class="chip heavy" data-v="2">重い<small>G-2</small></button>
-          <button class="chip heavy" data-v="3">ヤバい<small>G-3</small></button>
+        <div class="stage"><div class="bounce" style="font-size:56px;color:#7a9a8a;font-weight:800;">?</div></div>
+        <div class="step-h"><span class="step-no">1</span><span class="t">からだの重さをおしえて</span></div>
+        <p class="helper">草むらで何かが動いてる。1つタップすると姿を現す。<br>正直に選ぶといいことがある(あとから変えられない)。</p>
+        <div class="pick-grid" id="gravityChips">
+          <button class="pick g0" data-v="0">かるい<small>ふつうに動ける</small></button>
+          <button class="pick g1" data-v="1">ふつう<small>まあまあ</small></button>
+          <button class="pick g2" data-v="2">おもい<small>だるい・ふらつく</small></button>
+          <button class="pick g3" data-v="3">ヤバい<small>めまいで動けない</small></button>
         </div>
       </div>
     </div>
 
-    <!-- スポーン確定後 -->
+    <!-- エンカウント確定後 -->
     <div id="postSpawn" style="display:none;">
-      <div class="card g" id="hatchCard" style="display:none;"></div>
-      <div class="card" id="spawnCard"></div>
+      <div class="card" id="hatchCard" style="display:none;"></div>
+      <div class="card"><div id="spawnCard"></div></div>
+
       <div class="card">
-        <h3>CAPTURE QUALITY <span id="qLabel" style="float:right;"></span></h3>
-        <div class="q-meter" id="qMeter"><div></div><div></div><div></div><div></div></div>
-        <p class="note" style="margin:4px 0 10px;">記録を埋めるほど捕獲の質が上がる。パーフェクトは図鑑に王冠。</p>
+        <div class="step-h"><span class="step-no">2</span><span class="t">つかまえかた</span></div>
+        <p class="helper">できたものをタップすると、捕獲レベルが上がる。<br>3つ全部で <b style="color:var(--orange);">パーフェクト捕獲</b>(図鑑に王冠がつく)。</p>
+        <div class="qual" id="qMeter"><div class="qdot"></div><div class="qdot"></div><div class="qdot"></div><div class="qdot"></div></div>
+        <div class="qual-lbl" id="qLabel"></div>
         <div id="seqList"></div>
-        <p class="note" style="margin:6px 0 0;">ODの標準プロトコル。急に立つと重力に撃墜される。</p>
       </div>
-      <div class="card g" id="missionReview" style="display:none;">
-        <h3>YESTERDAY'S MISSION</h3>
-        <p style="font-size:14px;margin:0 0 10px;" id="missionReviewText"></p>
-        <div class="chips">
-          <button class="chip" id="btnMissionClear">クリアした<small>+15 XP</small></button>
-          <button class="chip" id="btnMissionCarry">持ち越す<small>ペナルティなし</small></button>
+
+      <div class="card" id="missionReview" style="display:none;">
+        <div class="step-h"><span class="step-no">!</span><span class="t">きのうの「ひとつ」どうだった?</span></div>
+        <p style="font-size:15px;font-weight:bold;margin:4px 0 12px;" id="missionReviewText"></p>
+        <div class="two-btn">
+          <button class="btn-mid" id="btnMissionClear">できた! +15XP</button>
+          <button class="btn-mid gray" id="btnMissionCarry">またこんど</button>
         </div>
+        <p class="helper" style="margin:8px 0 0;">「またこんど」を選んでも何も失わない。</p>
       </div>
+
       <div class="card">
-        <h3>TODAY'S ONE MISSION <span style="float:right;">+10 XP</span></h3>
-        <input type="text" id="missionInput" placeholder="今日はこれだけできればOK(なんでもいい)">
-        <button class="btn btn-sub" id="btnMission" style="margin-top:8px;">SET MISSION</button>
-        <div id="missionDone" style="display:none;" class="xp-pop"></div>
+        <div class="step-h"><span class="step-no">3</span><span class="t">きょうのひとつ</span><span class="opt">やらなくてもOK</span></div>
+        <p class="helper">今日これだけできればOK、を1つ決める。なんでもいい。</p>
+        <div id="missionForm">
+          <input type="text" id="missionInput" placeholder="れい: 図書館に行く">
+          <button class="btn-mid" id="btnMission" style="margin-top:10px;">これにする +10XP</button>
+        </div>
+        <div id="missionDone" style="display:none;" class="done-line"></div>
       </div>
+
       <div class="card">
-        <h3>TODAY'S LOG</h3>
-        <div id="dayResult"></div>
+        <div class="step-h"><span class="step-no">✓</span><span class="t">きょうの記録</span></div>
+        <div id="dayResult" class="note" style="font-size:13px;"></div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ CAMP(夜) ══════════ -->
+  <!-- ══════════ よる ══════════ -->
   <section class="screen" id="scr-camp">
-    <div class="card p">
-      <div class="clock mono" id="clockN" style="color:var(--purple);text-shadow:var(--glow-purple);">--:--</div>
-      <div class="clock-sub">BASE CAMP // 今日の遠征を締める</div>
+    <div class="sky night">
+      <div class="sky-top"><span class="app-name">GRAVITY HUNT</span>
+        <span class="rank-pill" id="hRankN">Lv.— ROOKIE</span></div>
+      <div class="clock" id="clockN">--:--</div>
+      <div class="date">ベースキャンプ — ねるまえの準備</div>
     </div>
 
-    <div class="card p">
-      <h3>EGG INCUBATOR</h3>
+    <div class="card">
       <div class="egg-row">
-        <svg viewBox="0 0 30 36"><ellipse cx="15" cy="20" rx="12" ry="14" fill="#e8e0d0"/><path d="M6 18 L10 14 L14 18 L18 14 L22 18" stroke="#b0a890" stroke-width="1.5" fill="none"/></svg>
+        <svg viewBox="0 0 30 36"><ellipse cx="15" cy="20" rx="12" ry="14" fill="#f5eddc"/><path d="M6 18 L10 14 L14 18 L18 14 L22 18" stroke="#d8c8a0" stroke-width="1.5" fill="none"/></svg>
         <div style="flex:1;">
-          <p class="note" style="margin:0;" id="eggText"></p>
+          <div class="egg-txt" id="eggText"></div>
           <div class="egg-bar"><div id="eggBar" style="width:0%"></div></div>
         </div>
       </div>
-      <p class="note" style="margin:8px 0 0;">孵化は寝ている間だけ進む。23時前就寝×1.5 / 22時前×2.0(3,000ptで孵化)。</p>
+      <p class="helper" style="margin:10px 0 0;">たまごは <b>寝ているあいだだけ</b> 育つ。22時前にねると2倍のはやさ、23時前は1.5倍。</p>
     </div>
 
-    <div class="card p">
-      <h3>SET LURE <span style="float:right;">+10 XP</span></h3>
-      <p class="note" style="margin:0 0 8px;">明日の起床ターゲット。決めるのはおまえ。ルアー命中(±45分)でレア率×2。</p>
+    <div class="card">
+      <div class="step-h"><span class="step-no">1</span><span class="t">あしたの起床目標</span></div>
+      <p class="helper">決めるのはきみ。目標の±45分におきられたら、あしたのレア率が2倍になる。<br>はずしても何も失わない。</p>
       <input type="time" id="targetInput" value="07:30">
     </div>
 
-    <div class="card p">
-      <h3>CAMP CARE <span style="float:right;">各+5 XP</span></h3>
-      <p class="note" style="margin:0 0 8px;">全部任意。やった分だけ明日のレア率が上がる(1つ+10%)。</p>
-      <div class="care-row">
-        <button class="care-t" id="careTeeth">歯磨き<small>GEAR POLISH</small></button>
-        <button class="care-t" id="careSupp">サプリ<small>MORNING BAIT</small></button>
+    <div class="card">
+      <div class="step-h"><span class="step-no">2</span><span class="t">きょうのケア</span><span class="opt">やらなくてもOK</span></div>
+      <p class="helper">やった分だけ、あしたのレア率が上がる(1つ+10%)。</p>
+      <div class="care-grid">
+        <button class="task" id="careTeeth"><span class="ring"></span><span class="lbl">歯みがき</span><span class="tap">タップ</span></button>
+        <button class="task" id="careSupp"><span class="ring"></span><span class="lbl">サプリ</span><span class="tap">タップ</span></button>
       </div>
-      <p class="note" style="margin:0 0 6px;">今日のエサ(タンパク質系: 肉・魚・卵・豆)</p>
-      <div class="care-row">
-        <button class="care-t" data-meal="0">朝<small>FEED</small></button>
-        <button class="care-t" data-meal="1">昼<small>FEED</small></button>
-        <button class="care-t" data-meal="2">晩<small>FEED</small></button>
+      <p class="helper" style="margin:12px 0 0;">きょう、肉・魚・卵・豆をたべたのは?</p>
+      <div class="meal-grid">
+        <button class="task" data-meal="0"><span class="ring"></span><span class="lbl">あさ</span></button>
+        <button class="task" data-meal="1"><span class="ring"></span><span class="lbl">ひる</span></button>
+        <button class="task" data-meal="2"><span class="ring"></span><span class="lbl">よる</span></button>
       </div>
     </div>
 
-    <div class="card p">
-      <h3>LOG BOOK <span style="float:right;">任意</span></h3>
-      <textarea id="noteInput" rows="2" placeholder="今日の一行。空白でもいい。"></textarea>
+    <div class="card">
+      <div class="step-h"><span class="step-no">3</span><span class="t">ひとことメモ</span><span class="opt">やらなくてもOK</span></div>
+      <textarea id="noteInput" rows="2" placeholder="きょうの一行。空白でもいい。"></textarea>
     </div>
 
     <div id="preNight">
-      <button class="btn btn-night" id="btnNight">◼ GOOD NIGHT<br><span style="font-size:11px;letter-spacing:3px;">就寝を記録 +20 XP // 孵化スタート</span></button>
+      <div class="big-wrap">
+        <button class="big-btn moon" id="btnNight">おやすみ</button>
+        <p class="big-cap">タップすると <b>いまの時刻が就寝時間として記録</b> されて、<br>たまごが育ちはじめる。</p>
+      </div>
     </div>
     <div id="postNight" style="display:none;">
-      <div class="card p"><div class="xp-pop" id="nightResult"></div>
-        <p class="note" style="text-align:center;margin:8px 0 0;">おつかれ。タマゴは寝てる間に育つ。</p></div>
+      <div class="card" style="text-align:center;">
+        <div class="done-line" id="nightResult"></div>
+        <p class="helper" style="margin:4px 0 0;">おつかれ。ゆっくりねて。あしたの朝、草むらで会おう。</p>
+      </div>
     </div>
   </section>
 
-  <!-- ══════════ DEX(図鑑) ══════════ -->
+  <!-- ══════════ ずかん ══════════ -->
   <section class="screen" id="scr-dex">
-    <div class="card g">
-      <h3>FIELD DEX</h3>
-      <div class="stat-grid">
-        <div class="stat-box"><div class="num" id="dexPct">0.0%</div><div class="cap">コンプ率</div></div>
-        <div class="stat-box"><div class="num gold" id="dexCount">0/30</div><div class="cap">捕獲種</div></div>
+    <div class="sky">
+      <div class="sky-top"><span class="app-name">GRAVITY HUNT</span>
+        <span class="rank-pill" id="hRankD">Lv.— ROOKIE</span></div>
+      <div style="text-align:center;font-size:22px;font-weight:800;margin-top:6px;">ずかん</div>
+      <div class="date">あつめて、そだてて、うめていく</div>
+    </div>
+    <div class="card">
+      <div class="dex-summary">
+        <div class="dex-stat"><div class="n" id="dexCount">0/30</div><div class="c">つかまえた</div></div>
+        <div class="dex-stat"><div class="n" id="dexPct" style="color:var(--orange);">0.0%</div><div class="c">コンプ率</div></div>
       </div>
-      <p class="note" style="margin:10px 0 0;">同種×3で進化(★)。全項目記録の捕獲は王冠(♛)。前章70%で次章が開く。</p>
+      <p class="helper" style="margin:12px 0 0;">同じのを3びき捕まえると進化(★)。ぜんぶ記録して捕まえると王冠(♛)。<br>「???」のヒントが出現条件のなぞ。</p>
     </div>
     <div id="dexBody"></div>
   </section>
 
-  <!-- ══════════ DATA ══════════ -->
+  <!-- ══════════ きろく ══════════ -->
   <section class="screen" id="scr-data">
-    <div class="card">
-      <h3>THIS WEEK vs LAST WEEK</h3>
-      <div class="stat-grid" id="statGrid"></div>
-      <p class="note" style="margin:10px 0 0;">比較対象は過去の自分だけ。他人は出てこない。</p>
+    <div class="sky">
+      <div class="sky-top"><span class="app-name">GRAVITY HUNT</span>
+        <span class="rank-pill" id="hRankK">Lv.— ROOKIE</span></div>
+      <div style="text-align:center;font-size:22px;font-weight:800;margin-top:6px;">きろく</div>
+      <div class="date">くらべるのは、むかしの自分だけ</div>
     </div>
-    <div class="card"><h3>WAKE TIME // 14 DAYS</h3><div id="wakeChart"></div></div>
-    <div class="card"><h3>SLEEP HOURS // 14 DAYS</h3><div id="sleepChart"></div></div>
-    <div class="card"><h3>LOG BOOK</h3><div id="journal"></div></div>
     <div class="card">
-      <h3>XP RULES(全公開)</h3>
+      <div class="step-h"><span class="t">こんしゅう と せんしゅう</span></div>
+      <div class="stat-grid" id="statGrid"></div>
+    </div>
+    <div class="card"><div class="step-h"><span class="t">おきた時間(14日)</span></div><div id="wakeChart"></div></div>
+    <div class="card"><div class="step-h"><span class="t">すいみん時間(14日)</span></div><div id="sleepChart"></div></div>
+    <div class="card"><div class="step-h"><span class="t">ログブック</span></div><div id="journal"></div></div>
+    <div class="card">
+      <div class="step-h"><span class="t">XPのルール(全公開)</span></div>
       <div class="note" id="xpRules"></div>
       <hr class="divider">
-      <p class="note">記録がない日も何も失わない。ストリークなし、ペナルティなし。
-      3日以上空けて戻ってきた朝には、復帰限定のやつが待ってる。</p>
+      <p class="note">記録しない日があっても、何も減らない。れんぞく記録のノルマもない。<br>しばらく空けて戻った朝には、待ってるやつがいる。</p>
     </div>
     <div class="card">
-      <h3>CONFIG</h3>
-      <p class="note" style="margin:0 0 6px;">プレイヤー名</p>
+      <div class="step-h"><span class="t">せってい</span></div>
+      <p class="helper">プレイヤー名</p>
       <input type="text" id="nameInput" maxlength="12">
       <hr class="divider">
-      <p class="note">データはこの端末のlocalStorageだけ。どこにも送信されない。見られるのはおまえだけ。</p>
-      <button class="btn btn-sub" id="btnExport" style="margin-top:10px;">EXPORT DATA (JSON)</button>
-      <p class="note" style="margin-top:8px;">↑ 病院用。睡眠・症状・サプリ・食事・非薬物療法の記録が全部入ってる。</p>
+      <p class="note">データはこのスマホの中だけ。どこにも送信されない。見られるのはきみだけ。</p>
+      <button class="btn-mid" id="btnExport" style="margin-top:12px;">病院用データを出す(JSON)</button>
+      <p class="helper" style="margin-top:8px;">先生に「毎日のログをつけて」と言われたやつは、これで完了。すいみん・症状・サプリ・食事、ぜんぶ入ってる。</p>
       <hr class="divider">
-      <button class="btn btn-sub" id="btnReset" style="border-color:var(--danger);color:var(--danger);">ALL RESET</button>
+      <button class="btn-mid" style="background:var(--red);" id="btnReset">ぜんぶリセット</button>
     </div>
   </section>
 
+  <div id="toast"></div>
+
   <nav><div class="nav-inner">
-    <button class="nav-btn" data-scr="hunt"><span class="ic">▲</span>HUNT</button>
-    <button class="nav-btn" data-scr="camp"><span class="ic">◼</span>CAMP</button>
-    <button class="nav-btn" data-scr="dex"><span class="ic">◆</span>DEX</button>
-    <button class="nav-btn" data-scr="data"><span class="ic">≡</span>DATA</button>
+    <button class="nav-btn" data-scr="hunt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>あさ</button>
+    <button class="nav-btn" data-scr="camp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>よる</button>
+    <button class="nav-btn" data-scr="dex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>ずかん</button>
+    <button class="nav-btn" data-scr="data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>きろく</button>
   </div></nav>
 </div>
 
 <script>
 'use strict';
 /* ════════════════════════════════════════════════════════
-   GRAVITY // HUNT v2 — 朝限定クリーチャー収集ゲーム
+   GRAVITY // HUNT v2.1 — 朝限定クリーチャー収集ゲーム(ポケモンGO風UI)
    設計書: GRAVITY-HUNT-設計書.md
    絶対ルール: 責めない・ペナルティなし・監視しない・自己決定
    ════════════════════════════════════════════════════════ */
 
-/* ── XPルール(全公開) ── */
 const XP = {
-  wake:    { pts: 20, label: '起床ログ(LAUNCH)' },
-  target:  { pts: 40, label: 'ルアー命中(±45分)' },
-  gravity: { pts: 10, label: 'GRAVITY CHECK' },
-  seq:     { pts: 10, label: 'LAUNCH SEQUENCE 各(×3)' },
-  mission: { pts: 10, label: 'ミッション設定' },
-  missionClear: { pts: 15, label: 'きのうのミッションをクリア' },
-  night:   { pts: 20, label: '就寝ログ(GOOD NIGHT)' },
-  setTgt:  { pts: 10, label: 'ルアー設置' },
-  care:    { pts: 5,  label: '手入れ各(歯磨き/サプリ/エサ×3)' },
+  wake:    { pts: 20, label: 'あさ「おきた!」を押す' },
+  target:  { pts: 40, label: '起床目標に命中(±45分)' },
+  gravity: { pts: 10, label: 'からだの重さをこたえる' },
+  seq:     { pts: 10, label: 'つかまえかた 各ステップ(×3)' },
+  mission: { pts: 10, label: 'きょうのひとつを決める' },
+  missionClear: { pts: 15, label: 'きのうのひとつをクリア' },
+  night:   { pts: 20, label: 'よる「おやすみ」を押す' },
+  setTgt:  { pts: 10, label: 'あしたの目標を決める' },
+  care:    { pts: 5,  label: 'ケア各(歯みがき/サプリ/食事×3)' },
 };
 const RANKS = [
   { xp: 0, name: 'ROOKIE' }, { xp: 1000, name: 'TREKKER' }, { xp: 3000, name: 'NAVIGATOR' },
   { xp: 6000, name: 'ICE PILOT' }, { xp: 10000, name: 'EXPEDITION LEADER' }, { xp: 17000, name: 'LEGEND' },
 ];
 const SEQ_STEPS = [
-  { id: 'water', label: '水分+塩分を入れる', sub: '水・OS-1・味噌汁なんでも。血圧の燃料。' },
-  { id: 'sit',   label: '30秒座ってから立つ', sub: '段階式リフトオフ。' },
-  { id: 'light', label: '光を浴びる', sub: 'カーテンを開ける。体内時計に着信。' },
+  { id: 'water', label: '水をのんだ', sub: '水・OS-1・みそ汁なんでも。血圧の燃料' },
+  { id: 'sit',   label: '30秒すわってから立った', sub: '急に立つとめまいに撃墜される' },
+  { id: 'light', label: 'カーテンをあけた', sub: '光は体内時計へのモーニングコール' },
 ];
-
-/* ── 章(バイオーム) ── */
 const CHAPTERS = [
-  { name: '第1章 どうぶつ島', from: 'エルマーのぼうけん' },
-  { name: '第2章 風の村', from: '風をつかまえた少年' },
-  { name: '第3章 南極', from: 'アムンセン' },
-  { name: '第4章 漂流海域', from: 'シャクルトン' },
-  { name: '第5章 七大陸', from: 'セブンサミッツ' },
+  { name: 'どうぶつ島', from: 'エルマーのぼうけん' },
+  { name: '風の村', from: '風をつかまえた少年' },
+  { name: '南極', from: 'アムンセン' },
+  { name: '漂流海域', from: 'シャクルトン' },
+  { name: '七大陸', from: 'セブンサミッツ' },
 ];
-
-/* ── クリーチャー全30種 ──
-   cond: スポーン条件キー / boost: 出現率が上がる条件(COMMON用) */
 const SPECIES = [
-  { id: 1,  name: 'ネムリ',       ch: 1, rar: 'C', tpl: 'blob',     col: '#8ab890', desc: '布団の綿毛から生まれる。基本のやつ', hint: 'どこにでもいる気配' },
-  { id: 2,  name: 'モフトン',     ch: 1, rar: 'C', tpl: 'blob2',    col: '#c8b090', desc: '枕の下に巣を作る。ネムリの兄貴分', hint: 'どこにでもいる気配' },
-  { id: 3,  name: 'ヒカリムシ',   ch: 1, rar: 'C', tpl: 'sun',      col: '#d8c878', desc: 'カーテンの隙間の光に湧く', hint: '光を浴びた翌朝に多い?', boost: 'ydayLight' },
+  { id: 1,  name: 'ネムリ',       ch: 1, rar: 'C', tpl: 'blob',     col: '#8ab890', desc: 'ふとんの綿毛から生まれる。基本のやつ', hint: 'どこにでもいる気配' },
+  { id: 2,  name: 'モフトン',     ch: 1, rar: 'C', tpl: 'blob2',    col: '#c8b090', desc: 'まくらの下に巣を作る。ネムリの兄貴分', hint: 'どこにでもいる気配' },
+  { id: 3,  name: 'ヒカリムシ',   ch: 1, rar: 'C', tpl: 'sun',      col: '#e8c860', desc: 'カーテンのすきまの光にわく', hint: '光を浴びた翌朝に多い?', boost: 'ydayLight' },
   { id: 4,  name: 'アクビガニ',   ch: 1, rar: 'C', tpl: 'crab',     col: '#d89078', desc: 'あくびを集めて泡にするカニ', hint: '朝おそい時間の気配', cond: 'band9_11' },
-  { id: 5,  name: 'ドロネム',     ch: 1, rar: 'R', tpl: 'ghost',    col: '#5a4a8a', desc: '低血圧の沼に住む。7時前だけ浮上', hint: '早朝の沼で目撃例', cond: 'band4_7' },
-  { id: 6,  name: 'ミカポン',     ch: 1, rar: 'R', tpl: 'round',    col: '#e09040', desc: 'みかん島の主食。皮ごと転がる', hint: '火曜に転がる音がする', cond: 'dow2' },
-  { id: 7,  name: 'リボリュウ',   ch: 1, rar: 'E', tpl: 'dragon',   col: '#68b8d8', desc: 'リボンが好きなりゅうの子', hint: 'ルアーの名人にだけ懐く', cond: 'lureHits3' },
-  { id: 8,  name: 'グラビガメ',   ch: 1, rar: 'L', tpl: 'turtle',   col: '#78a890', desc: '島のヌシ。重力を甲羅に溜めている', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
-  { id: 9,  name: 'カゼコ',       ch: 2, rar: 'C', tpl: 'ghost',    col: '#a8c8d8', desc: '風の切れ端。群れで飛ぶ', hint: 'どこにでもいる気配' },
-  { id: 10, name: 'デンキダケ',   ch: 2, rar: 'C', tpl: 'mushroom', col: '#c8d868', desc: '廃品の山に生えるキノコ。微弱発電', hint: 'どこにでもいる気配' },
-  { id: 11, name: 'ハグルマン',   ch: 2, rar: 'C', tpl: 'gear',     col: '#b0a890', desc: '歯車を食べて動く', hint: 'エサをよく食べた翌朝に多い?', boost: 'ydayMeals3' },
-  { id: 12, name: 'ライブラ',     ch: 2, rar: 'R', tpl: 'book',     col: '#c8a868', desc: '図書館の本の隙間に住む。物知り', hint: '土曜の書架で目撃例', cond: 'dow6' },
-  { id: 13, name: 'トタンドリ',   ch: 2, rar: 'R', tpl: 'bird',     col: '#88b8c8', desc: 'トタン屋根で雨音を歌にする鳥', hint: '気まぐれ。運がいい朝に', cond: 'rand12' },
-  { id: 14, name: 'フウシャオー', ch: 2, rar: 'E', tpl: 'windmill', col: '#e8d8a8', desc: '夜明けの風だけで回る風車の王', hint: '6時台の風に乗って来る', cond: 'hour6' },
-  { id: 15, name: 'グラビゴン',   ch: 2, rar: 'L', tpl: 'dragon',   col: '#bf00ff', desc: '村のヌシ。重力の竜', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
-  { id: 16, name: 'コオリム',     ch: 3, rar: 'C', tpl: 'crystal',  col: '#a8d8e8', desc: '氷の結晶に眠る小さいやつ', hint: 'どこにでもいる気配' },
-  { id: 17, name: 'ペンペン',     ch: 3, rar: 'C', tpl: 'penguin',  col: '#8898b8', desc: '隊列を組むのが好き。よく転ぶ', hint: 'どこにでもいる気配' },
-  { id: 18, name: 'オーロラス',   ch: 3, rar: 'R', tpl: 'ghost',    col: '#78e8c8', desc: 'オーロラの端切れ。夜明け前限定', hint: '5時台の空に揺れる', cond: 'hour5' },
-  { id: 19, name: 'イヌゾリン',   ch: 3, rar: 'R', tpl: 'dog',      col: '#c8a878', desc: '約束を運ぶ犬ぞり犬', hint: 'ミッションを果たした翌朝に', cond: 'ydayMissionClear' },
-  { id: 20, name: 'アムンゼン',   ch: 3, rar: 'E', tpl: 'flagpeak', col: '#88c8a8', desc: '淡々と1日30km進む極点の主', hint: 'ルアーど真ん中(±15分)の朝', cond: 'lureExact15' },
-  { id: 21, name: 'グラビクジラ', ch: 3, rar: 'L', tpl: 'whale',    col: '#68a8e8', desc: '氷海のヌシ。潮で重力を吹く', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
-  { id: 22, name: 'リュウヒョウ', ch: 4, rar: 'C', tpl: 'crystal',  col: '#c8e8f0', desc: '流氷のかけら。プカプカ', hint: 'どこにでもいる気配' },
-  { id: 23, name: 'シオフキ',     ch: 4, rar: 'C', tpl: 'shell',    col: '#e8c8d8', desc: '塩を吹く貝。水分塩分の友', hint: 'どこにでもいる気配' },
-  { id: 24, name: 'ナンパセン',   ch: 4, rar: 'R', tpl: 'boat',     col: '#a89078', desc: '難破船の木片の精。月曜がつらい', hint: '月曜の海に漂う', cond: 'dow1' },
-  { id: 25, name: 'エンデュラ',   ch: 4, rar: 'E', tpl: 'boat2',    col: '#e8a858', desc: '停滞から必ず戻ってくる不屈号', hint: 'しばらく空けて戻った朝、必ず来る', cond: 'comeback' },
-  { id: 26, name: 'グラビクラーケン', ch: 4, rar: 'L', tpl: 'kraken', col: '#8858c8', desc: '海域のヌシ。重力の渦を巻く', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
-  { id: 27, name: 'キリマン',     ch: 5, rar: 'R', tpl: 'peak',     col: '#b8a888', desc: '頂に雪をかぶった獣', hint: '手入れ万全(歯磨き+サプリ)の翌朝', cond: 'ydayTeethSupp' },
-  { id: 28, name: 'チョモラン',   ch: 5, rar: 'R', tpl: 'peak',     col: '#88a8c8', desc: '最高峰の風の精', hint: '6時台の高所に', cond: 'hour6' },
-  { id: 29, name: 'デナリン',     ch: 5, rar: 'E', tpl: 'peakstar', col: '#d8c890', desc: '完璧な仕事にだけ姿を見せる', hint: 'パーフェクト捕獲の翌朝', cond: 'ydayPerfect' },
-  { id: 30, name: 'ムジュウリョク', ch: 5, rar: 'L', tpl: 'orb',    col: '#ffd700', desc: '最後のヌシ。重力から自由なやつ', hint: '全てのヌシを従えた者の、一番重い朝に', cond: 'finalBoss' },
+  { id: 5,  name: 'ドロネム',     ch: 1, rar: 'R', tpl: 'ghost',    col: '#8a78c0', desc: '低血圧の沼にすむ。7時前だけ浮上', hint: '早朝の沼で目撃例', cond: 'band4_7' },
+  { id: 6,  name: 'ミカポン',     ch: 1, rar: 'R', tpl: 'round',    col: '#e09040', desc: 'みかん島の主食。皮ごところがる', hint: '火曜にころがる音がする', cond: 'dow2' },
+  { id: 7,  name: 'リボリュウ',   ch: 1, rar: 'E', tpl: 'dragon',   col: '#68b8d8', desc: 'リボンがすきな、りゅうの子', hint: '目標命中の名人にだけなつく', cond: 'lureHits3' },
+  { id: 8,  name: 'グラビガメ',   ch: 1, rar: 'L', tpl: 'turtle',   col: '#78a890', desc: '島のヌシ。重力をこうらに溜めている', hint: '一番おもい朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 9,  name: 'カゼコ',       ch: 2, rar: 'C', tpl: 'ghost',    col: '#88c0d8', desc: '風の切れはし。群れで飛ぶ', hint: 'どこにでもいる気配' },
+  { id: 10, name: 'デンキダケ',   ch: 2, rar: 'C', tpl: 'mushroom', col: '#b8c858', desc: '廃品の山に生えるキノコ。微弱発電', hint: 'どこにでもいる気配' },
+  { id: 11, name: 'ハグルマン',   ch: 2, rar: 'C', tpl: 'gear',     col: '#b0a080', desc: '歯車をたべて動く', hint: 'よく食べた翌朝に多い?', boost: 'ydayMeals3' },
+  { id: 12, name: 'ライブラ',     ch: 2, rar: 'R', tpl: 'book',     col: '#c8a868', desc: '図書館の本のすきまにすむ。物知り', hint: '土曜の本だなで目撃例', cond: 'dow6' },
+  { id: 13, name: 'トタンドリ',   ch: 2, rar: 'R', tpl: 'bird',     col: '#68a8c8', desc: 'トタン屋根で雨音をうたにする鳥', hint: 'きまぐれ。運がいい朝に', cond: 'rand12' },
+  { id: 14, name: 'フウシャオー', ch: 2, rar: 'E', tpl: 'windmill', col: '#d8b868', desc: '夜明けの風だけで回る風車の王', hint: '6時台の風にのって来る', cond: 'hour6' },
+  { id: 15, name: 'グラビゴン',   ch: 2, rar: 'L', tpl: 'dragon',   col: '#a76fd6', desc: '村のヌシ。重力のりゅう', hint: '一番おもい朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 16, name: 'コオリム',     ch: 3, rar: 'C', tpl: 'crystal',  col: '#88c8e0', desc: '氷のけっしょうに眠る小さいやつ', hint: 'どこにでもいる気配' },
+  { id: 17, name: 'ペンペン',     ch: 3, rar: 'C', tpl: 'penguin',  col: '#7888a8', desc: '隊列をくむのがすき。よくころぶ', hint: 'どこにでもいる気配' },
+  { id: 18, name: 'オーロラス',   ch: 3, rar: 'R', tpl: 'ghost',    col: '#58c8a8', desc: 'オーロラの端切れ。夜明け前げんてい', hint: '5時台の空にゆれる', cond: 'hour5' },
+  { id: 19, name: 'イヌゾリン',   ch: 3, rar: 'R', tpl: 'dog',      col: '#c8a878', desc: '約束をはこぶ犬ぞり犬', hint: '「ひとつ」を果たした翌朝に', cond: 'ydayMissionClear' },
+  { id: 20, name: 'アムンゼン',   ch: 3, rar: 'E', tpl: 'flagpeak', col: '#78b898', desc: 'たんたんと1日30km進む極点の主', hint: '目標ど真ん中(±15分)の朝', cond: 'lureExact15' },
+  { id: 21, name: 'グラビクジラ', ch: 3, rar: 'L', tpl: 'whale',    col: '#5898d8', desc: '氷海のヌシ。潮で重力をふく', hint: '一番おもい朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 22, name: 'リュウヒョウ', ch: 4, rar: 'C', tpl: 'crystal',  col: '#a8d8e8', desc: '流氷のかけら。プカプカ', hint: 'どこにでもいる気配' },
+  { id: 23, name: 'シオフキ',     ch: 4, rar: 'C', tpl: 'shell',    col: '#e0a8c0', desc: '塩をふく貝。水分塩分の友', hint: 'どこにでもいる気配' },
+  { id: 24, name: 'ナンパセン',   ch: 4, rar: 'R', tpl: 'boat',     col: '#a89078', desc: '難破船の木片のせい。月曜がつらい', hint: '月曜の海にただよう', cond: 'dow1' },
+  { id: 25, name: 'エンデュラ',   ch: 4, rar: 'E', tpl: 'boat2',    col: '#e8a858', desc: '停滞からかならず戻ってくる不屈号', hint: 'しばらく空けて戻った朝、必ず来る', cond: 'comeback' },
+  { id: 26, name: 'グラビクラーケン', ch: 4, rar: 'L', tpl: 'kraken', col: '#8858c8', desc: '海域のヌシ。重力のうずを巻く', hint: '一番おもい朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 27, name: 'キリマン',     ch: 5, rar: 'R', tpl: 'peak',     col: '#b8a888', desc: 'いただきに雪をかぶったけもの', hint: 'ケア万全(歯みがき+サプリ)の翌朝', cond: 'ydayTeethSupp' },
+  { id: 28, name: 'チョモラン',   ch: 5, rar: 'R', tpl: 'peak',     col: '#88a8c8', desc: '最高峰の風のせい', hint: '6時台の高所に', cond: 'hour6' },
+  { id: 29, name: 'デナリン',     ch: 5, rar: 'E', tpl: 'peakstar', col: '#d8c890', desc: 'かんぺきな仕事にだけ姿を見せる', hint: 'パーフェクト捕獲の翌朝', cond: 'ydayPerfect' },
+  { id: 30, name: 'ムジュウリョク', ch: 5, rar: 'L', tpl: 'orb',    col: '#f0b840', desc: 'さいごのヌシ。重力から自由なやつ', hint: 'すべてのヌシを従えた者の、一番おもい朝に', cond: 'finalBoss' },
 ];
 const CH_SIZE = [8, 7, 6, 5, 4];
 
-/* ── スプライト(全てインラインSVG・オフライン完結) ── */
-function eyes(x1, x2, y, c = '#101018') {
-  return `<circle cx="${x1}" cy="${y}" r="5" fill="#f0ecf8"/><circle cx="${x2}" cy="${y}" r="5" fill="#f0ecf8"/>
+/* ── スプライト ── */
+function eyes(x1, x2, y, c = '#2a3438') {
+  return `<circle cx="${x1}" cy="${y}" r="5" fill="#fff"/><circle cx="${x2}" cy="${y}" r="5" fill="#fff"/>
     <circle cx="${x1 + 1}" cy="${y + 1.5}" r="2.2" fill="${c}"/><circle cx="${x2 - 1}" cy="${y + 1.5}" r="2.2" fill="${c}"/>`;
 }
+const SH = '#00000018';
 const TPL = {
-  blob: c => `<ellipse cx="60" cy="86" rx="30" ry="6" fill="#1c1c26"/>
+  blob: c => `<ellipse cx="60" cy="86" rx="30" ry="6" fill="${SH}"/>
     <path d="M60 24 C84 24 92 46 90 62 C88 78 76 84 60 84 C44 84 32 78 30 62 C28 46 36 24 60 24 Z" fill="${c}"/>
-    ${eyes(50, 70, 52)}<path d="M53 66 Q60 70 67 66" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
-  blob2: c => `<ellipse cx="60" cy="86" rx="32" ry="6" fill="#1c1c26"/>
+    ${eyes(50, 70, 52)}<path d="M53 66 Q60 70 67 66" stroke="#2a3438" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  blob2: c => `<ellipse cx="60" cy="86" rx="32" ry="6" fill="${SH}"/>
     <path d="M60 26 C86 26 94 48 92 64 C90 80 76 86 60 86 C44 86 30 80 28 64 C26 48 34 26 60 26 Z" fill="${c}"/>
     <path d="M40 32 C36 22 28 20 24 24 C30 26 32 30 33 36 Z" fill="${c}"/>
     <path d="M80 32 C84 22 92 20 96 24 C90 26 88 30 87 36 Z" fill="${c}"/>
-    ${eyes(50, 70, 54)}<path d="M54 68 Q60 72 66 68" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+    ${eyes(50, 70, 54)}<path d="M54 68 Q60 72 66 68" stroke="#2a3438" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
   sun: c => `<circle cx="60" cy="54" r="24" fill="${c}"/>
     <path d="M60 16 L60 26 M60 82 L60 92 M22 54 L32 54 M88 54 L98 54 M33 27 L40 34 M87 27 L80 34 M33 81 L40 74 M87 81 L80 74" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
-    ${eyes(52, 68, 50)}<path d="M54 64 Q60 68 66 64" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  crab: c => `<ellipse cx="60" cy="88" rx="34" ry="5" fill="#1c1c26"/>
+    ${eyes(52, 68, 50)}<path d="M54 64 Q60 68 66 64" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  crab: c => `<ellipse cx="60" cy="88" rx="34" ry="5" fill="${SH}"/>
     <ellipse cx="60" cy="62" rx="28" ry="20" fill="${c}"/>
     <path d="M34 50 C24 42 18 44 14 52 C22 52 26 56 30 60 Z" fill="${c}"/>
     <path d="M86 50 C96 42 102 44 106 52 C98 52 94 56 90 60 Z" fill="${c}"/>
     <line x1="48" y1="44" x2="46" y2="34" stroke="${c}" stroke-width="3"/><line x1="72" y1="44" x2="74" y2="34" stroke="${c}" stroke-width="3"/>
-    <circle cx="46" cy="32" r="5" fill="#f0ecf8"/><circle cx="74" cy="32" r="5" fill="#f0ecf8"/>
-    <circle cx="46" cy="33" r="2.2" fill="#101018"/><circle cx="74" cy="33" r="2.2" fill="#101018"/>
-    <path d="M52 68 Q60 63 68 68" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+    <circle cx="46" cy="32" r="5" fill="#fff"/><circle cx="74" cy="32" r="5" fill="#fff"/>
+    <circle cx="46" cy="33" r="2.2" fill="#2a3438"/><circle cx="74" cy="33" r="2.2" fill="#2a3438"/>
+    <path d="M52 68 Q60 63 68 68" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
   ghost: c => `<path d="M60 20 C82 20 90 40 90 58 L90 84 L80 76 L70 84 L60 76 L50 84 L40 76 L30 84 L30 58 C30 40 38 20 60 20 Z" fill="${c}"/>
-    ${eyes(50, 70, 48)}<path d="M53 62 Q60 66 67 62" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
-  round: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="#1c1c26"/>
+    ${eyes(50, 70, 48)}<path d="M53 62 Q60 66 67 62" stroke="#2a3438" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  round: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="${SH}"/>
     <circle cx="60" cy="58" r="28" fill="${c}"/>
     <path d="M60 30 C58 22 62 16 70 14 C66 20 66 24 66 30 Z" fill="#78a858"/>
-    ${eyes(50, 70, 54)}<path d="M53 68 Q60 72 67 68" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
-  dragon: c => `<ellipse cx="60" cy="90" rx="32" ry="5" fill="#1c1c26"/>
+    ${eyes(50, 70, 54)}<path d="M53 68 Q60 72 67 68" stroke="#2a3438" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  dragon: c => `<ellipse cx="60" cy="90" rx="32" ry="5" fill="${SH}"/>
     <path d="M40 84 C30 74 28 56 38 44 C46 34 60 30 72 36 C84 42 88 56 82 68 C76 80 64 86 52 84 Z" fill="${c}"/>
     <path d="M44 40 L38 26 L52 34 Z" fill="${c}"/><path d="M70 34 L74 20 L82 34 Z" fill="${c}"/>
     <path d="M82 66 C92 64 98 68 100 76 C92 74 86 74 80 74 Z" fill="${c}"/>
-    ${eyes(52, 70, 52)}<path d="M52 66 Q60 71 68 66" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
-  turtle: c => `<ellipse cx="60" cy="88" rx="36" ry="5" fill="#1c1c26"/>
+    ${eyes(52, 70, 52)}<path d="M52 66 Q60 71 68 66" stroke="#2a3438" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  turtle: c => `<ellipse cx="60" cy="88" rx="36" ry="5" fill="${SH}"/>
     <path d="M28 74 C28 52 42 38 60 38 C78 38 92 52 92 74 Z" fill="${c}"/>
-    <path d="M44 56 L60 46 L76 56 M36 68 L60 54 L84 68" stroke="#101018" stroke-width="1.6" fill="none" opacity=".4"/>
-    <circle cx="24" cy="70" r="9" fill="${c}"/><circle cx="22" cy="68" r="2" fill="#101018"/>
+    <path d="M44 56 L60 46 L76 56 M36 68 L60 54 L84 68" stroke="#2a3438" stroke-width="1.6" fill="none" opacity=".3"/>
+    <circle cx="24" cy="70" r="9" fill="${c}"/><circle cx="22" cy="68" r="2" fill="#2a3438"/>
     <rect x="34" y="76" width="10" height="8" rx="3" fill="${c}"/><rect x="76" y="76" width="10" height="8" rx="3" fill="${c}"/>`,
-  mushroom: c => `<ellipse cx="60" cy="88" rx="26" ry="5" fill="#1c1c26"/>
-    <rect x="50" y="56" width="20" height="30" rx="8" fill="#e8e0d0"/>
+  mushroom: c => `<ellipse cx="60" cy="88" rx="26" ry="5" fill="${SH}"/>
+    <rect x="50" y="56" width="20" height="30" rx="8" fill="#f0e8d8"/>
     <path d="M28 56 C28 36 42 24 60 24 C78 24 92 36 92 56 Z" fill="${c}"/>
-    <circle cx="46" cy="42" r="4" fill="#f0ecf8" opacity=".6"/><circle cx="72" cy="38" r="3" fill="#f0ecf8" opacity=".6"/>
-    <circle cx="55" cy="68" r="2.2" fill="#101018"/><circle cx="65" cy="68" r="2.2" fill="#101018"/>
-    <path d="M56 76 Q60 79 64 76" stroke="#101018" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+    <circle cx="46" cy="42" r="4" fill="#fff" opacity=".7"/><circle cx="72" cy="38" r="3" fill="#fff" opacity=".7"/>
+    <circle cx="55" cy="68" r="2.2" fill="#2a3438"/><circle cx="65" cy="68" r="2.2" fill="#2a3438"/>
+    <path d="M56 76 Q60 79 64 76" stroke="#2a3438" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
   gear: c => `<circle cx="60" cy="56" r="24" fill="${c}"/>
     ${[0,45,90,135,180,225,270,315].map(a => { const r = a * Math.PI / 180;
       return `<rect x="${60 + Math.cos(r) * 28 - 4}" y="${56 + Math.sin(r) * 28 - 4}" width="8" height="8" rx="2" fill="${c}"/>`; }).join('')}
-    ${eyes(52, 68, 52)}<path d="M54 66 Q60 70 66 66" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  book: c => `<ellipse cx="60" cy="90" rx="28" ry="5" fill="#1c1c26"/>
+    ${eyes(52, 68, 52)}<path d="M54 66 Q60 70 66 66" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  book: c => `<ellipse cx="60" cy="90" rx="28" ry="5" fill="${SH}"/>
     <rect x="34" y="30" width="52" height="56" rx="5" fill="${c}"/>
-    <rect x="40" y="30" width="4" height="56" fill="#101018" opacity=".3"/>
-    <line x1="52" y1="44" x2="78" y2="44" stroke="#101018" stroke-width="2" opacity=".35"/>
-    ${eyes(54, 72, 60)}<path d="M57 74 Q63 78 69 74" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  bird: c => `<ellipse cx="60" cy="90" rx="26" ry="5" fill="#1c1c26"/>
+    <rect x="40" y="30" width="4" height="56" fill="#2a3438" opacity=".2"/>
+    <line x1="52" y1="44" x2="78" y2="44" stroke="#2a3438" stroke-width="2" opacity=".25"/>
+    ${eyes(54, 72, 60)}<path d="M57 74 Q63 78 69 74" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  bird: c => `<ellipse cx="60" cy="90" rx="26" ry="5" fill="${SH}"/>
     <ellipse cx="60" cy="58" rx="26" ry="24" fill="${c}"/>
     <path d="M34 58 C24 54 20 58 18 66 C26 64 30 66 36 68 Z" fill="${c}"/>
     <path d="M84 52 L98 56 L84 62 Z" fill="#e0a040"/>
-    <circle cx="72" cy="48" r="5" fill="#f0ecf8"/><circle cx="73" cy="49" r="2.2" fill="#101018"/>
+    <circle cx="72" cy="48" r="5" fill="#fff"/><circle cx="73" cy="49" r="2.2" fill="#2a3438"/>
     <line x1="52" y1="82" x2="52" y2="90" stroke="#e0a040" stroke-width="3"/><line x1="66" y1="82" x2="66" y2="90" stroke="#e0a040" stroke-width="3"/>`,
-  windmill: c => `<ellipse cx="60" cy="92" rx="24" ry="4" fill="#1c1c26"/>
-    <path d="M56 50 L64 50 L68 90 L52 90 Z" fill="#d8ccb0"/>
+  windmill: c => `<ellipse cx="60" cy="92" rx="24" ry="4" fill="${SH}"/>
+    <path d="M56 50 L64 50 L68 90 L52 90 Z" fill="#e8dcc0"/>
     <circle cx="60" cy="46" r="6" fill="${c}"/>
     <path d="M60 46 L60 14 L72 20 Z M60 46 L92 46 L86 58 Z M60 46 L60 78 L48 72 Z M60 46 L28 46 L34 34 Z" fill="${c}"/>
-    <circle cx="57" cy="60" r="2" fill="#101018"/><circle cx="63" cy="60" r="2" fill="#101018"/>
-    <path d="M57 68 Q60 70 63 68" stroke="#101018" stroke-width="1.6" fill="none" stroke-linecap="round"/>`,
-  crystal: c => `<ellipse cx="60" cy="90" rx="24" ry="5" fill="#1c1c26"/>
+    <circle cx="57" cy="60" r="2" fill="#2a3438"/><circle cx="63" cy="60" r="2" fill="#2a3438"/>
+    <path d="M57 68 Q60 70 63 68" stroke="#2a3438" stroke-width="1.6" fill="none" stroke-linecap="round"/>`,
+  crystal: c => `<ellipse cx="60" cy="90" rx="24" ry="5" fill="${SH}"/>
     <path d="M60 14 L82 40 L74 88 L46 88 L38 40 Z" fill="${c}"/>
-    <path d="M50 40 L60 30 L70 40" stroke="#f0ecf8" stroke-width="2" fill="none" opacity=".6"/>
-    ${eyes(52, 68, 56)}<path d="M54 70 Q60 74 66 70" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  penguin: c => `<ellipse cx="60" cy="90" rx="26" ry="5" fill="#1c1c26"/>
+    <path d="M50 40 L60 30 L70 40" stroke="#fff" stroke-width="2" fill="none" opacity=".7"/>
+    ${eyes(52, 68, 56)}<path d="M54 70 Q60 74 66 70" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  penguin: c => `<ellipse cx="60" cy="90" rx="26" ry="5" fill="${SH}"/>
     <path d="M60 22 C80 22 88 44 86 66 C84 84 74 88 60 88 C46 88 36 84 34 66 C32 44 40 22 60 22 Z" fill="${c}"/>
-    <ellipse cx="60" cy="64" rx="17" ry="20" fill="#f0ecf8"/>
+    <ellipse cx="60" cy="64" rx="17" ry="20" fill="#fff"/>
     <path d="M54 40 L60 48 L66 40 Z" fill="#e0a040"/>
-    <circle cx="50" cy="36" r="4.4" fill="#f0ecf8"/><circle cx="70" cy="36" r="4.4" fill="#f0ecf8"/>
-    <circle cx="51" cy="37" r="2" fill="#101018"/><circle cx="69" cy="37" r="2" fill="#101018"/>`,
-  dog: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="#1c1c26"/>
+    <circle cx="50" cy="36" r="4.4" fill="#fff"/><circle cx="70" cy="36" r="4.4" fill="#fff"/>
+    <circle cx="51" cy="37" r="2" fill="#2a3438"/><circle cx="69" cy="37" r="2" fill="#2a3438"/>`,
+  dog: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="${SH}"/>
     <ellipse cx="60" cy="60" rx="26" ry="24" fill="${c}"/>
     <path d="M38 44 C32 30 36 22 44 20 C44 30 46 36 50 40 Z" fill="${c}"/>
     <path d="M82 44 C88 30 84 22 76 20 C76 30 74 36 70 40 Z" fill="${c}"/>
-    ${eyes(50, 70, 54)}<ellipse cx="60" cy="66" rx="5" ry="4" fill="#101018"/>
-    <path d="M60 70 Q60 76 52 76 M60 70 Q60 76 68 76" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  flagpeak: c => `<ellipse cx="60" cy="90" rx="32" ry="5" fill="#1c1c26"/>
+    ${eyes(50, 70, 54)}<ellipse cx="60" cy="66" rx="5" ry="4" fill="#2a3438"/>
+    <path d="M60 70 Q60 76 52 76 M60 70 Q60 76 68 76" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  flagpeak: c => `<ellipse cx="60" cy="90" rx="32" ry="5" fill="${SH}"/>
     <path d="M60 30 L92 88 L28 88 Z" fill="${c}"/>
-    <path d="M52 44 L60 30 L68 44 L60 40 Z" fill="#f0ecf8"/>
-    <line x1="60" y1="30" x2="60" y2="12" stroke="#d8ccb0" stroke-width="2.5"/>
-    <path d="M60 12 L76 17 L60 22 Z" fill="#ff5060"/>
-    <circle cx="52" cy="70" r="2.4" fill="#101018"/><circle cx="68" cy="70" r="2.4" fill="#101018"/>
-    <path d="M54 78 Q60 81 66 78" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  whale: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="#1c1c26"/>
+    <path d="M52 44 L60 30 L68 44 L60 40 Z" fill="#fff"/>
+    <line x1="60" y1="30" x2="60" y2="12" stroke="#c8b890" stroke-width="2.5"/>
+    <path d="M60 12 L76 17 L60 22 Z" fill="#f06a5c"/>
+    <circle cx="52" cy="70" r="2.4" fill="#2a3438"/><circle cx="68" cy="70" r="2.4" fill="#2a3438"/>
+    <path d="M54 78 Q60 81 66 78" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  whale: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="${SH}"/>
     <path d="M24 66 C24 46 40 34 60 34 C80 34 94 48 94 64 C94 76 84 84 68 84 L32 84 C26 84 24 76 24 66 Z" fill="${c}"/>
     <path d="M92 60 C100 54 104 56 106 62 C100 62 96 66 92 70 Z" fill="${c}"/>
-    <path d="M44 30 C42 22 44 16 48 12 M52 30 C52 22 55 16 60 14 M48 32 C46 24 48 18 52 14" stroke="#a8d8e8" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-    <circle cx="42" cy="56" r="4.6" fill="#f0ecf8"/><circle cx="43" cy="57" r="2.2" fill="#101018"/>
-    <path d="M34 68 Q42 72 50 68" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  shell: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="#1c1c26"/>
+    <path d="M44 30 C42 22 44 16 48 12 M52 30 C52 22 55 16 60 14 M48 32 C46 24 48 18 52 14" stroke="#88c8e8" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <circle cx="42" cy="56" r="4.6" fill="#fff"/><circle cx="43" cy="57" r="2.2" fill="#2a3438"/>
+    <path d="M34 68 Q42 72 50 68" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  shell: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="${SH}"/>
     <path d="M28 72 C28 50 42 38 60 38 C78 38 92 50 92 72 C80 80 40 80 28 72 Z" fill="${c}"/>
-    <path d="M60 40 L60 76 M44 44 L52 76 M76 44 L68 76" stroke="#101018" stroke-width="1.6" opacity=".3" fill="none"/>
-    <path d="M56 20 C54 12 58 8 64 8 C60 14 60 16 62 22 Z" fill="#a8d8e8"/>
-    <circle cx="52" cy="60" r="2.4" fill="#101018"/><circle cx="68" cy="60" r="2.4" fill="#101018"/>
-    <path d="M54 68 Q60 72 66 68" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+    <path d="M60 40 L60 76 M44 44 L52 76 M76 44 L68 76" stroke="#2a3438" stroke-width="1.6" opacity=".2" fill="none"/>
+    <path d="M56 20 C54 12 58 8 64 8 C60 14 60 16 62 22 Z" fill="#88c8e8"/>
+    <circle cx="52" cy="60" r="2.4" fill="#2a3438"/><circle cx="68" cy="60" r="2.4" fill="#2a3438"/>
+    <path d="M54 68 Q60 72 66 68" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
   boat: c => `<path d="M20 66 L100 66 L84 88 L36 88 Z" fill="${c}"/>
-    <path d="M20 92 Q35 86 50 92 T80 92 T110 92" stroke="#3a5a7a" stroke-width="3" fill="none"/>
-    <line x1="60" y1="66" x2="60" y2="26" stroke="#d8ccb0" stroke-width="3"/>
-    <path d="M60 28 L84 48 L60 48 Z" fill="#d8ccb0"/>
-    <circle cx="46" cy="74" r="2.4" fill="#101018"/><circle cx="60" cy="74" r="2.4" fill="#101018"/>
-    <path d="M48 80 Q54 83 60 80" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+    <path d="M20 92 Q35 86 50 92 T80 92 T110 92" stroke="#68a8d8" stroke-width="3" fill="none"/>
+    <line x1="60" y1="66" x2="60" y2="26" stroke="#c8b890" stroke-width="3"/>
+    <path d="M60 28 L84 48 L60 48 Z" fill="#e8dcc0"/>
+    <circle cx="46" cy="74" r="2.4" fill="#2a3438"/><circle cx="60" cy="74" r="2.4" fill="#2a3438"/>
+    <path d="M48 80 Q54 83 60 80" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
   boat2: c => `<path d="M20 66 L100 66 L84 88 L36 88 Z" fill="${c}"/>
-    <path d="M20 92 Q35 86 50 92 T80 92 T110 92" stroke="#3a5a7a" stroke-width="3" fill="none"/>
-    <line x1="60" y1="66" x2="60" y2="20" stroke="#d8ccb0" stroke-width="3"/>
-    <path d="M60 22 L86 42 L60 42 Z" fill="#f0ecf8"/>
-    <path d="M60 20 L44 25 L60 30 Z" fill="#ffd700"/>
-    <circle cx="46" cy="74" r="2.4" fill="#101018"/><circle cx="60" cy="74" r="2.4" fill="#101018"/>
-    <path d="M46 80 Q54 84 62 80" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  kraken: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="#1c1c26"/>
+    <path d="M20 92 Q35 86 50 92 T80 92 T110 92" stroke="#68a8d8" stroke-width="3" fill="none"/>
+    <line x1="60" y1="66" x2="60" y2="20" stroke="#c8b890" stroke-width="3"/>
+    <path d="M60 22 L86 42 L60 42 Z" fill="#fff"/>
+    <path d="M60 20 L44 25 L60 30 Z" fill="#ffcb3d"/>
+    <circle cx="46" cy="74" r="2.4" fill="#2a3438"/><circle cx="60" cy="74" r="2.4" fill="#2a3438"/>
+    <path d="M46 80 Q54 84 62 80" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  kraken: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="${SH}"/>
     <path d="M60 18 C80 18 88 34 88 50 C88 62 80 66 60 66 C40 66 32 62 32 50 C32 34 40 18 60 18 Z" fill="${c}"/>
     <path d="M36 64 C32 74 26 78 20 78 C26 82 34 80 40 72 Z M50 66 C48 78 42 84 36 86 C44 88 52 82 54 72 Z M70 66 C72 78 78 84 84 86 C76 88 68 82 66 72 Z M84 64 C88 74 94 78 100 78 C94 82 86 80 80 72 Z" fill="${c}"/>
-    ${eyes(50, 70, 44)}<path d="M52 56 Q60 60 68 56" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
-  peak: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="#1c1c26"/>
+    ${eyes(50, 70, 44)}<path d="M52 56 Q60 60 68 56" stroke="#2a3438" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  peak: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="${SH}"/>
     <path d="M60 24 L94 88 L26 88 Z" fill="${c}"/>
-    <path d="M50 42 L60 24 L70 42 L64 38 L60 44 L56 38 Z" fill="#f0ecf8"/>
-    <circle cx="52" cy="68" r="2.6" fill="#101018"/><circle cx="68" cy="68" r="2.6" fill="#101018"/>
-    <path d="M54 78 Q60 81 66 78" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-  peakstar: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="#1c1c26"/>
+    <path d="M50 42 L60 24 L70 42 L64 38 L60 44 L56 38 Z" fill="#fff"/>
+    <circle cx="52" cy="68" r="2.6" fill="#2a3438"/><circle cx="68" cy="68" r="2.6" fill="#2a3438"/>
+    <path d="M54 78 Q60 81 66 78" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  peakstar: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="${SH}"/>
     <path d="M60 26 L94 88 L26 88 Z" fill="${c}"/>
-    <path d="M52 44 L60 26 L68 44 L62 40 L60 46 L58 40 Z" fill="#f0ecf8"/>
-    <path d="M60 6 L63 13 L70 13 L64 18 L66 25 L60 21 L54 25 L56 18 L50 13 L57 13 Z" fill="#ffd700"/>
-    <circle cx="52" cy="68" r="2.6" fill="#101018"/><circle cx="68" cy="68" r="2.6" fill="#101018"/>
-    <path d="M54 78 Q60 81 66 78" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+    <path d="M52 44 L60 26 L68 44 L62 40 L60 46 L58 40 Z" fill="#fff"/>
+    <path d="M60 6 L63 13 L70 13 L64 18 L66 25 L60 21 L54 25 L56 18 L50 13 L57 13 Z" fill="#ffcb3d"/>
+    <circle cx="52" cy="68" r="2.6" fill="#2a3438"/><circle cx="68" cy="68" r="2.6" fill="#2a3438"/>
+    <path d="M54 78 Q60 81 66 78" stroke="#2a3438" stroke-width="2" fill="none" stroke-linecap="round"/>`,
   orb: c => `<circle cx="60" cy="52" r="22" fill="${c}"/>
     <ellipse cx="60" cy="52" rx="34" ry="9" fill="none" stroke="${c}" stroke-width="2.5" opacity=".6"/>
     <circle cx="30" cy="48" r="3" fill="${c}"/><circle cx="90" cy="58" r="3" fill="${c}"/>
-    <ellipse cx="60" cy="94" rx="14" ry="3" fill="#1c1c26"/>
-    ${eyes(52, 68, 48, '#3a2a00')}<path d="M54 62 Q60 66 66 62" stroke="#3a2a00" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+    <ellipse cx="60" cy="94" rx="14" ry="3" fill="${SH}"/>
+    ${eyes(52, 68, 48, '#5a4410')}<path d="M54 62 Q60 66 66 62" stroke="#5a4410" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
 };
-function spriteSvg(sp, evolved) {
-  const crown = evolved ? `<path d="M46 12 L52 20 L60 10 L68 20 L74 12 L72 26 L48 26 Z" fill="#ffd700"/>` : '';
-  return `<svg viewBox="0 0 120 100" role="img" aria-label="${sp.name}">${TPL[sp.tpl](sp.col)}${crown}</svg>`;
+function spriteSvg(sp, evolved, cls) {
+  const crown = evolved ? `<path d="M46 12 L52 20 L60 10 L68 20 L74 12 L72 26 L48 26 Z" fill="#ffcb3d" stroke="#e8a820" stroke-width="1"/>` : '';
+  return `<svg class="${cls || ''}" viewBox="0 0 120 100" role="img" aria-label="${sp.name}">${TPL[sp.tpl](sp.col)}${crown}</svg>`;
 }
 
-/* ── メッセージ(日替わり) ── */
-const MESSAGES = [
-  { t: '重力 vs おまえ。今日の一勝は、起きたことだ。それ以上は全部ボーナス。', s: 'GRAVITY PROTOCOL' },
-  { t: '起きられない朝は、血圧が重力に負けてるだけ。おまえのやる気の問題じゃない。物理の問題だ。', s: 'OD SCIENCE' },
-  { t: 'G-3の朝にだけ現れるやつがいる、という噂。一番重い朝が一番アツい。', s: 'FIELD RUMOR' },
-  { t: '朝のフィールドは4:00-11:00。それを過ぎても、必ず誰かは残ってる。ゼロの日はない。', s: 'FIELD RULE' },
-  { t: 'ルアーは夜のおまえが仕掛けた約束。朝のおまえは回収するだけでいい。', s: 'LURE THEORY' },
-  { t: 'タマゴは寝てる間しか育たない。つまり寝るのも攻略。', s: 'INCUBATION LAB' },
-  { t: '図鑑のヒント欄は読んだか。出現条件は自力で解くタイプの謎だ。', s: 'DEX INTEL' },
-  { t: '音楽をかけろ。ビートが先、身体は後からついてくる。', s: 'MORNING BEAT' },
-  { t: '今日のログが1行増える=主治医への証拠が1行増える。データで殴れ。', s: 'DATA IS POWER' },
-  { t: '大器晩成型は序盤のステータスが低めに設定されてる。そのかわり後半の伸び率が壊れてる。', s: 'CHARACTER BUILD' },
-  { t: '決めたことを忘れるのは欠陥じゃなくて仕様。だから外部ストレージ(これ)に書き出す。', s: 'EXTERNAL MEMORY' },
-  { t: 'しばらく空いても遠征は続いてる。戻ってきた朝に、待ってるやつがいる。', s: 'COMEBACK PROTOCOL' },
-  { t: '7時に起きても11時に起きても、記録は同じ20XP。この遠征は「起きた時刻」より「記録した事実」に払う。', s: 'FAIR PLAY RULE' },
-  { t: '正直なG-3申告が一番得をする。この世界では正直がメタ。', s: 'HONESTY META' },
-];
-
-/* ── ストレージ ── */
+/* ── ストレージ(v2キーは前版と互換) ── */
 const LS_DAYS = 'gq2:days', LS_META = 'gq2:meta';
 const store = {
   days() { try { return JSON.parse(localStorage.getItem(LS_DAYS)) || {}; } catch { return {}; } },
@@ -633,7 +639,6 @@ function initMeta() {
     m.chapter = m.chapter || 1;
     m.dex = m.dex || {};
     m.egg = m.egg || { progress: 0 };
-    /* v1(GRAVITY ESCAPE)からの移行: 日次ログとXPを引き継ぐ */
     try {
       const old = JSON.parse(localStorage.getItem('gq:days'));
       if (old) {
@@ -641,10 +646,10 @@ function initMeta() {
         for (const [k, v] of Object.entries(old)) if (!days[k]) days[k] = v;
         store.saveDays(days);
         m.migratedV1 = true;
-        const oldMeta = JSON.parse(localStorage.getItem('gq:meta')) || {};
-        if (oldMeta.name) m.name = oldMeta.name;
-        if (oldMeta.lastTarget) m.lastTarget = oldMeta.lastTarget;
-        if (oldMeta.nextTarget) m.nextTarget = oldMeta.nextTarget;
+        const om = JSON.parse(localStorage.getItem('gq:meta')) || {};
+        if (om.name) m.name = om.name;
+        if (om.lastTarget) m.lastTarget = om.lastTarget;
+        if (om.nextTarget) m.nextTarget = om.nextTarget;
       }
     } catch {}
     store.saveMeta(m);
@@ -652,7 +657,7 @@ function initMeta() {
   return m;
 }
 
-/* ── 日付ユーティリティ(朝4時境界) ── */
+/* ── 日付(朝4時境界) ── */
 const pad = n => String(n).padStart(2, '0');
 function dayKey(date, isNight) {
   const d = new Date(date);
@@ -672,7 +677,7 @@ function patchDay(key, patch) {
   return days[key];
 }
 
-/* ── シード付き乱数(日付で固定・リロードで引き直せない) ── */
+/* ── シード付き乱数 ── */
 function makeRng(seedStr) {
   let h = 2166136261;
   for (const ch of seedStr) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); }
@@ -682,7 +687,7 @@ function makeRng(seedStr) {
   };
 }
 
-/* ── XP集計 ── */
+/* ── XP ── */
 function dayXp(d) {
   if (!d) return 0;
   let x = 0;
@@ -698,14 +703,13 @@ function dayXp(d) {
   return x;
 }
 function totalXp() { return Object.values(store.days()).reduce((a, d) => a + dayXp(d), 0); }
-function rankOf(xp) { let r = RANKS[0]; for (const k of RANKS) if (xp >= k.xp) r = k; return r; }
+function rankOf(xp) { let r = RANKS[0], lv = 1; for (let i = 0; i < RANKS.length; i++) if (xp >= RANKS[i].xp) { r = RANKS[i]; lv = i + 1; } return { ...r, lv }; }
 
-/* ── 図鑑ヘルパー ── */
+/* ── 図鑑 ── */
 function dexGet() { return store.meta().dex || {}; }
 function chapterCoverage(ch) {
   const dex = dexGet();
-  const caught = SPECIES.filter(s => s.ch === ch && dex[s.id]).length;
-  return caught / CH_SIZE[ch - 1];
+  return SPECIES.filter(s => s.ch === ch && dex[s.id]).length / CH_SIZE[ch - 1];
 }
 function currentChapter() { return store.meta().chapter || 1; }
 function checkChapterUnlock() {
@@ -714,7 +718,7 @@ function checkChapterUnlock() {
     m.chapter++;
     store.saveMeta(m);
     burst(); setTimeout(burst, 400);
-    setTimeout(() => alert(`★ NEW AREA ★\n${CHAPTERS[m.chapter - 1].name} が解放された。\n新しい気配がフィールドに増えた。`), 300);
+    toast(`あたらしいエリア「${CHAPTERS[m.chapter - 1].name}」がひらいた!`);
   }
 }
 function bossesCaughtCount() {
@@ -722,7 +726,7 @@ function bossesCaughtCount() {
   return [8, 15, 21, 26].filter(id => dex[id]).length;
 }
 
-/* ── スポーンコンテキスト ── */
+/* ── スポーン ── */
 function buildCtx(now, gravity) {
   const days = store.days();
   const meta = store.meta();
@@ -730,7 +734,6 @@ function buildCtx(now, gravity) {
   const hour = new Date(now).getHours();
   const dow = new Date(now).getDay();
   const careY = yd.care ? (yd.care.teeth ? 1 : 0) + (yd.care.supp ? 1 : 0) + (yd.care.meals || []).filter(Boolean).length : 0;
-  /* 復帰判定: 直前の記録日からの空白日数 */
   const keys = Object.keys(days).filter(k => k < todayKey() && (days[k].wakeAt || days[k].nightAt)).sort();
   let gapDays = 0;
   if (keys.length) {
@@ -753,8 +756,6 @@ function buildCtx(now, gravity) {
     chapter: currentChapter(), bosses: bossesCaughtCount(),
   };
 }
-
-/* ── 条件判定 ── */
 function condOk(sp, ctx, rng) {
   switch (sp.cond) {
     case undefined: case null: return true;
@@ -772,31 +773,23 @@ function condOk(sp, ctx, rng) {
     case 'ydayPerfect': return ctx.ydayPerfect;
     case 'ydayTeethSupp': return ctx.ydayTeethSupp;
     case 'comeback': return ctx.comeback;
-    case 'boss': case 'finalBoss': return false; /* ボスは別ルート */
+    case 'boss': case 'finalBoss': return false;
     default: return false;
   }
 }
-
-/* ── スポーン決定 ── */
 function decideSpawn(now, gravity) {
   const rng = makeRng(todayKey() + ':' + store.meta().salt + ':g' + gravity);
   const ctx = buildCtx(now, gravity);
   const weekend = ctx.dow === 0 || ctx.dow === 6;
-
-  /* 1. 復帰確定: エンデュラ */
   if (ctx.comeback) return 25;
-
-  /* 2. G-3ならヌシ判定 */
   if (gravity === 3) {
     const p = 0.35 + 0.05 * ctx.careY;
     if (rng() < p) {
-      if (ctx.chapter >= 5 && ctx.bosses === 4) return 30; /* ムジュウリョク */
+      if (ctx.chapter >= 5 && ctx.bosses === 4) return 30;
       const bossIds = { 1: 8, 2: 15, 3: 21, 4: 26, 5: 26 };
       return bossIds[Math.min(ctx.chapter, 4)];
     }
   }
-
-  /* 3. 通常プール(現在章+前章の未捕獲) */
   const dex = dexGet();
   const lateOnly = ctx.hour >= 11 || ctx.hour < 4;
   const pool = [];
@@ -810,13 +803,11 @@ function decideSpawn(now, gravity) {
       w = 100;
       if (sp.boost === 'ydayLight' && ctx.ydayLight) w *= 2.5;
       if (sp.boost === 'ydayMeals3' && ctx.ydayMeals3) w *= 2.5;
-      if (weekend) w *= 1.4; /* 週末はCOMMON大量発生=進化素材集め */
+      if (weekend) w *= 1.4;
     } else if (sp.rar === 'R') {
       w = 20 * (ctx.lureHit ? 2 : 1) * (1 + 0.1 * ctx.careY);
-    } else { /* EPIC(条件を満たしている時点でかなり出る) */
-      w = 80;
-    }
-    if (sp.ch < ctx.chapter) w *= dex[sp.id] ? 0.15 : 0.5; /* 前章は未捕獲優先で薄く残す */
+    } else w = 80;
+    if (sp.ch < ctx.chapter) w *= dex[sp.id] ? 0.15 : 0.5;
     pool.push([sp.id, w]);
   }
   if (!pool.length) return ctx.chapter === 1 ? 1 : SPECIES.find(s => s.ch === ctx.chapter && s.rar === 'C').id;
@@ -826,7 +817,7 @@ function decideSpawn(now, gravity) {
   return pool[pool.length - 1][0];
 }
 
-/* ── 捕獲(図鑑登録)と品質 ── */
+/* ── 捕獲品質 ── */
 function qualityOf(d) {
   if (!d || !d.wakeAt) return 0;
   let q = 1;
@@ -860,11 +851,12 @@ function updateQuality() {
       const m = store.meta();
       const e = m.dex[d.spawn.id];
       if (e) { e.perfect = (e.perfect || 0) + 1; store.saveMeta(m); }
+      toast('パーフェクト捕獲! 図鑑に王冠がついた');
     }
   }
 }
 
-/* ── タマゴ ── */
+/* ── たまご ── */
 const EGG_GOAL = 3000;
 function incubate(sleepMin, nightAt) {
   if (!sleepMin || !nightAt) return 0;
@@ -891,14 +883,14 @@ function tryHatch(rngSeed) {
 function burst() {
   const wrap = document.createElement('div');
   wrap.className = 'pwrap';
-  const colors = ['#00ff88', '#bf00ff', '#ffd700', '#00e5ff', '#ff0099'];
-  for (let i = 0; i < 28; i++) {
+  const colors = ['#ffcb3d', '#3d9fe0', '#45b878', '#ff9046', '#a76fd6'];
+  for (let i = 0; i < 26; i++) {
     const p = document.createElement('div');
     p.className = 'pt';
-    const ang = (i / 28) * Math.PI * 2;
-    const dist = 90 + Math.random() * 130;
+    const ang = (i / 26) * Math.PI * 2;
+    const dist = 90 + Math.random() * 120;
     const c = colors[i % colors.length];
-    p.style.cssText = `top:40%;left:50%;background:${c};box-shadow:0 0 8px ${c};
+    p.style.cssText = `top:38%;left:50%;background:${c};
       --px:${Math.cos(ang) * dist}px;--py:${Math.sin(ang) * dist - 60}px;
       animation:particle .8s ${(i * .02).toFixed(2)}s ease-out forwards;`;
     wrap.appendChild(p);
@@ -906,29 +898,34 @@ function burst() {
   document.body.appendChild(wrap);
   setTimeout(() => wrap.remove(), 1800);
 }
+let toastTimer = null;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
 
-/* ── ヘッダー・時計・メッセージ ── */
+/* ── ヘッダー ── */
 function renderHeader() {
-  const xp = totalXp();
-  document.getElementById('hRank').textContent = rankOf(xp).name;
-  document.getElementById('hXp').textContent = `${xp.toLocaleString()} XP`;
+  const r = rankOf(totalXp());
+  const label = `Lv.${r.lv} ${r.name}`;
+  ['hRank', 'hRankN', 'hRankD', 'hRankK'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.textContent = label;
+  });
 }
 function tickClock() {
   const now = new Date();
   const hm = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
   document.getElementById('clock').textContent = hm;
   document.getElementById('clockN').textContent = hm;
-  const w = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][now.getDay()];
+  const w = ['日', '月', '火', '水', '木', '金', '土'][now.getDay()];
   document.getElementById('clockDate').textContent =
-    `${now.getFullYear()}.${pad(now.getMonth() + 1)}.${pad(now.getDate())} ${w}`;
-}
-function renderDailyMsg() {
-  const seed = todayKey().split('-').reduce((a, b) => a + Number(b), 0);
-  const m = MESSAGES[seed % MESSAGES.length];
-  document.getElementById('dailyMsg').innerHTML = `${m.t}<span class="src">— ${m.s}</span>`;
+    `${now.getMonth() + 1}月${now.getDate()}日(${w})`;
 }
 
-/* ══════════ HUNT(朝) ══════════ */
+/* ══════════ あさ ══════════ */
 function renderHunt() {
   const d = getDay(todayKey());
   const woke = d && d.wakeAt;
@@ -937,47 +934,42 @@ function renderHunt() {
   document.getElementById('presence').style.display = (woke && !spawned) ? 'block' : 'none';
   document.getElementById('postSpawn').style.display = spawned ? 'block' : 'none';
 
-  if (!woke) {
-    const lr = document.getElementById('lureReminder');
-    const nt = store.meta().nextTarget;
-    lr.style.display = nt ? 'block' : 'none';
-    if (nt) lr.textContent = `LURE ${nt} // 昨夜のおまえが仕掛けた`;
-    return;
-  }
-  if (!spawned) return;
+  const lr = document.getElementById('lureReminder');
+  const nt = store.meta().nextTarget;
+  if (!woke && nt) {
+    lr.style.display = 'block';
+    lr.innerHTML = `きのう決めた目標 <b>${nt}</b> — ±45分でレア率2倍`;
+  } else lr.style.display = 'none';
+  if (!woke || !spawned) return;
 
-  /* スポーンカード */
+  /* エンカウント */
   const sp = SPECIES.find(s => s.id === d.spawn.id);
-  const dex = dexGet();
-  const entry = dex[sp.id] || { count: 1 };
+  const entry = dexGet()[sp.id] || { count: 1 };
   document.getElementById('spawnCard').innerHTML = `
-    <h3>ENCOUNTER</h3>
-    <div class="spawn-stage pop">
-      ${spriteSvg(sp, entry.evolved)}
-      <div><span class="rar-badge rar-${sp.rar}">${{ C: 'COMMON', R: 'RARE', E: 'EPIC', L: 'ヌシ // LEGENDARY' }[sp.rar]}</span></div>
-      ${d.spawn.isNew ? '<div class="new-tag" style="margin-top:6px;">★ NEW ENTRY ★</div>' : ''}
-      <div class="sp-name">${sp.name}</div>
-      <div class="sp-desc">${sp.desc}</div>
-      <div class="note" style="margin-top:4px;">捕獲 ${entry.count}体目${entry.evolved ? ' // ★進化済み' : entry.count === 2 ? ' // あと1体で進化' : ''}</div>
-    </div>`;
+    <div class="stage">${spriteSvg(sp, entry.evolved, 'creature pop')}</div>
+    <div style="text-align:center;">
+      <span class="rar-chip rar-${sp.rar}">${{ C: 'コモン', R: 'レア', E: 'エピック', L: 'ヌシ' }[sp.rar]}</span>
+      ${d.spawn.isNew ? '<span class="new-badge">NEW!</span>' : ''}
+    </div>
+    <div class="sp-name">${sp.name}</div>
+    <div class="sp-desc">${sp.desc}</div>
+    <div class="sp-count">${entry.count}びき目${entry.evolved ? ' / <b>★進化ずみ</b>' : entry.count === 2 ? ' / <b>あと1ぴきで進化!</b>' : ''}</div>`;
 
-  /* 品質メーター */
+  /* 品質 */
   const q = d.spawn.quality || 1;
-  document.getElementById('qLabel').textContent = Q_NAMES[q];
-  document.querySelectorAll('#qMeter div').forEach((el, i) => {
-    el.className = i < q ? 'f' + q : '';
-  });
+  document.getElementById('qLabel').innerHTML = `いまの捕獲レベル: <b>${Q_NAMES[q]}</b>`;
+  document.querySelectorAll('#qMeter .qdot').forEach((el, i) => el.classList.toggle('on', i < q));
 
-  /* シーケンス */
+  /* つかまえかた */
   const seqDone = d.seq || [];
   document.getElementById('seqList').innerHTML = SEQ_STEPS.map(s => {
     const done = seqDone.includes(s.id);
-    return `<div class="seq-item ${done ? 'done' : ''}" data-id="${s.id}">
-      <div class="box">${done ? '✓' : ''}</div>
-      <div class="lbl">${s.label}<small>${s.sub}</small></div>
-      <div class="pts">+${XP.seq.pts}</div></div>`;
+    return `<button class="task ${done ? 'done' : ''}" data-id="${s.id}">
+      <span class="ring">${done ? '✓' : ''}</span>
+      <span class="lbl">${s.label}<small>${s.sub}</small></span>
+      <span class="tap">${done ? 'できた!' : 'できたらタップ'}</span></button>`;
   }).join('');
-  document.querySelectorAll('.seq-item').forEach(el => {
+  document.querySelectorAll('#seqList .task').forEach(el => {
     el.onclick = () => {
       const day = getDay(todayKey());
       const seq = new Set(day.seq || []);
@@ -989,7 +981,7 @@ function renderHunt() {
     };
   });
 
-  /* きのうのミッション回収 */
+  /* きのうのミッション */
   const yd = getDay(yesterdayKey());
   const review = document.getElementById('missionReview');
   if (yd && yd.mission && yd.missionCleared === undefined) {
@@ -997,21 +989,20 @@ function renderHunt() {
     document.getElementById('missionReviewText').textContent = `「${yd.mission}」`;
   } else review.style.display = 'none';
 
-  /* ミッション入力 */
-  const mIn = document.getElementById('missionInput');
-  const mBtn = document.getElementById('btnMission');
+  /* きょうのひとつ */
+  const form = document.getElementById('missionForm');
   const mDone = document.getElementById('missionDone');
   if (d.mission) {
-    mIn.style.display = 'none'; mBtn.style.display = 'none';
+    form.style.display = 'none';
     mDone.style.display = 'block';
-    mDone.textContent = `MISSION: ${d.mission}`;
-  } else { mIn.style.display = 'block'; mBtn.style.display = 'block'; mDone.style.display = 'none'; }
+    mDone.textContent = `✓ 「${d.mission}」にきめた!`;
+  } else { form.style.display = 'block'; mDone.style.display = 'none'; }
 
-  /* 今日のログサマリー */
-  let html = `<div class="result-line"><span>起床時刻</span><span class="v">${fmtHM(d.wakeAt)}</span></div>`;
-  if (d.sleepMin != null) html += `<div class="result-line"><span>睡眠時間</span><span class="v">${Math.floor(d.sleepMin / 60)}h ${pad(d.sleepMin % 60)}m</span></div>`;
-  if (d.target) html += `<div class="result-line"><span>ルアー ${d.target}</span><span class="v">${d.targetHit ? 'HIT! +' + XP.target.pts + 'XP' : 'MISS(何も失わない)'}</span></div>`;
-  html += `<div class="result-line"><span>今日の獲得</span><span class="v">+${dayXp(d)} XP</span></div>`;
+  /* きょうの記録 */
+  let html = `おきた時間: <b>${fmtHM(d.wakeAt)}</b>`;
+  if (d.sleepMin != null) html += ` / すいみん: <b>${Math.floor(d.sleepMin / 60)}時間${pad(d.sleepMin % 60)}分</b>`;
+  if (d.target) html += `<br>目標 ${d.target} … ${d.targetHit ? '<b style="color:var(--green);">命中! +40XP</b>' : 'はずれ(何も減らない)'}`;
+  html += `<br>きょうの獲得: <b style="color:var(--orange);">+${dayXp(d)} XP</b>`;
   document.getElementById('dayResult').innerHTML = html;
 }
 
@@ -1019,18 +1010,14 @@ document.getElementById('btnLaunch').addEventListener('click', function () {
   const now = Date.now();
   const key = todayKey();
   const days = store.days();
-  /* 直近16時間以内の就寝ログ → 睡眠時間 */
   let sleepMin = null, latestNight = 0;
   for (const d of Object.values(days)) {
     if (d.nightAt && d.nightAt > latestNight && now - d.nightAt < 16 * 3600 * 1000) latestNight = d.nightAt;
   }
   if (latestNight) sleepMin = Math.round((now - latestNight) / 60000);
-
   const meta = store.meta();
   const target = meta.nextTarget || null;
   const targetHit = target ? Math.abs(minutesOf(now) - parseHM(target)) <= 45 : false;
-
-  /* タマゴ孵化ポイント加算 */
   if (sleepMin) {
     meta.egg = meta.egg || { progress: 0 };
     meta.egg.progress = (meta.egg.progress || 0) + incubate(sleepMin, latestNight);
@@ -1038,13 +1025,11 @@ document.getElementById('btnLaunch').addEventListener('click', function () {
   patchDay(key, { wakeAt: now, sleepMin, target, targetHit });
   if (meta.nextTarget) delete meta.nextTarget;
   store.saveMeta(meta);
-
-  this.classList.add('flash');
+  toast('起床きろく完了! +20XP');
   renderHunt(); renderHeader();
 });
 
-/* 重力観測 → スポーン確定(一度きり) */
-document.querySelectorAll('#gravityChips .chip').forEach(c => {
+document.querySelectorAll('#gravityChips .pick').forEach(c => {
   c.addEventListener('click', () => {
     const key = todayKey();
     const d = getDay(key);
@@ -1058,31 +1043,32 @@ document.querySelectorAll('#gravityChips .chip').forEach(c => {
     patchDay(key, { spawn: day.spawn });
     updateQuality();
 
-    /* タマゴ孵化判定 */
     const hatchedId = tryHatch(key);
     if (hatchedId != null) {
       const hsp = SPECIES.find(s => s.id === hatchedId);
       const hres = registerCatch(hatchedId);
       const hc = document.getElementById('hatchCard');
       hc.style.display = 'block';
-      hc.innerHTML = `<h3>EGG HATCHED!</h3>
-        <div class="spawn-stage pop">${spriteSvg(hsp, false)}
-        <div><span class="rar-badge rar-${hsp.rar}">${hsp.rar === 'R' ? 'RARE' : 'EPIC'}</span>
-        ${hres.isNew ? '<span class="new-tag" style="margin-left:8px;">★ NEW ★</span>' : ''}</div>
-        <div class="sp-name">${hsp.name}</div><div class="sp-desc">${hsp.desc}</div></div>`;
+      hc.innerHTML = `<div class="stage">${spriteSvg(hsp, false, 'creature pop')}</div>
+        <div style="text-align:center;"><span class="rar-chip rar-${hsp.rar}">たまごから誕生!</span>
+        ${hres.isNew ? '<span class="new-badge">NEW!</span>' : ''}</div>
+        <div class="sp-name">${hsp.name}</div><div class="sp-desc">${hsp.desc}</div>`;
     } else document.getElementById('hatchCard').style.display = 'none';
 
     burst();
     const sp = SPECIES.find(s => s.id === spawnId);
     if (sp.rar === 'L' || sp.rar === 'E' || evolvedNow) { setTimeout(burst, 350); setTimeout(burst, 700); }
+    if (evolvedNow) toast(`${sp.name}が進化した! ★`);
     checkChapterUnlock();
     renderHunt(); renderHeader();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 
 document.getElementById('btnMissionClear').addEventListener('click', () => {
   patchDay(yesterdayKey(), { missionCleared: true });
   burst();
+  toast('ミッションクリア! +15XP');
   renderHunt(); renderHeader();
 });
 document.getElementById('btnMissionCarry').addEventListener('click', () => {
@@ -1093,12 +1079,13 @@ document.getElementById('btnMissionCarry').addEventListener('click', () => {
 });
 document.getElementById('btnMission').addEventListener('click', () => {
   const v = document.getElementById('missionInput').value.trim();
-  if (!v) return;
+  if (!v) { toast('なにか1つ書いてからタップ'); return; }
   patchDay(todayKey(), { mission: v });
+  toast('きょうのひとつ、セット! +10XP');
   renderHunt(); renderHeader();
 });
 
-/* ══════════ CAMP(夜) ══════════ */
+/* ══════════ よる ══════════ */
 function nightKey() { return dayKey(new Date(), true); }
 function getCare() {
   const d = getDay(nightKey());
@@ -1114,26 +1101,31 @@ function renderCamp() {
   const slept = d && d.nightAt;
   document.getElementById('preNight').style.display = slept ? 'none' : 'block';
   document.getElementById('postNight').style.display = slept ? 'block' : 'none';
-  if (slept) {
-    document.getElementById('nightResult').textContent = `LOGGED ${fmtHM(d.nightAt)} // 孵化スタート`;
-  }
+  if (slept) document.getElementById('nightResult').textContent = `✓ ${fmtHM(d.nightAt)} に記録した。たまご育成中`;
   const meta = store.meta();
   if (meta.nextTarget) document.getElementById('targetInput').value = meta.nextTarget;
   else if (meta.lastTarget) document.getElementById('targetInput').value = meta.lastTarget;
   if (d && d.note) document.getElementById('noteInput').value = d.note;
 
-  /* タマゴ */
   const prog = (meta.egg && meta.egg.progress) || 0;
-  document.getElementById('eggText').textContent = `孵化まで ${Math.max(0, EGG_GOAL - prog).toLocaleString()} pt`;
+  document.getElementById('eggText').textContent = `たまご: 孵化まであと ${Math.max(0, EGG_GOAL - prog).toLocaleString()} pt`;
   document.getElementById('eggBar').style.width = Math.min(100, prog / EGG_GOAL * 100) + '%';
 
-  /* ケアトグル */
   const care = getCare();
-  document.getElementById('careTeeth').classList.toggle('on', !!care.teeth);
-  document.getElementById('careSupp').classList.toggle('on', !!care.supp);
+  setTaskState('careTeeth', !!care.teeth);
+  setTaskState('careSupp', !!care.supp);
   document.querySelectorAll('[data-meal]').forEach(b => {
-    b.classList.toggle('on', !!(care.meals || [])[Number(b.dataset.meal)]);
+    const on = !!(care.meals || [])[Number(b.dataset.meal)];
+    b.classList.toggle('done', on);
+    b.querySelector('.ring').textContent = on ? '✓' : '';
   });
+}
+function setTaskState(id, on) {
+  const el = document.getElementById(id);
+  el.classList.toggle('done', on);
+  el.querySelector('.ring').textContent = on ? '✓' : '';
+  const tap = el.querySelector('.tap');
+  if (tap) tap.textContent = on ? 'できた!' : 'タップ';
 }
 document.getElementById('careTeeth').addEventListener('click', () => {
   const c = getCare(); c.teeth = !c.teeth; setCare(c);
@@ -1159,41 +1151,40 @@ document.getElementById('btnNight').addEventListener('click', function () {
   const meta = store.meta();
   if (target) { meta.nextTarget = target; meta.lastTarget = target; }
   store.saveMeta(meta);
-  this.classList.add('flash');
+  toast('おやすみ! +20XP');
   renderCamp(); renderHeader();
 });
 
-/* ══════════ DEX(図鑑) ══════════ */
+/* ══════════ ずかん ══════════ */
 function renderDex() {
   const dex = dexGet();
   const cur = currentChapter();
   const caught = SPECIES.filter(s => dex[s.id]).length;
   document.getElementById('dexPct').textContent = (caught / SPECIES.length * 100).toFixed(1) + '%';
   document.getElementById('dexCount').textContent = `${caught}/${SPECIES.length}`;
-
   let html = '';
   for (let ch = 1; ch <= 5; ch++) {
     const chCaught = SPECIES.filter(s => s.ch === ch && dex[s.id]).length;
     if (ch > cur) {
-      html += `<div class="ch-head"><span class="t" style="color:var(--dim);">${CHAPTERS[ch - 1].name}</span></div>
-        <div class="ch-locked">LOCKED — ${CHAPTERS[ch - 2].name.replace(/第\d章 /, '')}の図鑑70%で解放</div>`;
+      html += `<div class="ch-head"><span class="t" style="color:var(--muted);">${CHAPTERS[ch - 1].name}</span></div>
+        <div class="ch-locked">🔒 「${CHAPTERS[ch - 2].name}」の図鑑が70%うまると開く</div>`;
       continue;
     }
     html += `<div class="ch-head"><span class="t">${CHAPTERS[ch - 1].name}</span>
-      <span class="pc">${chCaught}/${CH_SIZE[ch - 1]} — ${CHAPTERS[ch - 1].from}</span></div><div class="dex-grid">`;
+      <span class="pc">${chCaught}/${CH_SIZE[ch - 1]}</span></div><div class="dex-grid">`;
     for (const sp of SPECIES.filter(s => s.ch === ch)) {
       const e = dex[sp.id];
       if (e) {
         html += `<div class="dex-cell">
-          ${e.evolved ? '<span class="mark" style="color:var(--gold);">★</span>' : ''}
-          ${e.perfect ? '<span class="mark" style="top:18px;color:var(--gold);">♛</span>' : ''}
+          ${e.evolved ? '<span class="mark">⭐</span>' : ''}
+          ${e.perfect ? '<span class="mark" style="top:22px;">👑</span>' : ''}
           ${spriteSvg(sp, e.evolved)}
           <div class="nm">${sp.name}</div>
-          <div class="cnt">×${e.count} ${sp.rar}</div></div>`;
+          <div class="cnt">×${e.count}</div></div>`;
       } else {
         html += `<div class="dex-cell uncaught">
           ${spriteSvg(sp, false)}
-          <div class="nm" style="color:var(--dim);">???</div>
+          <div class="nm" style="color:var(--muted);">???</div>
           <div class="hint">${sp.hint}</div></div>`;
       }
     }
@@ -1202,7 +1193,7 @@ function renderDex() {
   document.getElementById('dexBody').innerHTML = html;
 }
 
-/* ══════════ DATA ══════════ */
+/* ══════════ きろく ══════════ */
 function lastNDays(n) {
   const out = [];
   const d = new Date();
@@ -1215,7 +1206,6 @@ function lastNDays(n) {
 }
 function avg(arr) { return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null; }
 function fmtMin(m) { return `${pad(Math.floor(m / 60))}:${pad(Math.round(m) % 60)}`; }
-
 function renderData() {
   const days14 = lastNDays(14);
   const thisW = days14.slice(7), lastW = days14.slice(0, 7);
@@ -1226,25 +1216,25 @@ function renderData() {
   if (awThis != null && awLast != null) {
     const diff = Math.round(awThis - awLast);
     deltaHtml = diff <= 0
-      ? `<span class="delta-up">▲ ${Math.abs(diff)}分 早くなった</span>`
-      : `<span class="delta-down">▼ ${diff}分 ゆっくり</span>`;
+      ? `<span class="delta-up">▲ ${Math.abs(diff)}分はやい</span>`
+      : `<span class="delta-down">▼ ${diff}分ゆっくり</span>`;
   }
   const sleeps = thisW.filter(x => x.day && x.day.sleepMin != null).map(x => x.day.sleepMin);
   const careDays = thisW.filter(x => x.day && x.day.care &&
     (x.day.care.teeth || x.day.care.supp || (x.day.care.meals || []).some(Boolean))).length;
   document.getElementById('statGrid').innerHTML = `
-    <div class="stat-box"><div class="num">${awThis != null ? fmtMin(awThis) : '--:--'}</div><div class="cap">今週の平均起床</div></div>
-    <div class="stat-box"><div class="num gold" style="font-size:14px;line-height:2;">${deltaHtml}</div><div class="cap">先週の自分との差</div></div>
-    <div class="stat-box"><div class="num">${logs(thisW)}/7</div><div class="cap">今週のログ日数</div></div>
-    <div class="stat-box"><div class="num purple">${avg(sleeps) != null ? (avg(sleeps) / 60).toFixed(1) + 'h' : '--'}</div><div class="cap">平均睡眠時間</div></div>
-    <div class="stat-box"><div class="num">${careDays}/7</div><div class="cap">手入れした日</div></div>
-    <div class="stat-box"><div class="num purple">${thisW.filter(x => x.day && x.day.gravity === 3).length}</div><div class="cap">今週のG-3日</div></div>`;
+    <div class="stat-box"><div class="num">${awThis != null ? fmtMin(awThis) : '--:--'}</div><div class="cap">へいきん起床</div></div>
+    <div class="stat-box"><div class="num gold" style="font-size:13px;line-height:2.2;">${deltaHtml}</div><div class="cap">せんしゅうとの差</div></div>
+    <div class="stat-box"><div class="num">${logs(thisW)}/7</div><div class="cap">きろくした日</div></div>
+    <div class="stat-box"><div class="num purple">${avg(sleeps) != null ? (avg(sleeps) / 60).toFixed(1) + 'h' : '--'}</div><div class="cap">へいきんすいみん</div></div>
+    <div class="stat-box"><div class="num">${careDays}/7</div><div class="cap">ケアした日</div></div>
+    <div class="stat-box"><div class="num purple">${thisW.filter(x => x.day && x.day.gravity === 3).length}</div><div class="cap">ヤバかった日</div></div>`;
   renderWakeChart(days14);
   renderSleepChart(days14);
   renderJournal();
   document.getElementById('xpRules').innerHTML =
     Object.values(XP).map(r => `+${r.pts} … ${r.label}`).join('<br>') +
-    '<br>スポーン条件だけが隠し要素。数値ルールに隠しなし。';
+    '<br>かくし要素はクリーチャーの出現条件だけ。数字にウソなし。';
 }
 function renderWakeChart(days) {
   const W = 380, H = 170, padL = 44, padB = 22, padT = 10;
@@ -1254,25 +1244,25 @@ function renderWakeChart(days) {
   let g = '';
   for (let h = 4; h <= 14; h += 2) {
     const yy = y(h * 60);
-    g += `<line x1="${padL}" y1="${yy}" x2="${W - 6}" y2="${yy}" stroke="#222230" stroke-width="1"/>
-      <text x="${padL - 6}" y="${yy + 3}" fill="#555570" font-size="9" text-anchor="end">${pad(h)}:00</text>`;
+    g += `<line x1="${padL}" y1="${yy}" x2="${W - 6}" y2="${yy}" stroke="#e4ecea" stroke-width="1"/>
+      <text x="${padL - 6}" y="${yy + 3}" fill="#8aa0aa" font-size="9" text-anchor="end">${pad(h)}:00</text>`;
   }
   let path = '', pts = '';
   days.forEach((x, i) => {
     const cx = padL + i * xw + xw / 2;
-    g += `<text x="${cx}" y="${H - 6}" fill="#555570" font-size="8" text-anchor="middle">${x.date.getDate()}</text>`;
+    g += `<text x="${cx}" y="${H - 6}" fill="#8aa0aa" font-size="8" text-anchor="middle">${x.date.getDate()}</text>`;
     if (x.day && x.day.wakeAt) {
       const cy = y(minutesOf(x.day.wakeAt));
       path += (path ? 'L' : 'M') + `${cx},${cy}`;
-      const col = x.day.targetHit ? '#ffd700' : '#00ff88';
-      pts += `<circle cx="${cx}" cy="${cy}" r="4" fill="${col}"/>`;
+      const col = x.day.targetHit ? '#ff9046' : '#3d9fe0';
+      pts += `<circle cx="${cx}" cy="${cy}" r="4.5" fill="${col}"/>`;
     }
   });
-  if (path) g += `<path d="${path}" fill="none" stroke="#00ff8866" stroke-width="1.5"/>`;
+  if (path) g += `<path d="${path}" fill="none" stroke="#3d9fe066" stroke-width="2"/>`;
   g += pts;
   document.getElementById('wakeChart').innerHTML =
     `<svg viewBox="0 0 ${W} ${H}" style="width:100%;">${g}</svg>
-     <p class="note" style="margin:4px 0 0;">● 起床時刻 / <span style="color:var(--gold)">●</span> ルアー命中日</p>`;
+     <p class="note" style="margin:4px 0 0;"><span style="color:#3d9fe0;">●</span> おきた時間 / <span style="color:#ff9046;">●</span> 目標命中の日</p>`;
 }
 function renderSleepChart(days) {
   const W = 380, H = 140, padL = 30, padB = 22, padT = 8;
@@ -1281,45 +1271,43 @@ function renderSleepChart(days) {
   let g = '';
   for (let h = 0; h <= 12; h += 4) {
     const yy = padT + (1 - h * 60 / maxH) * (H - padT - padB);
-    g += `<line x1="${padL}" y1="${yy}" x2="${W - 6}" y2="${yy}" stroke="#222230"/>
-      <text x="${padL - 5}" y="${yy + 3}" fill="#555570" font-size="9" text-anchor="end">${h}h</text>`;
+    g += `<line x1="${padL}" y1="${yy}" x2="${W - 6}" y2="${yy}" stroke="#e4ecea"/>
+      <text x="${padL - 5}" y="${yy + 3}" fill="#8aa0aa" font-size="9" text-anchor="end">${h}h</text>`;
   }
   days.forEach((x, i) => {
     const cx = padL + i * xw + 3;
-    g += `<text x="${cx + (xw - 6) / 2}" y="${H - 6}" fill="#555570" font-size="8" text-anchor="middle">${x.date.getDate()}</text>`;
+    g += `<text x="${cx + (xw - 6) / 2}" y="${H - 6}" fill="#8aa0aa" font-size="8" text-anchor="middle">${x.date.getDate()}</text>`;
     if (x.day && x.day.sleepMin != null) {
       const hh = Math.min(x.day.sleepMin, maxH) / maxH * (H - padT - padB);
-      g += `<rect x="${cx}" y="${H - padB - hh}" width="${xw - 6}" height="${hh}" rx="2" fill="#bf00ff88"/>`;
+      g += `<rect x="${cx}" y="${H - padB - hh}" width="${xw - 6}" height="${hh}" rx="3" fill="#a76fd6aa"/>`;
     }
   });
   document.getElementById('sleepChart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;">${g}</svg>`;
 }
-const GRAVITY_LABELS = ['G-0 軽い', 'G-1 普通', 'G-2 重い', 'G-3 ヤバい'];
+const GRAVITY_LABELS = ['かるい', 'ふつう', 'おもい', 'ヤバい'];
 function renderJournal() {
   const days = store.days();
   const keys = Object.keys(days).sort().reverse().slice(0, 30);
   if (!keys.length) {
-    document.getElementById('journal').innerHTML = '<p class="note">まだ記録なし。最初のLAUNCHからすべてが始まる。</p>';
+    document.getElementById('journal').innerHTML = '<p class="note">まだ記録なし。あしたの朝、はじまる。</p>';
     return;
   }
   document.getElementById('journal').innerHTML = keys.map(k => {
     const d = days[k];
     const bits = [];
-    if (d.wakeAt) bits.push(`<b>▲${fmtHM(d.wakeAt)}</b>`);
-    if (d.nightAt) bits.push(`◼${fmtHM(d.nightAt)}`);
+    if (d.wakeAt) bits.push(`<b>☀${fmtHM(d.wakeAt)}</b>`);
+    if (d.nightAt) bits.push(`☽${fmtHM(d.nightAt)}`);
     if (d.gravity != null) bits.push(GRAVITY_LABELS[d.gravity]);
     if (d.spawn) {
       const sp = SPECIES.find(s => s.id === d.spawn.id);
-      if (sp) bits.push(`◆${sp.name}`);
+      if (sp) bits.push(sp.name);
     }
     bits.push(`+${dayXp(d)}XP`);
-    const memo = [d.mission ? `MISSION: ${d.mission}` : '', d.note || ''].filter(Boolean).join(' / ');
+    const memo = [d.mission ? `ひとつ: ${d.mission}` : '', d.note || ''].filter(Boolean).join(' / ');
     return `<div class="jr"><div class="d">${k} ${bits.join(' · ')}</div>
       ${memo ? `<div class="memo">${memo.replace(/</g, '&lt;')}</div>` : ''}</div>`;
   }).join('');
 }
-
-/* CONFIG */
 document.getElementById('nameInput').addEventListener('change', function () {
   const m = store.meta(); m.name = this.value.trim(); store.saveMeta(m); applyName();
 });
@@ -1337,7 +1325,7 @@ document.getElementById('btnExport').addEventListener('click', () => {
   a.click();
 });
 document.getElementById('btnReset').addEventListener('click', () => {
-  if (confirm('図鑑もログも全部消える。本当にいい?')) {
+  if (confirm('ずかんも記録もぜんぶ消える。ほんとにいい?')) {
     localStorage.removeItem(LS_DAYS); localStorage.removeItem(LS_META);
     location.reload();
   }
@@ -1352,6 +1340,7 @@ function show(scr) {
   if (scr === 'camp') renderCamp();
   if (scr === 'dex') renderDex();
   if (scr === 'data') renderData();
+  window.scrollTo(0, 0);
 }
 document.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => show(b.dataset.scr)));
 function defaultScreen() {
@@ -1363,17 +1352,14 @@ function defaultScreen() {
 
 /* ── 起動 ── */
 if (!window.localStorage) {
-  document.getElementById('app').innerHTML = '<p style="padding:40px;text-align:center;">この端末ではlocalStorageが使えないため起動できない。</p>';
+  document.getElementById('app').innerHTML = '<p style="padding:40px;text-align:center;">この端末ではデータ保存が使えないため起動できない。</p>';
 } else {
   initMeta();
   tickClock(); setInterval(tickClock, 1000 * 10);
-  renderDailyMsg();
   renderHeader();
   applyName();
   show(defaultScreen());
 }
-
-/* PWA */
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
