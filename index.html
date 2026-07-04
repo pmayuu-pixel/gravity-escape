@@ -230,8 +230,8 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     <!-- 起床前: ボタン1個だけ -->
     <div id="preLaunch">
       <div class="big-wrap">
-        <button class="big-btn sun" id="btnLaunch">おきた!</button>
-        <p class="big-cap">タップすると <b>いまの時刻が起床時間として記録</b> されて、<br>今朝のクリーチャーが現れる。<br>何時でもOK。おそくても何も失わない。</p>
+        <button class="big-btn sun" id="btnLaunch">起きた!</button>
+        <p class="big-cap">タップすると <b>いまの時刻が起床時間として記録</b> されて、<br>今朝のクリーチャーが現れる。<br>何時でもOK。遅くても何も失わない。</p>
       </div>
     </div>
 
@@ -239,12 +239,12 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     <div id="presence" style="display:none;">
       <div class="card">
         <div class="stage"><div class="bounce" style="font-size:56px;color:#7a9a8a;font-weight:800;">?</div></div>
-        <div class="step-h"><span class="step-no">1</span><span class="t">からだの重さをおしえて</span></div>
-        <p class="helper">草むらで何かが動いてる。1つタップすると姿を現す。<br>正直に選ぶといいことがある(あとから変えられない)。</p>
+        <div class="step-h"><span class="step-no">1</span><span class="t">体の重さを教えて</span></div>
+        <p class="helper">草むらで何かが動いてる。1つタップすると姿を現す。<br>正直に選ぶといいことがある(後から変えられない)。</p>
         <div class="pick-grid" id="gravityChips">
-          <button class="pick g0" data-v="0">かるい<small>ふつうに動ける</small></button>
-          <button class="pick g1" data-v="1">ふつう<small>まあまあ</small></button>
-          <button class="pick g2" data-v="2">おもい<small>だるい・ふらつく</small></button>
+          <button class="pick g0" data-v="0">軽い<small>普通に動ける</small></button>
+          <button class="pick g1" data-v="1">普通<small>まあまあ</small></button>
+          <button class="pick g2" data-v="2">重い<small>だるい・ふらつく</small></button>
           <button class="pick g3" data-v="3">ヤバい<small>めまいで動けない</small></button>
         </div>
       </div>
@@ -256,7 +256,7 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
       <div class="card"><div id="spawnCard"></div></div>
 
       <div class="card">
-        <div class="step-h"><span class="step-no">2</span><span class="t">つかまえかた</span></div>
+        <div class="step-h"><span class="step-no">2</span><span class="t">捕まえ方</span></div>
         <p class="helper">できたものをタップすると、捕獲レベルが上がる。<br>3つ全部で <b style="color:var(--orange);">パーフェクト捕獲</b>(図鑑に王冠がつく)。</p>
         <div class="qual" id="qMeter"><div class="qdot"></div><div class="qdot"></div><div class="qdot"></div><div class="qdot"></div></div>
         <div class="qual-lbl" id="qLabel"></div>
@@ -264,27 +264,27 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
       </div>
 
       <div class="card" id="missionReview" style="display:none;">
-        <div class="step-h"><span class="step-no">!</span><span class="t">きのうの「ひとつ」どうだった?</span></div>
+        <div class="step-h"><span class="step-no">!</span><span class="t">昨日の「ひとつ」どうだった?</span></div>
         <p style="font-size:15px;font-weight:bold;margin:4px 0 12px;" id="missionReviewText"></p>
         <div class="two-btn">
           <button class="btn-mid" id="btnMissionClear">できた! +15XP</button>
-          <button class="btn-mid gray" id="btnMissionCarry">またこんど</button>
+          <button class="btn-mid gray" id="btnMissionCarry">また今度</button>
         </div>
-        <p class="helper" style="margin:8px 0 0;">「またこんど」を選んでも何も失わない。</p>
+        <p class="helper" style="margin:8px 0 0;">「また今度」を選んでも何も失わない。</p>
       </div>
 
       <div class="card">
-        <div class="step-h"><span class="step-no">3</span><span class="t">きょうのひとつ</span><span class="opt">やらなくてもOK</span></div>
+        <div class="step-h"><span class="step-no">3</span><span class="t">今日のひとつ</span><span class="opt">やらなくてもOK</span></div>
         <p class="helper">今日これだけできればOK、を1つ決める。なんでもいい。</p>
         <div id="missionForm">
-          <input type="text" id="missionInput" placeholder="れい: 図書館に行く">
+          <input type="text" id="missionInput" placeholder="例: 図書館に行く">
           <button class="btn-mid" id="btnMission" style="margin-top:10px;">これにする +10XP</button>
         </div>
         <div id="missionDone" style="display:none;" class="done-line"></div>
       </div>
 
       <div class="card">
-        <div class="step-h"><span class="step-no">✓</span><span class="t">きょうの記録</span></div>
+        <div class="step-h"><span class="step-no">✓</span><span class="t">今日の記録</span></div>
         <div id="dayResult" class="note" style="font-size:13px;"></div>
       </div>
     </div>
@@ -296,7 +296,7 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
       <div class="sky-top"><span class="app-name">GRAVITY HUNT</span>
         <span class="rank-pill" id="hRankN">Lv.— ROOKIE</span></div>
       <div class="clock" id="clockN">--:--</div>
-      <div class="date">ベースキャンプ — ねるまえの準備</div>
+      <div class="date">ベースキャンプ — 寝る前の準備</div>
     </div>
 
     <div class="card">
@@ -307,45 +307,45 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
           <div class="egg-bar"><div id="eggBar" style="width:0%"></div></div>
         </div>
       </div>
-      <p class="helper" style="margin:10px 0 0;">たまごは <b>寝ているあいだだけ</b> 育つ。22時前にねると2倍のはやさ、23時前は1.5倍。</p>
+      <p class="helper" style="margin:10px 0 0;">たまごは <b>寝ている間だけ</b> 育つ。22時前に寝ると2倍の速さ、23時前は1.5倍。</p>
     </div>
 
     <div class="card">
-      <div class="step-h"><span class="step-no">1</span><span class="t">あしたの起床目標</span></div>
-      <p class="helper">決めるのはきみ。目標の±45分におきられたら、あしたのレア率が2倍になる。<br>はずしても何も失わない。</p>
+      <div class="step-h"><span class="step-no">1</span><span class="t">明日の起床目標</span></div>
+      <p class="helper">決めるのは君。目標の±45分に起きられたら、明日のレア率が2倍になる。<br>外しても何も失わない。</p>
       <input type="time" id="targetInput" value="07:30">
     </div>
 
     <div class="card">
-      <div class="step-h"><span class="step-no">2</span><span class="t">きょうのケア</span><span class="opt">やらなくてもOK</span></div>
-      <p class="helper">やった分だけ、あしたのレア率が上がる(1つ+10%)。</p>
+      <div class="step-h"><span class="step-no">2</span><span class="t">今日のケア</span><span class="opt">やらなくてもOK</span></div>
+      <p class="helper">やった分だけ、明日のレア率が上がる(1つ+10%)。</p>
       <div class="care-grid">
-        <button class="task" id="careTeeth"><span class="ring"></span><span class="lbl">歯みがき</span><span class="tap">タップ</span></button>
+        <button class="task" id="careTeeth"><span class="ring"></span><span class="lbl">歯磨き</span><span class="tap">タップ</span></button>
         <button class="task" id="careSupp"><span class="ring"></span><span class="lbl">サプリ</span><span class="tap">タップ</span></button>
       </div>
-      <p class="helper" style="margin:12px 0 0;">きょう、肉・魚・卵・豆をたべたのは?</p>
+      <p class="helper" style="margin:12px 0 0;">今日、肉・魚・卵・豆を食べたのは?</p>
       <div class="meal-grid">
-        <button class="task" data-meal="0"><span class="ring"></span><span class="lbl">あさ</span></button>
-        <button class="task" data-meal="1"><span class="ring"></span><span class="lbl">ひる</span></button>
-        <button class="task" data-meal="2"><span class="ring"></span><span class="lbl">よる</span></button>
+        <button class="task" data-meal="0"><span class="ring"></span><span class="lbl">朝</span></button>
+        <button class="task" data-meal="1"><span class="ring"></span><span class="lbl">昼</span></button>
+        <button class="task" data-meal="2"><span class="ring"></span><span class="lbl">夜</span></button>
       </div>
     </div>
 
     <div class="card">
-      <div class="step-h"><span class="step-no">3</span><span class="t">ひとことメモ</span><span class="opt">やらなくてもOK</span></div>
-      <textarea id="noteInput" rows="2" placeholder="きょうの一行。空白でもいい。"></textarea>
+      <div class="step-h"><span class="step-no">3</span><span class="t">一言メモ</span><span class="opt">やらなくてもOK</span></div>
+      <textarea id="noteInput" rows="2" placeholder="今日の一行。空白でもいい。"></textarea>
     </div>
 
     <div id="preNight">
       <div class="big-wrap">
         <button class="big-btn moon" id="btnNight">おやすみ</button>
-        <p class="big-cap">タップすると <b>いまの時刻が就寝時間として記録</b> されて、<br>たまごが育ちはじめる。</p>
+        <p class="big-cap">タップすると <b>いまの時刻が就寝時間として記録</b> されて、<br>たまごが育ち始める。</p>
       </div>
     </div>
     <div id="postNight" style="display:none;">
       <div class="card" style="text-align:center;">
         <div class="done-line" id="nightResult"></div>
-        <p class="helper" style="margin:4px 0 0;">おつかれ。ゆっくりねて。あしたの朝、草むらで会おう。</p>
+        <p class="helper" style="margin:4px 0 0;">おつかれ。ゆっくり寝て。明日の朝、草むらで会おう。</p>
       </div>
     </div>
   </section>
@@ -355,15 +355,15 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     <div class="sky">
       <div class="sky-top"><span class="app-name">GRAVITY HUNT</span>
         <span class="rank-pill" id="hRankD">Lv.— ROOKIE</span></div>
-      <div style="text-align:center;font-size:22px;font-weight:800;margin-top:6px;">ずかん</div>
-      <div class="date">あつめて、そだてて、うめていく</div>
+      <div style="text-align:center;font-size:22px;font-weight:800;margin-top:6px;">図鑑</div>
+      <div class="date">集めて、育てて、図鑑を埋めていく</div>
     </div>
     <div class="card">
       <div class="dex-summary">
-        <div class="dex-stat"><div class="n" id="dexCount">0/30</div><div class="c">つかまえた</div></div>
+        <div class="dex-stat"><div class="n" id="dexCount">0/30</div><div class="c">捕まえた</div></div>
         <div class="dex-stat"><div class="n" id="dexPct" style="color:var(--orange);">0.0%</div><div class="c">コンプ率</div></div>
       </div>
-      <p class="helper" style="margin:12px 0 0;">同じのを3びき捕まえると進化(★)。ぜんぶ記録して捕まえると王冠(♛)。<br>「???」のヒントが出現条件のなぞ。</p>
+      <p class="helper" style="margin:12px 0 0;">同じのを3匹捕まえると進化(★)。全部記録して捕まえると王冠(👑)。<br>「???」のヒントが出現条件の謎。</p>
     </div>
     <div id="dexBody"></div>
   </section>
@@ -373,42 +373,42 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     <div class="sky">
       <div class="sky-top"><span class="app-name">GRAVITY HUNT</span>
         <span class="rank-pill" id="hRankK">Lv.— ROOKIE</span></div>
-      <div style="text-align:center;font-size:22px;font-weight:800;margin-top:6px;">きろく</div>
-      <div class="date">くらべるのは、むかしの自分だけ</div>
+      <div style="text-align:center;font-size:22px;font-weight:800;margin-top:6px;">記録</div>
+      <div class="date">比べるのは、昔の自分だけ</div>
     </div>
     <div class="card">
-      <div class="step-h"><span class="t">こんしゅう と せんしゅう</span></div>
+      <div class="step-h"><span class="t">今週と先週</span></div>
       <div class="stat-grid" id="statGrid"></div>
     </div>
-    <div class="card"><div class="step-h"><span class="t">おきた時間(14日)</span></div><div id="wakeChart"></div></div>
-    <div class="card"><div class="step-h"><span class="t">すいみん時間(14日)</span></div><div id="sleepChart"></div></div>
+    <div class="card"><div class="step-h"><span class="t">起きた時間(14日)</span></div><div id="wakeChart"></div></div>
+    <div class="card"><div class="step-h"><span class="t">睡眠時間(14日)</span></div><div id="sleepChart"></div></div>
     <div class="card"><div class="step-h"><span class="t">ログブック</span></div><div id="journal"></div></div>
     <div class="card">
       <div class="step-h"><span class="t">XPのルール(全公開)</span></div>
       <div class="note" id="xpRules"></div>
       <hr class="divider">
-      <p class="note">記録しない日があっても、何も減らない。れんぞく記録のノルマもない。<br>しばらく空けて戻った朝には、待ってるやつがいる。</p>
+      <p class="note">記録しない日があっても、何も減らない。連続記録のノルマもない。<br>しばらく空けて戻った朝には、待ってるやつがいる。</p>
     </div>
     <div class="card">
-      <div class="step-h"><span class="t">せってい</span></div>
+      <div class="step-h"><span class="t">設定</span></div>
       <p class="helper">プレイヤー名</p>
       <input type="text" id="nameInput" maxlength="12">
       <hr class="divider">
-      <p class="note">データはこのスマホの中だけ。どこにも送信されない。見られるのはきみだけ。</p>
+      <p class="note">データはこのスマホの中だけ。どこにも送信されない。見られるのは君だけ。</p>
       <button class="btn-mid" id="btnExport" style="margin-top:12px;">病院用データを出す(JSON)</button>
       <p class="helper" style="margin-top:8px;">先生に「毎日のログをつけて」と言われたやつは、これで完了。すいみん・症状・サプリ・食事、ぜんぶ入ってる。</p>
       <hr class="divider">
-      <button class="btn-mid" style="background:var(--red);" id="btnReset">ぜんぶリセット</button>
+      <button class="btn-mid" style="background:var(--red);" id="btnReset">全部リセット</button>
     </div>
   </section>
 
   <div id="toast"></div>
 
   <nav><div class="nav-inner">
-    <button class="nav-btn" data-scr="hunt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>あさ</button>
-    <button class="nav-btn" data-scr="camp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>よる</button>
-    <button class="nav-btn" data-scr="dex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>ずかん</button>
-    <button class="nav-btn" data-scr="data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>きろく</button>
+    <button class="nav-btn" data-scr="hunt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>朝</button>
+    <button class="nav-btn" data-scr="camp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>夜</button>
+    <button class="nav-btn" data-scr="dex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>図鑑</button>
+    <button class="nav-btn" data-scr="data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>記録</button>
   </div></nav>
 </div>
 
@@ -421,24 +421,24 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
    ════════════════════════════════════════════════════════ */
 
 const XP = {
-  wake:    { pts: 20, label: 'あさ「おきた!」を押す' },
+  wake:    { pts: 20, label: '朝「起きた!」を押す' },
   target:  { pts: 40, label: '起床目標に命中(±45分)' },
-  gravity: { pts: 10, label: 'からだの重さをこたえる' },
-  seq:     { pts: 10, label: 'つかまえかた 各ステップ(×3)' },
-  mission: { pts: 10, label: 'きょうのひとつを決める' },
-  missionClear: { pts: 15, label: 'きのうのひとつをクリア' },
-  night:   { pts: 20, label: 'よる「おやすみ」を押す' },
-  setTgt:  { pts: 10, label: 'あしたの目標を決める' },
-  care:    { pts: 5,  label: 'ケア各(歯みがき/サプリ/食事×3)' },
+  gravity: { pts: 10, label: '体の重さを答える' },
+  seq:     { pts: 10, label: '捕まえ方 各ステップ(×3)' },
+  mission: { pts: 10, label: '今日のひとつを決める' },
+  missionClear: { pts: 15, label: '昨日のひとつをクリア' },
+  night:   { pts: 20, label: '夜「おやすみ」を押す' },
+  setTgt:  { pts: 10, label: '明日の目標を決める' },
+  care:    { pts: 5,  label: 'ケア各(歯磨き/サプリ/食事×3)' },
 };
 const RANKS = [
   { xp: 0, name: 'ROOKIE' }, { xp: 1000, name: 'TREKKER' }, { xp: 3000, name: 'NAVIGATOR' },
   { xp: 6000, name: 'ICE PILOT' }, { xp: 10000, name: 'EXPEDITION LEADER' }, { xp: 17000, name: 'LEGEND' },
 ];
 const SEQ_STEPS = [
-  { id: 'water', label: '水をのんだ', sub: '水・OS-1・みそ汁なんでも。血圧の燃料' },
-  { id: 'sit',   label: '30秒すわってから立った', sub: '急に立つとめまいに撃墜される' },
-  { id: 'light', label: 'カーテンをあけた', sub: '光は体内時計へのモーニングコール' },
+  { id: 'water', label: '水を飲んだ', sub: '水・OS-1・味噌汁なんでも。血圧の燃料' },
+  { id: 'sit',   label: '30秒座ってから立った', sub: '急に立つとめまいに撃墜される' },
+  { id: 'light', label: 'カーテンを開けた', sub: '光は体内時計へのモーニングコール' },
 ];
 const CHAPTERS = [
   { name: 'どうぶつ島', from: 'エルマーのぼうけん' },
@@ -448,36 +448,36 @@ const CHAPTERS = [
   { name: '七大陸', from: 'セブンサミッツ' },
 ];
 const SPECIES = [
-  { id: 1,  name: 'ネムリ',       ch: 1, rar: 'C', tpl: 'blob',     col: '#8ab890', desc: 'ふとんの綿毛から生まれる。基本のやつ', hint: 'どこにでもいる気配' },
-  { id: 2,  name: 'モフトン',     ch: 1, rar: 'C', tpl: 'blob2',    col: '#c8b090', desc: 'まくらの下に巣を作る。ネムリの兄貴分', hint: 'どこにでもいる気配' },
-  { id: 3,  name: 'ヒカリムシ',   ch: 1, rar: 'C', tpl: 'sun',      col: '#e8c860', desc: 'カーテンのすきまの光にわく', hint: '光を浴びた翌朝に多い?', boost: 'ydayLight' },
+  { id: 1,  name: 'ネムリ',       ch: 1, rar: 'C', tpl: 'blob',     col: '#8ab890', desc: '布団の綿毛から生まれる。基本のやつ', hint: 'どこにでもいる気配' },
+  { id: 2,  name: 'モフトン',     ch: 1, rar: 'C', tpl: 'blob2',    col: '#c8b090', desc: '枕の下に巣を作る。ネムリの兄貴分', hint: 'どこにでもいる気配' },
+  { id: 3,  name: 'ヒカリムシ',   ch: 1, rar: 'C', tpl: 'sun',      col: '#e8c860', desc: 'カーテンの隙間の光に湧く', hint: '光を浴びた翌朝に多い?', boost: 'ydayLight' },
   { id: 4,  name: 'アクビガニ',   ch: 1, rar: 'C', tpl: 'crab',     col: '#d89078', desc: 'あくびを集めて泡にするカニ', hint: '朝おそい時間の気配', cond: 'band9_11' },
-  { id: 5,  name: 'ドロネム',     ch: 1, rar: 'R', tpl: 'ghost',    col: '#8a78c0', desc: '低血圧の沼にすむ。7時前だけ浮上', hint: '早朝の沼で目撃例', cond: 'band4_7' },
-  { id: 6,  name: 'ミカポン',     ch: 1, rar: 'R', tpl: 'round',    col: '#e09040', desc: 'みかん島の主食。皮ごところがる', hint: '火曜にころがる音がする', cond: 'dow2' },
-  { id: 7,  name: 'リボリュウ',   ch: 1, rar: 'E', tpl: 'dragon',   col: '#68b8d8', desc: 'リボンがすきな、りゅうの子', hint: '目標命中の名人にだけなつく', cond: 'lureHits3' },
-  { id: 8,  name: 'グラビガメ',   ch: 1, rar: 'L', tpl: 'turtle',   col: '#78a890', desc: '島のヌシ。重力をこうらに溜めている', hint: '一番おもい朝にだけ現れるヌシ', cond: 'boss' },
-  { id: 9,  name: 'カゼコ',       ch: 2, rar: 'C', tpl: 'ghost',    col: '#88c0d8', desc: '風の切れはし。群れで飛ぶ', hint: 'どこにでもいる気配' },
+  { id: 5,  name: 'ドロネム',     ch: 1, rar: 'R', tpl: 'ghost',    col: '#8a78c0', desc: '低血圧の沼に住む。7時前だけ浮上', hint: '早朝の沼で目撃例', cond: 'band4_7' },
+  { id: 6,  name: 'ミカポン',     ch: 1, rar: 'R', tpl: 'round',    col: '#e09040', desc: 'みかん島の主食。皮ごと転がる', hint: '火曜に転がる音がする', cond: 'dow2' },
+  { id: 7,  name: 'リボリュウ',   ch: 1, rar: 'E', tpl: 'dragon',   col: '#68b8d8', desc: 'リボンが好きな、りゅうの子', hint: '目標命中の名人にだけなつく', cond: 'lureHits3' },
+  { id: 8,  name: 'グラビガメ',   ch: 1, rar: 'L', tpl: 'turtle',   col: '#78a890', desc: '島のヌシ。重力を甲羅に溜めている', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 9,  name: 'カゼコ',       ch: 2, rar: 'C', tpl: 'ghost',    col: '#88c0d8', desc: '風の切れ端。群れで飛ぶ', hint: 'どこにでもいる気配' },
   { id: 10, name: 'デンキダケ',   ch: 2, rar: 'C', tpl: 'mushroom', col: '#b8c858', desc: '廃品の山に生えるキノコ。微弱発電', hint: 'どこにでもいる気配' },
-  { id: 11, name: 'ハグルマン',   ch: 2, rar: 'C', tpl: 'gear',     col: '#b0a080', desc: '歯車をたべて動く', hint: 'よく食べた翌朝に多い?', boost: 'ydayMeals3' },
-  { id: 12, name: 'ライブラ',     ch: 2, rar: 'R', tpl: 'book',     col: '#c8a868', desc: '図書館の本のすきまにすむ。物知り', hint: '土曜の本だなで目撃例', cond: 'dow6' },
-  { id: 13, name: 'トタンドリ',   ch: 2, rar: 'R', tpl: 'bird',     col: '#68a8c8', desc: 'トタン屋根で雨音をうたにする鳥', hint: 'きまぐれ。運がいい朝に', cond: 'rand12' },
+  { id: 11, name: 'ハグルマン',   ch: 2, rar: 'C', tpl: 'gear',     col: '#b0a080', desc: '歯車を食べて動く', hint: 'よく食べた翌朝に多い?', boost: 'ydayMeals3' },
+  { id: 12, name: 'ライブラ',     ch: 2, rar: 'R', tpl: 'book',     col: '#c8a868', desc: '図書館の本の隙間に住む。物知り', hint: '土曜の本棚で目撃例', cond: 'dow6' },
+  { id: 13, name: 'トタンドリ',   ch: 2, rar: 'R', tpl: 'bird',     col: '#68a8c8', desc: 'トタン屋根で雨音を歌にする鳥', hint: '気まぐれ。運がいい朝に', cond: 'rand12' },
   { id: 14, name: 'フウシャオー', ch: 2, rar: 'E', tpl: 'windmill', col: '#d8b868', desc: '夜明けの風だけで回る風車の王', hint: '6時台の風にのって来る', cond: 'hour6' },
-  { id: 15, name: 'グラビゴン',   ch: 2, rar: 'L', tpl: 'dragon',   col: '#a76fd6', desc: '村のヌシ。重力のりゅう', hint: '一番おもい朝にだけ現れるヌシ', cond: 'boss' },
-  { id: 16, name: 'コオリム',     ch: 3, rar: 'C', tpl: 'crystal',  col: '#88c8e0', desc: '氷のけっしょうに眠る小さいやつ', hint: 'どこにでもいる気配' },
-  { id: 17, name: 'ペンペン',     ch: 3, rar: 'C', tpl: 'penguin',  col: '#7888a8', desc: '隊列をくむのがすき。よくころぶ', hint: 'どこにでもいる気配' },
-  { id: 18, name: 'オーロラス',   ch: 3, rar: 'R', tpl: 'ghost',    col: '#58c8a8', desc: 'オーロラの端切れ。夜明け前げんてい', hint: '5時台の空にゆれる', cond: 'hour5' },
-  { id: 19, name: 'イヌゾリン',   ch: 3, rar: 'R', tpl: 'dog',      col: '#c8a878', desc: '約束をはこぶ犬ぞり犬', hint: '「ひとつ」を果たした翌朝に', cond: 'ydayMissionClear' },
-  { id: 20, name: 'アムンゼン',   ch: 3, rar: 'E', tpl: 'flagpeak', col: '#78b898', desc: 'たんたんと1日30km進む極点の主', hint: '目標ど真ん中(±15分)の朝', cond: 'lureExact15' },
-  { id: 21, name: 'グラビクジラ', ch: 3, rar: 'L', tpl: 'whale',    col: '#5898d8', desc: '氷海のヌシ。潮で重力をふく', hint: '一番おもい朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 15, name: 'グラビゴン',   ch: 2, rar: 'L', tpl: 'dragon',   col: '#a76fd6', desc: '村のヌシ。重力の竜', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 16, name: 'コオリム',     ch: 3, rar: 'C', tpl: 'crystal',  col: '#88c8e0', desc: '氷の結晶に眠る小さいやつ', hint: 'どこにでもいる気配' },
+  { id: 17, name: 'ペンペン',     ch: 3, rar: 'C', tpl: 'penguin',  col: '#7888a8', desc: '隊列を組むのが好き。よく転ぶ', hint: 'どこにでもいる気配' },
+  { id: 18, name: 'オーロラス',   ch: 3, rar: 'R', tpl: 'ghost',    col: '#58c8a8', desc: 'オーロラの端切れ。夜明け前限定', hint: '5時台の空に揺れる', cond: 'hour5' },
+  { id: 19, name: 'イヌゾリン',   ch: 3, rar: 'R', tpl: 'dog',      col: '#c8a878', desc: '約束を運ぶ犬ぞり犬', hint: '「今日のひとつ」を果たした翌朝に', cond: 'ydayMissionClear' },
+  { id: 20, name: 'アムンゼン',   ch: 3, rar: 'E', tpl: 'flagpeak', col: '#78b898', desc: '淡々と1日30km進む極点の主', hint: '目標ど真ん中(±15分)の朝', cond: 'lureExact15' },
+  { id: 21, name: 'グラビクジラ', ch: 3, rar: 'L', tpl: 'whale',    col: '#5898d8', desc: '氷海のヌシ。潮で重力を吹く', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
   { id: 22, name: 'リュウヒョウ', ch: 4, rar: 'C', tpl: 'crystal',  col: '#a8d8e8', desc: '流氷のかけら。プカプカ', hint: 'どこにでもいる気配' },
-  { id: 23, name: 'シオフキ',     ch: 4, rar: 'C', tpl: 'shell',    col: '#e0a8c0', desc: '塩をふく貝。水分塩分の友', hint: 'どこにでもいる気配' },
-  { id: 24, name: 'ナンパセン',   ch: 4, rar: 'R', tpl: 'boat',     col: '#a89078', desc: '難破船の木片のせい。月曜がつらい', hint: '月曜の海にただよう', cond: 'dow1' },
-  { id: 25, name: 'エンデュラ',   ch: 4, rar: 'E', tpl: 'boat2',    col: '#e8a858', desc: '停滞からかならず戻ってくる不屈号', hint: 'しばらく空けて戻った朝、必ず来る', cond: 'comeback' },
-  { id: 26, name: 'グラビクラーケン', ch: 4, rar: 'L', tpl: 'kraken', col: '#8858c8', desc: '海域のヌシ。重力のうずを巻く', hint: '一番おもい朝にだけ現れるヌシ', cond: 'boss' },
-  { id: 27, name: 'キリマン',     ch: 5, rar: 'R', tpl: 'peak',     col: '#b8a888', desc: 'いただきに雪をかぶったけもの', hint: 'ケア万全(歯みがき+サプリ)の翌朝', cond: 'ydayTeethSupp' },
-  { id: 28, name: 'チョモラン',   ch: 5, rar: 'R', tpl: 'peak',     col: '#88a8c8', desc: '最高峰の風のせい', hint: '6時台の高所に', cond: 'hour6' },
-  { id: 29, name: 'デナリン',     ch: 5, rar: 'E', tpl: 'peakstar', col: '#d8c890', desc: 'かんぺきな仕事にだけ姿を見せる', hint: 'パーフェクト捕獲の翌朝', cond: 'ydayPerfect' },
-  { id: 30, name: 'ムジュウリョク', ch: 5, rar: 'L', tpl: 'orb',    col: '#f0b840', desc: 'さいごのヌシ。重力から自由なやつ', hint: 'すべてのヌシを従えた者の、一番おもい朝に', cond: 'finalBoss' },
+  { id: 23, name: 'シオフキ',     ch: 4, rar: 'C', tpl: 'shell',    col: '#e0a8c0', desc: '塩を吹く貝。水分塩分の友', hint: 'どこにでもいる気配' },
+  { id: 24, name: 'ナンパセン',   ch: 4, rar: 'R', tpl: 'boat',     col: '#a89078', desc: '難破船の木片の精。月曜がつらい', hint: '月曜の海に漂う', cond: 'dow1' },
+  { id: 25, name: 'エンデュラ',   ch: 4, rar: 'E', tpl: 'boat2',    col: '#e8a858', desc: '停滞から必ず戻ってくる不屈号', hint: 'しばらく空けて戻った朝、必ず来る', cond: 'comeback' },
+  { id: 26, name: 'グラビクラーケン', ch: 4, rar: 'L', tpl: 'kraken', col: '#8858c8', desc: '海域のヌシ。重力の渦を巻く', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 27, name: 'キリマン',     ch: 5, rar: 'R', tpl: 'peak',     col: '#b8a888', desc: '頂に雪をかぶった獣', hint: 'ケア万全(歯磨き+サプリ)の翌朝', cond: 'ydayTeethSupp' },
+  { id: 28, name: 'チョモラン',   ch: 5, rar: 'R', tpl: 'peak',     col: '#88a8c8', desc: '最高峰の風の精', hint: '6時台の高所に', cond: 'hour6' },
+  { id: 29, name: 'デナリン',     ch: 5, rar: 'E', tpl: 'peakstar', col: '#d8c890', desc: '完璧な仕事にだけ姿を見せる', hint: 'パーフェクト捕獲の翌朝', cond: 'ydayPerfect' },
+  { id: 30, name: 'ムジュウリョク', ch: 5, rar: 'L', tpl: 'orb',    col: '#f0b840', desc: '最後のヌシ。重力から自由なやつ', hint: '全てのヌシを従えた者の、一番重い朝に', cond: 'finalBoss' },
 ];
 const CH_SIZE = [8, 7, 6, 5, 4];
 
@@ -718,7 +718,7 @@ function checkChapterUnlock() {
     m.chapter++;
     store.saveMeta(m);
     burst(); setTimeout(burst, 400);
-    toast(`あたらしいエリア「${CHAPTERS[m.chapter - 1].name}」がひらいた!`);
+    toast(`新しいエリア「${CHAPTERS[m.chapter - 1].name}」が開いた!`);
   }
 }
 function bossesCaughtCount() {
@@ -953,7 +953,7 @@ function renderHunt() {
     </div>
     <div class="sp-name">${sp.name}</div>
     <div class="sp-desc">${sp.desc}</div>
-    <div class="sp-count">${entry.count}びき目${entry.evolved ? ' / <b>★進化ずみ</b>' : entry.count === 2 ? ' / <b>あと1ぴきで進化!</b>' : ''}</div>`;
+    <div class="sp-count">${entry.count}匹目${entry.evolved ? ' / <b>★進化済み</b>' : entry.count === 2 ? ' / <b>あと1匹で進化!</b>' : ''}</div>`;
 
   /* 品質 */
   const q = d.spawn.quality || 1;
@@ -1025,7 +1025,7 @@ document.getElementById('btnLaunch').addEventListener('click', function () {
   patchDay(key, { wakeAt: now, sleepMin, target, targetHit });
   if (meta.nextTarget) delete meta.nextTarget;
   store.saveMeta(meta);
-  toast('起床きろく完了! +20XP');
+  toast('起床記録完了! +20XP');
   renderHunt(); renderHeader();
 });
 
@@ -1079,9 +1079,9 @@ document.getElementById('btnMissionCarry').addEventListener('click', () => {
 });
 document.getElementById('btnMission').addEventListener('click', () => {
   const v = document.getElementById('missionInput').value.trim();
-  if (!v) { toast('なにか1つ書いてからタップ'); return; }
+  if (!v) { toast('何か1つ書いてからタップ'); return; }
   patchDay(todayKey(), { mission: v });
-  toast('きょうのひとつ、セット! +10XP');
+  toast('今日のひとつ、セット! +10XP');
   renderHunt(); renderHeader();
 });
 
@@ -1108,7 +1108,7 @@ function renderCamp() {
   if (d && d.note) document.getElementById('noteInput').value = d.note;
 
   const prog = (meta.egg && meta.egg.progress) || 0;
-  document.getElementById('eggText').textContent = `たまご: 孵化まであと ${Math.max(0, EGG_GOAL - prog).toLocaleString()} pt`;
+  document.getElementById('eggText').textContent = `たまご: 生まれるまであと ${Math.max(0, EGG_GOAL - prog).toLocaleString()} pt`;
   document.getElementById('eggBar').style.width = Math.min(100, prog / EGG_GOAL * 100) + '%';
 
   const care = getCare();
@@ -1167,7 +1167,7 @@ function renderDex() {
     const chCaught = SPECIES.filter(s => s.ch === ch && dex[s.id]).length;
     if (ch > cur) {
       html += `<div class="ch-head"><span class="t" style="color:var(--muted);">${CHAPTERS[ch - 1].name}</span></div>
-        <div class="ch-locked">🔒 「${CHAPTERS[ch - 2].name}」の図鑑が70%うまると開く</div>`;
+        <div class="ch-locked">🔒 「${CHAPTERS[ch - 2].name}」の図鑑が70%埋まると開く</div>`;
       continue;
     }
     html += `<div class="ch-head"><span class="t">${CHAPTERS[ch - 1].name}</span>
@@ -1216,17 +1216,17 @@ function renderData() {
   if (awThis != null && awLast != null) {
     const diff = Math.round(awThis - awLast);
     deltaHtml = diff <= 0
-      ? `<span class="delta-up">▲ ${Math.abs(diff)}分はやい</span>`
+      ? `<span class="delta-up">▲ ${Math.abs(diff)}分早い</span>`
       : `<span class="delta-down">▼ ${diff}分ゆっくり</span>`;
   }
   const sleeps = thisW.filter(x => x.day && x.day.sleepMin != null).map(x => x.day.sleepMin);
   const careDays = thisW.filter(x => x.day && x.day.care &&
     (x.day.care.teeth || x.day.care.supp || (x.day.care.meals || []).some(Boolean))).length;
   document.getElementById('statGrid').innerHTML = `
-    <div class="stat-box"><div class="num">${awThis != null ? fmtMin(awThis) : '--:--'}</div><div class="cap">へいきん起床</div></div>
-    <div class="stat-box"><div class="num gold" style="font-size:13px;line-height:2.2;">${deltaHtml}</div><div class="cap">せんしゅうとの差</div></div>
-    <div class="stat-box"><div class="num">${logs(thisW)}/7</div><div class="cap">きろくした日</div></div>
-    <div class="stat-box"><div class="num purple">${avg(sleeps) != null ? (avg(sleeps) / 60).toFixed(1) + 'h' : '--'}</div><div class="cap">へいきんすいみん</div></div>
+    <div class="stat-box"><div class="num">${awThis != null ? fmtMin(awThis) : '--:--'}</div><div class="cap">平均起床</div></div>
+    <div class="stat-box"><div class="num gold" style="font-size:13px;line-height:2.2;">${deltaHtml}</div><div class="cap">先週との差</div></div>
+    <div class="stat-box"><div class="num">${logs(thisW)}/7</div><div class="cap">記録した日</div></div>
+    <div class="stat-box"><div class="num purple">${avg(sleeps) != null ? (avg(sleeps) / 60).toFixed(1) + 'h' : '--'}</div><div class="cap">平均睡眠</div></div>
     <div class="stat-box"><div class="num">${careDays}/7</div><div class="cap">ケアした日</div></div>
     <div class="stat-box"><div class="num purple">${thisW.filter(x => x.day && x.day.gravity === 3).length}</div><div class="cap">ヤバかった日</div></div>`;
   renderWakeChart(days14);
@@ -1234,7 +1234,7 @@ function renderData() {
   renderJournal();
   document.getElementById('xpRules').innerHTML =
     Object.values(XP).map(r => `+${r.pts} … ${r.label}`).join('<br>') +
-    '<br>かくし要素はクリーチャーの出現条件だけ。数字にウソなし。';
+    '<br>隠し要素はクリーチャーの出現条件だけ。数字に嘘なし。';
 }
 function renderWakeChart(days) {
   const W = 380, H = 170, padL = 44, padB = 22, padT = 10;
@@ -1262,7 +1262,7 @@ function renderWakeChart(days) {
   g += pts;
   document.getElementById('wakeChart').innerHTML =
     `<svg viewBox="0 0 ${W} ${H}" style="width:100%;">${g}</svg>
-     <p class="note" style="margin:4px 0 0;"><span style="color:#3d9fe0;">●</span> おきた時間 / <span style="color:#ff9046;">●</span> 目標命中の日</p>`;
+     <p class="note" style="margin:4px 0 0;"><span style="color:#3d9fe0;">●</span> 起きた時間 / <span style="color:#ff9046;">●</span> 目標命中の日</p>`;
 }
 function renderSleepChart(days) {
   const W = 380, H = 140, padL = 30, padB = 22, padT = 8;
@@ -1284,12 +1284,12 @@ function renderSleepChart(days) {
   });
   document.getElementById('sleepChart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;">${g}</svg>`;
 }
-const GRAVITY_LABELS = ['かるい', 'ふつう', 'おもい', 'ヤバい'];
+const GRAVITY_LABELS = ['軽い', '普通', '重い', 'ヤバい'];
 function renderJournal() {
   const days = store.days();
   const keys = Object.keys(days).sort().reverse().slice(0, 30);
   if (!keys.length) {
-    document.getElementById('journal').innerHTML = '<p class="note">まだ記録なし。あしたの朝、はじまる。</p>';
+    document.getElementById('journal').innerHTML = '<p class="note">まだ記録なし。明日の朝、始まる。</p>';
     return;
   }
   document.getElementById('journal').innerHTML = keys.map(k => {
@@ -1303,7 +1303,7 @@ function renderJournal() {
       if (sp) bits.push(sp.name);
     }
     bits.push(`+${dayXp(d)}XP`);
-    const memo = [d.mission ? `ひとつ: ${d.mission}` : '', d.note || ''].filter(Boolean).join(' / ');
+    const memo = [d.mission ? `今日のひとつ: ${d.mission}` : '', d.note || ''].filter(Boolean).join(' / ');
     return `<div class="jr"><div class="d">${k} ${bits.join(' · ')}</div>
       ${memo ? `<div class="memo">${memo.replace(/</g, '&lt;')}</div>` : ''}</div>`;
   }).join('');
@@ -1325,7 +1325,7 @@ document.getElementById('btnExport').addEventListener('click', () => {
   a.click();
 });
 document.getElementById('btnReset').addEventListener('click', () => {
-  if (confirm('ずかんも記録もぜんぶ消える。ほんとにいい?')) {
+  if (confirm('図鑑も記録も全部消える。本当にいい?')) {
     localStorage.removeItem(LS_DAYS); localStorage.removeItem(LS_META);
     location.reload();
   }
