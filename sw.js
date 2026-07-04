@@ -1,5 +1,5 @@
 /* GRAVITY ESCAPE — オフラインキャッシュ用Service Worker */
-const CACHE = 'gravity-v1';
+const CACHE = 'gravity-v2';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-180.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

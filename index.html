@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GRAVITY ESCAPE</title>
+<title>GRAVITY HUNT</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a0f">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,15 +12,9 @@
 <style>
 /* ── カラーパレット(CYBER × HIP-HOP) ── */
 :root {
-  --bg: #0a0a0f;
-  --card: #111118;
-  --green: #00ff88;
-  --purple: #bf00ff;
-  --gold: #ffd700;
-  --cyan: #00e5ff;
-  --text: #e0e0e0;
-  --dim: #555570;
-  --danger: #ff3366;
+  --bg: #0a0a0f; --card: #111118;
+  --green: #00ff88; --purple: #bf00ff; --gold: #ffd700; --cyan: #00e5ff;
+  --text: #e0e0e0; --dim: #555570; --danger: #ff3366;
   --glow-green: 0 0 12px rgba(0,255,136,.4);
   --glow-purple: 0 0 12px rgba(191,0,255,.4);
   --glow-gold: 0 0 12px rgba(255,215,0,.4);
@@ -29,17 +23,11 @@
 html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
   font-family: 'Hiragino Sans','Noto Sans JP',sans-serif; }
 .mono { font-family: 'Courier New', Courier, monospace; }
-
-/* スキャンライン */
-body::after {
-  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
   background: repeating-linear-gradient(0deg, transparent, transparent 2px,
-    rgba(0,255,136,.012) 2px, rgba(0,255,136,.012) 4px);
-}
-
+    rgba(0,255,136,.012) 2px, rgba(0,255,136,.012) 4px); }
 #app { max-width: 430px; margin: 0 auto; min-height: 100vh; padding: 12px 14px 92px; }
 
-/* ── ヘッダー ── */
 header { display: flex; justify-content: space-between; align-items: center; padding: 4px 2px 10px; }
 .logo { font-family: 'Courier New', monospace; font-weight: bold; font-size: 15px;
   letter-spacing: 2px; color: var(--green); text-shadow: var(--glow-green); }
@@ -48,7 +36,6 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .rank-chip .rk { color: var(--gold); text-shadow: var(--glow-gold); font-weight: bold; }
 .rank-chip .xp { color: var(--dim); }
 
-/* ── カード ── */
 .card { background: var(--card); border: 1px solid rgba(0,255,136,.33); border-radius: 12px;
   box-shadow: 0 0 16px rgba(0,255,136,.14); padding: 16px; margin-bottom: 12px; }
 .card.p { border-color: rgba(191,0,255,.33); box-shadow: 0 0 16px rgba(191,0,255,.14); }
@@ -56,60 +43,58 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .card h3 { margin: 0 0 10px; font-size: 12px; letter-spacing: 2px; color: var(--dim);
   font-family: 'Courier New', monospace; }
 
-/* ── 時計 ── */
 .clock { font-family: 'Courier New', monospace; font-size: 52px; font-weight: bold;
   color: var(--green); text-shadow: var(--glow-green); text-align: center; letter-spacing: 3px; }
 .clock-sub { text-align: center; color: var(--dim); font-size: 12px; margin-top: 2px;
   font-family: 'Courier New', monospace; }
 
-/* ── メッセージ ── */
-.daily-msg { font-size: 14px; line-height: 1.8; color: var(--text); }
+.daily-msg { font-size: 13px; line-height: 1.8; }
 .daily-msg .src { display: block; margin-top: 6px; color: var(--dim); font-size: 11px;
   font-family: 'Courier New', monospace; }
 
-/* ── ボタン ── */
 .btn { width: 100%; min-height: 56px; border-radius: 12px; font-weight: bold;
   font-size: 15px; letter-spacing: 2px; cursor: pointer; transition: all .15s;
   font-family: 'Courier New', monospace; }
 .btn:active { transform: scale(.97); }
 .btn-launch { min-height: 88px; font-size: 22px; background: rgba(0,255,136,.12);
   border: 2px solid var(--green); color: var(--green);
-  box-shadow: 0 0 24px rgba(0,255,136,.35); position: relative; overflow: hidden; }
+  box-shadow: 0 0 24px rgba(0,255,136,.35); }
 .btn-night { background: rgba(191,0,255,.12); border: 2px solid var(--purple); color: var(--purple);
   box-shadow: 0 0 20px rgba(191,0,255,.3); min-height: 72px; font-size: 18px; }
 .btn-sub { background: transparent; border: 1px solid var(--dim); color: var(--text);
   min-height: 44px; font-size: 13px; }
 .btn:disabled { opacity: .35; pointer-events: none; }
 
-@keyframes neon-flash {
-  0% { box-shadow: 0 0 12px var(--gold), 0 0 30px var(--purple); }
+@keyframes neon-flash { 0% { box-shadow: 0 0 12px var(--gold), 0 0 30px var(--purple); }
   50% { box-shadow: 0 0 60px var(--gold), 0 0 100px var(--purple), 0 0 140px var(--green); }
-  100% { box-shadow: 0 0 12px var(--gold), 0 0 30px var(--purple); }
-}
+  100% { box-shadow: 0 0 12px var(--gold), 0 0 30px var(--purple); } }
 .flash { animation: neon-flash .6s ease; }
 @keyframes fadein { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-.fadein { animation: fadein .3s ease forwards; }
-
-/* パーティクル */
+.fadein { animation: fadein .35s ease forwards; }
+@keyframes rustle { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); } }
+.rustle { animation: rustle .5s ease infinite; display: inline-block; }
+@keyframes pop { 0% { transform: scale(.3); opacity: 0; } 70% { transform: scale(1.12); }
+  100% { transform: scale(1); opacity: 1; } }
+.pop { animation: pop .5s ease forwards; }
 @keyframes particle { 0% { transform: translate(0,0) scale(1); opacity: 1; }
   100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; } }
 .pwrap { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
 .pt { position: absolute; width: 8px; height: 8px; border-radius: 50%; opacity: 0; }
 
-/* ── 選択チップ ── */
 .chips { display: flex; gap: 8px; }
 .chip { flex: 1; min-height: 58px; border-radius: 10px; border: 1px solid var(--dim);
   background: transparent; color: var(--text); font-size: 13px; cursor: pointer;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
   transition: all .15s; padding: 6px 2px; }
 .chip small { font-size: 10px; color: var(--dim); font-family: 'Courier New', monospace; letter-spacing: 1px; }
-.chip.on { border-color: var(--green); color: var(--green); box-shadow: var(--glow-green);
-  transform: scale(1.04); }
+.chip.on { border-color: var(--green); color: var(--green); box-shadow: var(--glow-green); transform: scale(1.04); }
 .chip.on small { color: var(--green); }
 .chip.on.heavy { border-color: var(--purple); color: var(--purple); box-shadow: var(--glow-purple); }
 .chip.on.heavy small { color: var(--purple); }
+.chip.locked { pointer-events: none; opacity: .5; }
+.chip.locked.on { opacity: 1; }
 
-/* ── シーケンス(チェックリスト) ── */
 .seq-item { display: flex; align-items: center; gap: 12px; padding: 12px 10px;
   border: 1px solid rgba(85,85,112,.6); border-radius: 10px; margin-bottom: 8px;
   cursor: pointer; transition: all .15s; }
@@ -123,67 +108,90 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .seq-item .pts { margin-left: auto; font-family: 'Courier New', monospace; font-size: 11px; color: var(--dim); }
 .seq-item.done .pts { color: var(--green); }
 
-/* ── 入力 ── */
+/* ケアトグル(夜) */
+.care-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.care-t { flex: 1; min-height: 48px; border: 1px solid var(--dim); border-radius: 10px;
+  background: transparent; color: var(--text); font-size: 12px; cursor: pointer; transition: all .15s; }
+.care-t.on { border-color: var(--purple); color: var(--purple); box-shadow: var(--glow-purple); }
+.care-t small { display: block; font-size: 10px; color: var(--dim); font-family: 'Courier New', monospace; }
+.care-t.on small { color: var(--purple); }
+
 input[type=text], input[type=time], textarea {
   width: 100%; background: #0d0d14; color: var(--text); border: 1px solid var(--dim);
   border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; }
 input:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: var(--glow-green); }
 input[type=time] { font-family: 'Courier New', monospace; font-size: 18px; color: var(--green); }
 
-/* ── XP表示 ── */
 .xp-pop { font-family: 'Courier New', monospace; color: var(--gold); text-shadow: var(--glow-gold);
   font-weight: bold; font-size: 14px; text-align: center; }
 .result-line { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 2px;
   border-bottom: 1px dashed rgba(85,85,112,.4); }
 .result-line .v { font-family: 'Courier New', monospace; color: var(--green); }
 
-/* ── マップ ── */
-.stage-title { font-size: 16px; font-weight: bold; margin: 2px 0 4px; }
-.stage-story { font-size: 12px; color: #9a9ab0; line-height: 1.7; }
-.progress-outer { height: 14px; background: #0d0d14; border-radius: 7px; overflow: hidden;
-  border: 1px solid rgba(85,85,112,.5); margin: 10px 0 4px; }
-.progress-inner { height: 100%; border-radius: 7px;
-  background: linear-gradient(90deg, var(--green), var(--cyan)); box-shadow: var(--glow-green);
-  transition: width .6s ease; }
-.km-line { display: flex; justify-content: space-between; font-family: 'Courier New', monospace;
-  font-size: 11px; color: var(--dim); }
-.km-line b { color: var(--green); }
-.stage-row { display: flex; gap: 10px; align-items: baseline; padding: 9px 4px;
-  border-bottom: 1px dashed rgba(85,85,112,.35); font-size: 13px; }
-.stage-row .no { font-family: 'Courier New', monospace; color: var(--dim); width: 30px; flex-shrink: 0; }
-.stage-row.cleared .no, .stage-row.cleared .nm { color: var(--gold); }
-.stage-row.current .no, .stage-row.current .nm { color: var(--green); font-weight: bold; }
-.stage-row.locked { opacity: .45; }
-.stage-row .dist { margin-left: auto; font-family: 'Courier New', monospace; font-size: 11px; color: var(--dim); }
+/* スポーン演出 */
+.spawn-stage { text-align: center; padding: 6px 0 2px; }
+.spawn-stage svg { width: 140px; height: auto; }
+.rar-badge { display: inline-block; font-size: 11px; font-family: 'Courier New', monospace;
+  border: 1px solid; border-radius: 4px; padding: 2px 10px; letter-spacing: 2px; }
+.rar-C { color: #9ab8a0; border-color: #3a4a3e; }
+.rar-R { color: var(--cyan); border-color: #1a5560; }
+.rar-E { color: var(--purple); border-color: #4a2058; }
+.rar-L { color: var(--gold); border-color: #5a4a10; text-shadow: var(--glow-gold); }
+.sp-name { font-size: 18px; font-weight: bold; margin: 6px 0 2px; }
+.sp-desc { font-size: 12px; color: #8a8a9a; line-height: 1.6; }
+.new-tag { color: var(--gold); font-family: 'Courier New', monospace; font-size: 12px;
+  text-shadow: var(--glow-gold); letter-spacing: 3px; }
+.q-meter { display: flex; gap: 4px; margin: 8px 0 4px; }
+.q-meter div { flex: 1; height: 7px; border-radius: 3px; background: #22222c; }
+.q-meter div.f1 { background: #9ab8a0; } .q-meter div.f2 { background: var(--cyan); }
+.q-meter div.f3 { background: var(--purple); } .q-meter div.f4 { background: var(--gold); box-shadow: var(--glow-gold); }
 
-/* ── 統計 ── */
+/* 図鑑 */
+.dex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.dex-cell { background: #0d0d14; border: 1px solid rgba(85,85,112,.4); border-radius: 10px;
+  padding: 8px 4px 6px; text-align: center; position: relative; }
+.dex-cell svg { width: 52px; height: auto; }
+.dex-cell.uncaught svg * { fill: #1e1e28 !important; stroke: none !important; }
+.dex-cell .nm { font-size: 10px; margin-top: 2px; }
+.dex-cell .cnt { font-size: 9px; color: var(--dim); font-family: 'Courier New', monospace; }
+.dex-cell .hint { font-size: 9px; color: #4a4a5c; line-height: 1.4; padding: 0 2px; }
+.dex-cell .mark { position: absolute; top: 4px; right: 6px; font-size: 11px; }
+.ch-head { display: flex; justify-content: space-between; align-items: baseline;
+  margin: 14px 0 8px; }
+.ch-head .t { font-size: 13px; font-weight: bold; }
+.ch-head .pc { font-family: 'Courier New', monospace; font-size: 11px; color: var(--green); }
+.ch-locked { color: var(--dim); font-size: 12px; padding: 10px 4px; border: 1px dashed rgba(85,85,112,.4);
+  border-radius: 10px; text-align: center; }
+
+/* タマゴ */
+.egg-row { display: flex; align-items: center; gap: 12px; }
+.egg-row svg { width: 40px; flex-shrink: 0; }
+.egg-bar { height: 8px; background: #22222c; border-radius: 4px; overflow: hidden; margin-top: 6px; }
+.egg-bar div { height: 100%; background: linear-gradient(90deg, var(--purple), var(--gold)); }
+
+/* 統計 */
 .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .stat-box { background: #0d0d14; border: 1px solid rgba(85,85,112,.5); border-radius: 10px;
   padding: 12px 10px; text-align: center; }
 .stat-box .num { font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; color: var(--green); }
-.stat-box .num.gold { color: var(--gold); }
-.stat-box .num.purple { color: var(--purple); }
+.stat-box .num.gold { color: var(--gold); } .stat-box .num.purple { color: var(--purple); }
 .stat-box .cap { font-size: 10px; color: var(--dim); letter-spacing: 1px; margin-top: 3px;
   font-family: 'Courier New', monospace; }
 .delta-up { color: var(--green); } .delta-down { color: var(--purple); }
 svg text { font-family: 'Courier New', monospace; }
-
-/* ── ジャーナル ── */
 .jr { padding: 10px 4px; border-bottom: 1px dashed rgba(85,85,112,.35); font-size: 12px; }
 .jr .d { font-family: 'Courier New', monospace; color: var(--dim); margin-bottom: 3px; }
 .jr .d b { color: var(--green); }
-.jr .memo { color: var(--text); line-height: 1.6; }
+.jr .memo { line-height: 1.6; }
 
-/* ── ボトムナビ ── */
 nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
   background: rgba(10,10,15,.95); border-top: 1px solid rgba(0,255,136,.25);
   backdrop-filter: blur(8px); }
 .nav-inner { max-width: 430px; margin: 0 auto; display: flex; }
 .nav-btn { flex: 1; background: none; border: none; color: var(--dim); padding: 12px 0 16px;
   font-size: 10px; letter-spacing: 1px; cursor: pointer; font-family: 'Courier New', monospace; }
-.nav-btn .ic { display: block; font-size: 17px; margin-bottom: 3px; font-family: inherit; }
+.nav-btn .ic { display: block; font-size: 17px; margin-bottom: 3px; }
 .nav-btn.on { color: var(--green); text-shadow: var(--glow-green); }
-
 .screen { display: none; } .screen.on { display: block; }
 .note { font-size: 11px; color: var(--dim); line-height: 1.7; }
 .divider { border: none; border-top: 1px dashed rgba(85,85,112,.4); margin: 14px 0; }
@@ -195,21 +203,18 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
 <body>
 <div id="app">
   <header>
-    <div class="logo">GRAVITY<span>//</span>ESCAPE</div>
-    <div class="rank-chip">
-      <div class="rk" id="hRank">ROOKIE</div>
-      <div class="xp" id="hXp">0 XP</div>
-    </div>
+    <div class="logo">GRAVITY<span>//</span>HUNT</div>
+    <div class="rank-chip"><div class="rk" id="hRank">ROOKIE</div><div class="xp" id="hXp">0 XP</div></div>
   </header>
 
-  <!-- ══════════ LAUNCH(朝) ══════════ -->
-  <section class="screen" id="scr-launch">
+  <!-- ══════════ HUNT(朝) ══════════ -->
+  <section class="screen" id="scr-hunt">
     <div class="card">
       <div class="clock mono" id="clock">--:--</div>
       <div class="clock-sub" id="clockDate"></div>
     </div>
 
-    <div class="card g">
+    <div class="card g" id="msgCard">
       <h3>TODAY'S TRANSMISSION</h3>
       <div class="daily-msg" id="dailyMsg"></div>
     </div>
@@ -217,56 +222,63 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     <!-- 起床前 -->
     <div id="preLaunch">
       <button class="btn btn-launch" id="btnLaunch">▲ LAUNCH<br><span style="font-size:12px;letter-spacing:3px;">重力を振り切る</span></button>
-      <div id="targetReminder" style="display:none;" class="xp-pop" ></div>
+      <div id="lureReminder" style="display:none;margin-top:10px;" class="xp-pop"></div>
       <p class="note" style="text-align:center;margin-top:10px;">
-        押した瞬間が起床時刻として記録される。<br>何時でもいい。記録した時点で今日は前進。</p>
+        押した瞬間が起床時刻。何時でもいい。<br>朝(4:00-11:00)はクリーチャーの活動時間。</p>
     </div>
 
-    <!-- 起床後 -->
-    <div id="postLaunch" style="display:none;">
-      <!-- きのう決めたミッションの回収(決めたことを本人に返す) -->
-      <div class="card g" id="missionReview" style="display:none;">
-        <h3>YESTERDAY'S MISSION</h3>
-        <p style="font-size:14px;margin:0 0 10px;" id="missionReviewText"></p>
-        <div class="chips">
-          <button class="chip" id="btnMissionClear">クリアした<small>+15 XP</small></button>
-          <button class="chip" id="btnMissionCarry">持ち越す<small>今日に再セット</small></button>
-        </div>
-        <p class="note" style="margin:8px 0 0;">持ち越しはペナルティなし。岩山は焦らない。</p>
-      </div>
+    <!-- 起床後・重力観測前(気配) -->
+    <div id="presence" style="display:none;">
       <div class="card">
-        <h3>ESCAPE CONFIRMED</h3>
-        <div id="launchResult"></div>
+        <h3>PRESENCE DETECTED</h3>
+        <div class="spawn-stage"><span class="rustle" style="font-size:40px;color:var(--dim);">…?</span></div>
+        <p class="note" style="text-align:center;">なにかいる。<br>重力観測を送信すると姿を現す。</p>
       </div>
-
       <div class="card">
         <h3>GRAVITY CHECK <span style="float:right;">+10 XP</span></h3>
-        <p class="note" style="margin:0 0 10px;">今朝の重力(めまい・だるさ)はどのレベル?</p>
+        <p class="note" style="margin:0 0 10px;">今朝の重力(めまい・だるさ)は? 一度きり・訂正なしの正直観測。</p>
         <div class="chips" id="gravityChips">
           <button class="chip" data-v="0">軽い<small>G-0</small></button>
           <button class="chip" data-v="1">普通<small>G-1</small></button>
           <button class="chip heavy" data-v="2">重い<small>G-2</small></button>
           <button class="chip heavy" data-v="3">ヤバい<small>G-3</small></button>
         </div>
-        <p class="note" style="margin:10px 0 0;">G-3の日に記録できたら、それが一番デカい。データが主治医への最強の証拠になる。</p>
       </div>
+    </div>
 
+    <!-- スポーン確定後 -->
+    <div id="postSpawn" style="display:none;">
+      <div class="card g" id="hatchCard" style="display:none;"></div>
+      <div class="card" id="spawnCard"></div>
       <div class="card">
-        <h3>LAUNCH SEQUENCE</h3>
+        <h3>CAPTURE QUALITY <span id="qLabel" style="float:right;"></span></h3>
+        <div class="q-meter" id="qMeter"><div></div><div></div><div></div><div></div></div>
+        <p class="note" style="margin:4px 0 10px;">記録を埋めるほど捕獲の質が上がる。パーフェクトは図鑑に王冠。</p>
         <div id="seqList"></div>
-        <p class="note" style="margin:6px 0 0;">起立性調節障害の定番プロトコル。急に立つと重力に撃墜される。ゆっくりが正解。</p>
+        <p class="note" style="margin:6px 0 0;">ODの標準プロトコル。急に立つと重力に撃墜される。</p>
       </div>
-
+      <div class="card g" id="missionReview" style="display:none;">
+        <h3>YESTERDAY'S MISSION</h3>
+        <p style="font-size:14px;margin:0 0 10px;" id="missionReviewText"></p>
+        <div class="chips">
+          <button class="chip" id="btnMissionClear">クリアした<small>+15 XP</small></button>
+          <button class="chip" id="btnMissionCarry">持ち越す<small>ペナルティなし</small></button>
+        </div>
+      </div>
       <div class="card">
         <h3>TODAY'S ONE MISSION <span style="float:right;">+10 XP</span></h3>
         <input type="text" id="missionInput" placeholder="今日はこれだけできればOK(なんでもいい)">
         <button class="btn btn-sub" id="btnMission" style="margin-top:8px;">SET MISSION</button>
         <div id="missionDone" style="display:none;" class="xp-pop"></div>
       </div>
+      <div class="card">
+        <h3>TODAY'S LOG</h3>
+        <div id="dayResult"></div>
+      </div>
     </div>
   </section>
 
-  <!-- ══════════ BASE CAMP(夜) ══════════ -->
+  <!-- ══════════ CAMP(夜) ══════════ -->
   <section class="screen" id="scr-camp">
     <div class="card p">
       <div class="clock mono" id="clockN" style="color:var(--purple);text-shadow:var(--glow-purple);">--:--</div>
@@ -274,9 +286,36 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     </div>
 
     <div class="card p">
-      <h3>TOMORROW'S TARGET <span style="float:right;">+10 XP</span></h3>
-      <p class="note" style="margin:0 0 8px;">明日の起床目標。決めるのはおまえ。誰にも共有されない。<br>ターゲット±45分以内に起きたら +40 XP。</p>
+      <h3>EGG INCUBATOR</h3>
+      <div class="egg-row">
+        <svg viewBox="0 0 30 36"><ellipse cx="15" cy="20" rx="12" ry="14" fill="#e8e0d0"/><path d="M6 18 L10 14 L14 18 L18 14 L22 18" stroke="#b0a890" stroke-width="1.5" fill="none"/></svg>
+        <div style="flex:1;">
+          <p class="note" style="margin:0;" id="eggText"></p>
+          <div class="egg-bar"><div id="eggBar" style="width:0%"></div></div>
+        </div>
+      </div>
+      <p class="note" style="margin:8px 0 0;">孵化は寝ている間だけ進む。23時前就寝×1.5 / 22時前×2.0(3,000ptで孵化)。</p>
+    </div>
+
+    <div class="card p">
+      <h3>SET LURE <span style="float:right;">+10 XP</span></h3>
+      <p class="note" style="margin:0 0 8px;">明日の起床ターゲット。決めるのはおまえ。ルアー命中(±45分)でレア率×2。</p>
       <input type="time" id="targetInput" value="07:30">
+    </div>
+
+    <div class="card p">
+      <h3>CAMP CARE <span style="float:right;">各+5 XP</span></h3>
+      <p class="note" style="margin:0 0 8px;">全部任意。やった分だけ明日のレア率が上がる(1つ+10%)。</p>
+      <div class="care-row">
+        <button class="care-t" id="careTeeth">歯磨き<small>GEAR POLISH</small></button>
+        <button class="care-t" id="careSupp">サプリ<small>MORNING BAIT</small></button>
+      </div>
+      <p class="note" style="margin:0 0 6px;">今日のエサ(タンパク質系: 肉・魚・卵・豆)</p>
+      <div class="care-row">
+        <button class="care-t" data-meal="0">朝<small>FEED</small></button>
+        <button class="care-t" data-meal="1">昼<small>FEED</small></button>
+        <button class="care-t" data-meal="2">晩<small>FEED</small></button>
+      </div>
     </div>
 
     <div class="card p">
@@ -285,168 +324,335 @@ nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     </div>
 
     <div id="preNight">
-      <button class="btn btn-night" id="btnNight">◼ GOOD NIGHT<br><span style="font-size:11px;letter-spacing:3px;">就寝を記録 +20 XP</span></button>
+      <button class="btn btn-night" id="btnNight">◼ GOOD NIGHT<br><span style="font-size:11px;letter-spacing:3px;">就寝を記録 +20 XP // 孵化スタート</span></button>
     </div>
     <div id="postNight" style="display:none;">
       <div class="card p"><div class="xp-pop" id="nightResult"></div>
-        <p class="note" style="text-align:center;margin:8px 0 0;">おつかれ。ゆっくり休め。遠征は明日も続く。</p></div>
+        <p class="note" style="text-align:center;margin:8px 0 0;">おつかれ。タマゴは寝てる間に育つ。</p></div>
     </div>
   </section>
 
-  <!-- ══════════ MAP(遠征) ══════════ -->
-  <section class="screen" id="scr-map">
+  <!-- ══════════ DEX(図鑑) ══════════ -->
+  <section class="screen" id="scr-dex">
     <div class="card g">
-      <div class="tag" id="mapStageTag">STAGE 1/5</div>
-      <div class="stage-title" id="mapStageName"></div>
-      <div class="stage-story" id="mapStageStory"></div>
-      <div class="progress-outer"><div class="progress-inner" id="mapBar" style="width:0%"></div></div>
-      <div class="km-line"><span id="mapKm"></span><span id="mapKmGoal"></span></div>
+      <h3>FIELD DEX</h3>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="num" id="dexPct">0.0%</div><div class="cap">コンプ率</div></div>
+        <div class="stat-box"><div class="num gold" id="dexCount">0/30</div><div class="cap">捕獲種</div></div>
+      </div>
+      <p class="note" style="margin:10px 0 0;">同種×3で進化(★)。全項目記録の捕獲は王冠(♛)。前章70%で次章が開く。</p>
     </div>
-
-    <div class="card">
-      <h3>EXPEDITION ROUTE</h3>
-      <div id="stageList"></div>
-    </div>
-
-    <div class="card">
-      <h3>XP RULES(全公開)</h3>
-      <div class="note" id="xpRules"></div>
-      <hr class="divider">
-      <p class="note">記録しない日はキャンプで天候待ち。距離は1kmも減らない。<br>
-      シャクルトンの隊は流氷の上で10ヶ月停滞した。それでも全員生還した。遠征に「失敗した日」はない。あるのは「進んだ日」と「待った日」だけ。</p>
-    </div>
+    <div id="dexBody"></div>
   </section>
 
-  <!-- ══════════ STATS(データ) ══════════ -->
-  <section class="screen" id="scr-stats">
+  <!-- ══════════ DATA ══════════ -->
+  <section class="screen" id="scr-data">
     <div class="card">
       <h3>THIS WEEK vs LAST WEEK</h3>
       <div class="stat-grid" id="statGrid"></div>
       <p class="note" style="margin:10px 0 0;">比較対象は過去の自分だけ。他人は出てこない。</p>
     </div>
-
+    <div class="card"><h3>WAKE TIME // 14 DAYS</h3><div id="wakeChart"></div></div>
+    <div class="card"><h3>SLEEP HOURS // 14 DAYS</h3><div id="sleepChart"></div></div>
+    <div class="card"><h3>LOG BOOK</h3><div id="journal"></div></div>
     <div class="card">
-      <h3>WAKE TIME // 14 DAYS</h3>
-      <div id="wakeChart"></div>
+      <h3>XP RULES(全公開)</h3>
+      <div class="note" id="xpRules"></div>
+      <hr class="divider">
+      <p class="note">記録がない日も何も失わない。ストリークなし、ペナルティなし。
+      3日以上空けて戻ってきた朝には、復帰限定のやつが待ってる。</p>
     </div>
-
-    <div class="card">
-      <h3>SLEEP HOURS // 14 DAYS</h3>
-      <div id="sleepChart"></div>
-    </div>
-
-    <div class="card">
-      <h3>LOG BOOK</h3>
-      <div id="journal"></div>
-    </div>
-
     <div class="card">
       <h3>CONFIG</h3>
       <p class="note" style="margin:0 0 6px;">プレイヤー名</p>
       <input type="text" id="nameInput" maxlength="12">
       <hr class="divider">
-      <p class="note">データはこの端末のlocalStorageだけに保存。どこにも送信されない。見られるのはおまえだけ。</p>
+      <p class="note">データはこの端末のlocalStorageだけ。どこにも送信されない。見られるのはおまえだけ。</p>
       <button class="btn btn-sub" id="btnExport" style="margin-top:10px;">EXPORT DATA (JSON)</button>
-      <p class="note" style="margin-top:8px;">↑ 病院に持っていく用。医者に「毎日のログをつけて」と言われたやつは、これで完了。</p>
+      <p class="note" style="margin-top:8px;">↑ 病院用。睡眠・症状・サプリ・食事・非薬物療法の記録が全部入ってる。</p>
       <hr class="divider">
       <button class="btn btn-sub" id="btnReset" style="border-color:var(--danger);color:var(--danger);">ALL RESET</button>
     </div>
   </section>
 
   <nav><div class="nav-inner">
-    <button class="nav-btn" data-scr="launch"><span class="ic">▲</span>LAUNCH</button>
+    <button class="nav-btn" data-scr="hunt"><span class="ic">▲</span>HUNT</button>
     <button class="nav-btn" data-scr="camp"><span class="ic">◼</span>CAMP</button>
-    <button class="nav-btn" data-scr="map"><span class="ic">◆</span>MAP</button>
-    <button class="nav-btn" data-scr="stats"><span class="ic">≡</span>STATS</button>
+    <button class="nav-btn" data-scr="dex"><span class="ic">◆</span>DEX</button>
+    <button class="nav-btn" data-scr="data"><span class="ic">≡</span>DATA</button>
   </div></nav>
 </div>
 
 <script>
 'use strict';
 /* ════════════════════════════════════════════════════════
-   GRAVITY // ESCAPE — 重力脱出遠征
-   起立性調節障害の敵は怠けじゃない。文字通り「重力」だ。
-   朝起きる=重力からの脱出。記録の積み重ね=遠征の距離。
+   GRAVITY // HUNT v2 — 朝限定クリーチャー収集ゲーム
+   設計書: GRAVITY-HUNT-設計書.md
+   絶対ルール: 責めない・ペナルティなし・監視しない・自己決定
    ════════════════════════════════════════════════════════ */
 
-/* ── XPルール(全部ここ。隠しパラメータなし) ── */
+/* ── XPルール(全公開) ── */
 const XP = {
-  wake:    { pts: 20, label: '起床ログ(LAUNCHを押す)' },
-  target:  { pts: 40, label: 'ターゲット±45分以内に起床' },
-  gravity: { pts: 10, label: 'GRAVITY CHECK(重力レベル記録)' },
-  seq:     { pts: 10, label: 'LAUNCH SEQUENCE 各ステップ(×3)' },
-  mission: { pts: 10, label: '今日のミッションを決める' },
+  wake:    { pts: 20, label: '起床ログ(LAUNCH)' },
+  target:  { pts: 40, label: 'ルアー命中(±45分)' },
+  gravity: { pts: 10, label: 'GRAVITY CHECK' },
+  seq:     { pts: 10, label: 'LAUNCH SEQUENCE 各(×3)' },
+  mission: { pts: 10, label: 'ミッション設定' },
   missionClear: { pts: 15, label: 'きのうのミッションをクリア' },
   night:   { pts: 20, label: '就寝ログ(GOOD NIGHT)' },
-  setTgt:  { pts: 10, label: '明日のターゲットを決める' },
+  setTgt:  { pts: 10, label: 'ルアー設置' },
+  care:    { pts: 5,  label: '手入れ各(歯磨き/サプリ/エサ×3)' },
 };
-
-/* ── LAUNCH SEQUENCE(起立性調節障害の標準プロトコル) ── */
+const RANKS = [
+  { xp: 0, name: 'ROOKIE' }, { xp: 1000, name: 'TREKKER' }, { xp: 3000, name: 'NAVIGATOR' },
+  { xp: 6000, name: 'ICE PILOT' }, { xp: 10000, name: 'EXPEDITION LEADER' }, { xp: 17000, name: 'LEGEND' },
+];
 const SEQ_STEPS = [
   { id: 'water', label: '水分+塩分を入れる', sub: '水・OS-1・味噌汁なんでも。血圧の燃料。' },
-  { id: 'sit',   label: '30秒座ってから立つ', sub: '急に立つと重力に撃墜される。段階式リフトオフ。' },
-  { id: 'light', label: '光を浴びる', sub: 'カーテンを開ける。体内時計にモーニングコール。' },
+  { id: 'sit',   label: '30秒座ってから立つ', sub: '段階式リフトオフ。' },
+  { id: 'light', label: '光を浴びる', sub: 'カーテンを開ける。体内時計に着信。' },
 ];
 
-/* ── 遠征ステージ(本棚から引いてきたルート) ──
-   年中で読んだエルマーから始まり、小5で読んだ風をつかまえた少年、
-   その先の極地探検家たちへ。1 XP = 1 km。 */
-const STAGES = [
-  { name: 'どうぶつ島遠征', from: 'エルマーのぼうけん', goal: 1000,
-    story: 'みかん島からどうぶつ島へ。りゅうの子を助けに行く最初の遠征。エルマーの装備はリュックひとつ。おまえの装備はボタンひとつ。' },
-  { name: 'ウィンベ村の風車', from: '風をつかまえた少年', goal: 3000,
-    story: 'ウィリアム・カムクワンバ14歳、学費が払えず学校を追われ、図書館の本だけで風車を建てて村に電気を灯した。図書館は最強。これは実話。' },
-  { name: '南極点レース', from: 'アムンセン 1911', goal: 6000,
-    story: 'アムンセンは犬ぞりで1日30kmずつ、淡々と進んで人類初の南極点に立った。派手さゼロ。毎日同じことをやっただけ。それが一番強い。' },
-  { name: 'エンデュアランス漂流', from: 'シャクルトン 1916', goal: 10000,
-    story: '船が氷に潰されて沈没。流氷の上で10ヶ月停滞。それでもシャクルトンは隊員28人全員を生きて連れ帰った。停滞は敗北じゃない。' },
-  { name: 'SEVEN SUMMITS', from: '七大陸最高峰', goal: 17000,
-    story: 'キリマンジャロ、デナリ、アコンカグア、エベレスト…。7大陸の頂点を全部踏む。ここまで来たやつに言うことはもうない。' },
-];
-const RANKS = [
-  { xp: 0,     name: 'ROOKIE' },
-  { xp: 1000,  name: 'TREKKER' },
-  { xp: 3000,  name: 'NAVIGATOR' },
-  { xp: 6000,  name: 'ICE PILOT' },
-  { xp: 10000, name: 'EXPEDITION LEADER' },
-  { xp: 17000, name: 'LEGEND' },
+/* ── 章(バイオーム) ── */
+const CHAPTERS = [
+  { name: '第1章 どうぶつ島', from: 'エルマーのぼうけん' },
+  { name: '第2章 風の村', from: '風をつかまえた少年' },
+  { name: '第3章 南極', from: 'アムンセン' },
+  { name: '第4章 漂流海域', from: 'シャクルトン' },
+  { name: '第5章 七大陸', from: 'セブンサミッツ' },
 ];
 
-/* ── 朝のメッセージプール(日替わり) ── */
+/* ── クリーチャー全30種 ──
+   cond: スポーン条件キー / boost: 出現率が上がる条件(COMMON用) */
+const SPECIES = [
+  { id: 1,  name: 'ネムリ',       ch: 1, rar: 'C', tpl: 'blob',     col: '#8ab890', desc: '布団の綿毛から生まれる。基本のやつ', hint: 'どこにでもいる気配' },
+  { id: 2,  name: 'モフトン',     ch: 1, rar: 'C', tpl: 'blob2',    col: '#c8b090', desc: '枕の下に巣を作る。ネムリの兄貴分', hint: 'どこにでもいる気配' },
+  { id: 3,  name: 'ヒカリムシ',   ch: 1, rar: 'C', tpl: 'sun',      col: '#d8c878', desc: 'カーテンの隙間の光に湧く', hint: '光を浴びた翌朝に多い?', boost: 'ydayLight' },
+  { id: 4,  name: 'アクビガニ',   ch: 1, rar: 'C', tpl: 'crab',     col: '#d89078', desc: 'あくびを集めて泡にするカニ', hint: '朝おそい時間の気配', cond: 'band9_11' },
+  { id: 5,  name: 'ドロネム',     ch: 1, rar: 'R', tpl: 'ghost',    col: '#5a4a8a', desc: '低血圧の沼に住む。7時前だけ浮上', hint: '早朝の沼で目撃例', cond: 'band4_7' },
+  { id: 6,  name: 'ミカポン',     ch: 1, rar: 'R', tpl: 'round',    col: '#e09040', desc: 'みかん島の主食。皮ごと転がる', hint: '火曜に転がる音がする', cond: 'dow2' },
+  { id: 7,  name: 'リボリュウ',   ch: 1, rar: 'E', tpl: 'dragon',   col: '#68b8d8', desc: 'リボンが好きなりゅうの子', hint: 'ルアーの名人にだけ懐く', cond: 'lureHits3' },
+  { id: 8,  name: 'グラビガメ',   ch: 1, rar: 'L', tpl: 'turtle',   col: '#78a890', desc: '島のヌシ。重力を甲羅に溜めている', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 9,  name: 'カゼコ',       ch: 2, rar: 'C', tpl: 'ghost',    col: '#a8c8d8', desc: '風の切れ端。群れで飛ぶ', hint: 'どこにでもいる気配' },
+  { id: 10, name: 'デンキダケ',   ch: 2, rar: 'C', tpl: 'mushroom', col: '#c8d868', desc: '廃品の山に生えるキノコ。微弱発電', hint: 'どこにでもいる気配' },
+  { id: 11, name: 'ハグルマン',   ch: 2, rar: 'C', tpl: 'gear',     col: '#b0a890', desc: '歯車を食べて動く', hint: 'エサをよく食べた翌朝に多い?', boost: 'ydayMeals3' },
+  { id: 12, name: 'ライブラ',     ch: 2, rar: 'R', tpl: 'book',     col: '#c8a868', desc: '図書館の本の隙間に住む。物知り', hint: '土曜の書架で目撃例', cond: 'dow6' },
+  { id: 13, name: 'トタンドリ',   ch: 2, rar: 'R', tpl: 'bird',     col: '#88b8c8', desc: 'トタン屋根で雨音を歌にする鳥', hint: '気まぐれ。運がいい朝に', cond: 'rand12' },
+  { id: 14, name: 'フウシャオー', ch: 2, rar: 'E', tpl: 'windmill', col: '#e8d8a8', desc: '夜明けの風だけで回る風車の王', hint: '6時台の風に乗って来る', cond: 'hour6' },
+  { id: 15, name: 'グラビゴン',   ch: 2, rar: 'L', tpl: 'dragon',   col: '#bf00ff', desc: '村のヌシ。重力の竜', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 16, name: 'コオリム',     ch: 3, rar: 'C', tpl: 'crystal',  col: '#a8d8e8', desc: '氷の結晶に眠る小さいやつ', hint: 'どこにでもいる気配' },
+  { id: 17, name: 'ペンペン',     ch: 3, rar: 'C', tpl: 'penguin',  col: '#8898b8', desc: '隊列を組むのが好き。よく転ぶ', hint: 'どこにでもいる気配' },
+  { id: 18, name: 'オーロラス',   ch: 3, rar: 'R', tpl: 'ghost',    col: '#78e8c8', desc: 'オーロラの端切れ。夜明け前限定', hint: '5時台の空に揺れる', cond: 'hour5' },
+  { id: 19, name: 'イヌゾリン',   ch: 3, rar: 'R', tpl: 'dog',      col: '#c8a878', desc: '約束を運ぶ犬ぞり犬', hint: 'ミッションを果たした翌朝に', cond: 'ydayMissionClear' },
+  { id: 20, name: 'アムンゼン',   ch: 3, rar: 'E', tpl: 'flagpeak', col: '#88c8a8', desc: '淡々と1日30km進む極点の主', hint: 'ルアーど真ん中(±15分)の朝', cond: 'lureExact15' },
+  { id: 21, name: 'グラビクジラ', ch: 3, rar: 'L', tpl: 'whale',    col: '#68a8e8', desc: '氷海のヌシ。潮で重力を吹く', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 22, name: 'リュウヒョウ', ch: 4, rar: 'C', tpl: 'crystal',  col: '#c8e8f0', desc: '流氷のかけら。プカプカ', hint: 'どこにでもいる気配' },
+  { id: 23, name: 'シオフキ',     ch: 4, rar: 'C', tpl: 'shell',    col: '#e8c8d8', desc: '塩を吹く貝。水分塩分の友', hint: 'どこにでもいる気配' },
+  { id: 24, name: 'ナンパセン',   ch: 4, rar: 'R', tpl: 'boat',     col: '#a89078', desc: '難破船の木片の精。月曜がつらい', hint: '月曜の海に漂う', cond: 'dow1' },
+  { id: 25, name: 'エンデュラ',   ch: 4, rar: 'E', tpl: 'boat2',    col: '#e8a858', desc: '停滞から必ず戻ってくる不屈号', hint: 'しばらく空けて戻った朝、必ず来る', cond: 'comeback' },
+  { id: 26, name: 'グラビクラーケン', ch: 4, rar: 'L', tpl: 'kraken', col: '#8858c8', desc: '海域のヌシ。重力の渦を巻く', hint: '一番重い朝にだけ現れるヌシ', cond: 'boss' },
+  { id: 27, name: 'キリマン',     ch: 5, rar: 'R', tpl: 'peak',     col: '#b8a888', desc: '頂に雪をかぶった獣', hint: '手入れ万全(歯磨き+サプリ)の翌朝', cond: 'ydayTeethSupp' },
+  { id: 28, name: 'チョモラン',   ch: 5, rar: 'R', tpl: 'peak',     col: '#88a8c8', desc: '最高峰の風の精', hint: '6時台の高所に', cond: 'hour6' },
+  { id: 29, name: 'デナリン',     ch: 5, rar: 'E', tpl: 'peakstar', col: '#d8c890', desc: '完璧な仕事にだけ姿を見せる', hint: 'パーフェクト捕獲の翌朝', cond: 'ydayPerfect' },
+  { id: 30, name: 'ムジュウリョク', ch: 5, rar: 'L', tpl: 'orb',    col: '#ffd700', desc: '最後のヌシ。重力から自由なやつ', hint: '全てのヌシを従えた者の、一番重い朝に', cond: 'finalBoss' },
+];
+const CH_SIZE = [8, 7, 6, 5, 4];
+
+/* ── スプライト(全てインラインSVG・オフライン完結) ── */
+function eyes(x1, x2, y, c = '#101018') {
+  return `<circle cx="${x1}" cy="${y}" r="5" fill="#f0ecf8"/><circle cx="${x2}" cy="${y}" r="5" fill="#f0ecf8"/>
+    <circle cx="${x1 + 1}" cy="${y + 1.5}" r="2.2" fill="${c}"/><circle cx="${x2 - 1}" cy="${y + 1.5}" r="2.2" fill="${c}"/>`;
+}
+const TPL = {
+  blob: c => `<ellipse cx="60" cy="86" rx="30" ry="6" fill="#1c1c26"/>
+    <path d="M60 24 C84 24 92 46 90 62 C88 78 76 84 60 84 C44 84 32 78 30 62 C28 46 36 24 60 24 Z" fill="${c}"/>
+    ${eyes(50, 70, 52)}<path d="M53 66 Q60 70 67 66" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  blob2: c => `<ellipse cx="60" cy="86" rx="32" ry="6" fill="#1c1c26"/>
+    <path d="M60 26 C86 26 94 48 92 64 C90 80 76 86 60 86 C44 86 30 80 28 64 C26 48 34 26 60 26 Z" fill="${c}"/>
+    <path d="M40 32 C36 22 28 20 24 24 C30 26 32 30 33 36 Z" fill="${c}"/>
+    <path d="M80 32 C84 22 92 20 96 24 C90 26 88 30 87 36 Z" fill="${c}"/>
+    ${eyes(50, 70, 54)}<path d="M54 68 Q60 72 66 68" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  sun: c => `<circle cx="60" cy="54" r="24" fill="${c}"/>
+    <path d="M60 16 L60 26 M60 82 L60 92 M22 54 L32 54 M88 54 L98 54 M33 27 L40 34 M87 27 L80 34 M33 81 L40 74 M87 81 L80 74" stroke="${c}" stroke-width="4" stroke-linecap="round"/>
+    ${eyes(52, 68, 50)}<path d="M54 64 Q60 68 66 64" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  crab: c => `<ellipse cx="60" cy="88" rx="34" ry="5" fill="#1c1c26"/>
+    <ellipse cx="60" cy="62" rx="28" ry="20" fill="${c}"/>
+    <path d="M34 50 C24 42 18 44 14 52 C22 52 26 56 30 60 Z" fill="${c}"/>
+    <path d="M86 50 C96 42 102 44 106 52 C98 52 94 56 90 60 Z" fill="${c}"/>
+    <line x1="48" y1="44" x2="46" y2="34" stroke="${c}" stroke-width="3"/><line x1="72" y1="44" x2="74" y2="34" stroke="${c}" stroke-width="3"/>
+    <circle cx="46" cy="32" r="5" fill="#f0ecf8"/><circle cx="74" cy="32" r="5" fill="#f0ecf8"/>
+    <circle cx="46" cy="33" r="2.2" fill="#101018"/><circle cx="74" cy="33" r="2.2" fill="#101018"/>
+    <path d="M52 68 Q60 63 68 68" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  ghost: c => `<path d="M60 20 C82 20 90 40 90 58 L90 84 L80 76 L70 84 L60 76 L50 84 L40 76 L30 84 L30 58 C30 40 38 20 60 20 Z" fill="${c}"/>
+    ${eyes(50, 70, 48)}<path d="M53 62 Q60 66 67 62" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  round: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="#1c1c26"/>
+    <circle cx="60" cy="58" r="28" fill="${c}"/>
+    <path d="M60 30 C58 22 62 16 70 14 C66 20 66 24 66 30 Z" fill="#78a858"/>
+    ${eyes(50, 70, 54)}<path d="M53 68 Q60 72 67 68" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  dragon: c => `<ellipse cx="60" cy="90" rx="32" ry="5" fill="#1c1c26"/>
+    <path d="M40 84 C30 74 28 56 38 44 C46 34 60 30 72 36 C84 42 88 56 82 68 C76 80 64 86 52 84 Z" fill="${c}"/>
+    <path d="M44 40 L38 26 L52 34 Z" fill="${c}"/><path d="M70 34 L74 20 L82 34 Z" fill="${c}"/>
+    <path d="M82 66 C92 64 98 68 100 76 C92 74 86 74 80 74 Z" fill="${c}"/>
+    ${eyes(52, 70, 52)}<path d="M52 66 Q60 71 68 66" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  turtle: c => `<ellipse cx="60" cy="88" rx="36" ry="5" fill="#1c1c26"/>
+    <path d="M28 74 C28 52 42 38 60 38 C78 38 92 52 92 74 Z" fill="${c}"/>
+    <path d="M44 56 L60 46 L76 56 M36 68 L60 54 L84 68" stroke="#101018" stroke-width="1.6" fill="none" opacity=".4"/>
+    <circle cx="24" cy="70" r="9" fill="${c}"/><circle cx="22" cy="68" r="2" fill="#101018"/>
+    <rect x="34" y="76" width="10" height="8" rx="3" fill="${c}"/><rect x="76" y="76" width="10" height="8" rx="3" fill="${c}"/>`,
+  mushroom: c => `<ellipse cx="60" cy="88" rx="26" ry="5" fill="#1c1c26"/>
+    <rect x="50" y="56" width="20" height="30" rx="8" fill="#e8e0d0"/>
+    <path d="M28 56 C28 36 42 24 60 24 C78 24 92 36 92 56 Z" fill="${c}"/>
+    <circle cx="46" cy="42" r="4" fill="#f0ecf8" opacity=".6"/><circle cx="72" cy="38" r="3" fill="#f0ecf8" opacity=".6"/>
+    <circle cx="55" cy="68" r="2.2" fill="#101018"/><circle cx="65" cy="68" r="2.2" fill="#101018"/>
+    <path d="M56 76 Q60 79 64 76" stroke="#101018" stroke-width="1.8" fill="none" stroke-linecap="round"/>`,
+  gear: c => `<circle cx="60" cy="56" r="24" fill="${c}"/>
+    ${[0,45,90,135,180,225,270,315].map(a => { const r = a * Math.PI / 180;
+      return `<rect x="${60 + Math.cos(r) * 28 - 4}" y="${56 + Math.sin(r) * 28 - 4}" width="8" height="8" rx="2" fill="${c}"/>`; }).join('')}
+    ${eyes(52, 68, 52)}<path d="M54 66 Q60 70 66 66" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  book: c => `<ellipse cx="60" cy="90" rx="28" ry="5" fill="#1c1c26"/>
+    <rect x="34" y="30" width="52" height="56" rx="5" fill="${c}"/>
+    <rect x="40" y="30" width="4" height="56" fill="#101018" opacity=".3"/>
+    <line x1="52" y1="44" x2="78" y2="44" stroke="#101018" stroke-width="2" opacity=".35"/>
+    ${eyes(54, 72, 60)}<path d="M57 74 Q63 78 69 74" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  bird: c => `<ellipse cx="60" cy="90" rx="26" ry="5" fill="#1c1c26"/>
+    <ellipse cx="60" cy="58" rx="26" ry="24" fill="${c}"/>
+    <path d="M34 58 C24 54 20 58 18 66 C26 64 30 66 36 68 Z" fill="${c}"/>
+    <path d="M84 52 L98 56 L84 62 Z" fill="#e0a040"/>
+    <circle cx="72" cy="48" r="5" fill="#f0ecf8"/><circle cx="73" cy="49" r="2.2" fill="#101018"/>
+    <line x1="52" y1="82" x2="52" y2="90" stroke="#e0a040" stroke-width="3"/><line x1="66" y1="82" x2="66" y2="90" stroke="#e0a040" stroke-width="3"/>`,
+  windmill: c => `<ellipse cx="60" cy="92" rx="24" ry="4" fill="#1c1c26"/>
+    <path d="M56 50 L64 50 L68 90 L52 90 Z" fill="#d8ccb0"/>
+    <circle cx="60" cy="46" r="6" fill="${c}"/>
+    <path d="M60 46 L60 14 L72 20 Z M60 46 L92 46 L86 58 Z M60 46 L60 78 L48 72 Z M60 46 L28 46 L34 34 Z" fill="${c}"/>
+    <circle cx="57" cy="60" r="2" fill="#101018"/><circle cx="63" cy="60" r="2" fill="#101018"/>
+    <path d="M57 68 Q60 70 63 68" stroke="#101018" stroke-width="1.6" fill="none" stroke-linecap="round"/>`,
+  crystal: c => `<ellipse cx="60" cy="90" rx="24" ry="5" fill="#1c1c26"/>
+    <path d="M60 14 L82 40 L74 88 L46 88 L38 40 Z" fill="${c}"/>
+    <path d="M50 40 L60 30 L70 40" stroke="#f0ecf8" stroke-width="2" fill="none" opacity=".6"/>
+    ${eyes(52, 68, 56)}<path d="M54 70 Q60 74 66 70" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  penguin: c => `<ellipse cx="60" cy="90" rx="26" ry="5" fill="#1c1c26"/>
+    <path d="M60 22 C80 22 88 44 86 66 C84 84 74 88 60 88 C46 88 36 84 34 66 C32 44 40 22 60 22 Z" fill="${c}"/>
+    <ellipse cx="60" cy="64" rx="17" ry="20" fill="#f0ecf8"/>
+    <path d="M54 40 L60 48 L66 40 Z" fill="#e0a040"/>
+    <circle cx="50" cy="36" r="4.4" fill="#f0ecf8"/><circle cx="70" cy="36" r="4.4" fill="#f0ecf8"/>
+    <circle cx="51" cy="37" r="2" fill="#101018"/><circle cx="69" cy="37" r="2" fill="#101018"/>`,
+  dog: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="#1c1c26"/>
+    <ellipse cx="60" cy="60" rx="26" ry="24" fill="${c}"/>
+    <path d="M38 44 C32 30 36 22 44 20 C44 30 46 36 50 40 Z" fill="${c}"/>
+    <path d="M82 44 C88 30 84 22 76 20 C76 30 74 36 70 40 Z" fill="${c}"/>
+    ${eyes(50, 70, 54)}<ellipse cx="60" cy="66" rx="5" ry="4" fill="#101018"/>
+    <path d="M60 70 Q60 76 52 76 M60 70 Q60 76 68 76" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  flagpeak: c => `<ellipse cx="60" cy="90" rx="32" ry="5" fill="#1c1c26"/>
+    <path d="M60 30 L92 88 L28 88 Z" fill="${c}"/>
+    <path d="M52 44 L60 30 L68 44 L60 40 Z" fill="#f0ecf8"/>
+    <line x1="60" y1="30" x2="60" y2="12" stroke="#d8ccb0" stroke-width="2.5"/>
+    <path d="M60 12 L76 17 L60 22 Z" fill="#ff5060"/>
+    <circle cx="52" cy="70" r="2.4" fill="#101018"/><circle cx="68" cy="70" r="2.4" fill="#101018"/>
+    <path d="M54 78 Q60 81 66 78" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  whale: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="#1c1c26"/>
+    <path d="M24 66 C24 46 40 34 60 34 C80 34 94 48 94 64 C94 76 84 84 68 84 L32 84 C26 84 24 76 24 66 Z" fill="${c}"/>
+    <path d="M92 60 C100 54 104 56 106 62 C100 62 96 66 92 70 Z" fill="${c}"/>
+    <path d="M44 30 C42 22 44 16 48 12 M52 30 C52 22 55 16 60 14 M48 32 C46 24 48 18 52 14" stroke="#a8d8e8" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <circle cx="42" cy="56" r="4.6" fill="#f0ecf8"/><circle cx="43" cy="57" r="2.2" fill="#101018"/>
+    <path d="M34 68 Q42 72 50 68" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  shell: c => `<ellipse cx="60" cy="88" rx="28" ry="5" fill="#1c1c26"/>
+    <path d="M28 72 C28 50 42 38 60 38 C78 38 92 50 92 72 C80 80 40 80 28 72 Z" fill="${c}"/>
+    <path d="M60 40 L60 76 M44 44 L52 76 M76 44 L68 76" stroke="#101018" stroke-width="1.6" opacity=".3" fill="none"/>
+    <path d="M56 20 C54 12 58 8 64 8 C60 14 60 16 62 22 Z" fill="#a8d8e8"/>
+    <circle cx="52" cy="60" r="2.4" fill="#101018"/><circle cx="68" cy="60" r="2.4" fill="#101018"/>
+    <path d="M54 68 Q60 72 66 68" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  boat: c => `<path d="M20 66 L100 66 L84 88 L36 88 Z" fill="${c}"/>
+    <path d="M20 92 Q35 86 50 92 T80 92 T110 92" stroke="#3a5a7a" stroke-width="3" fill="none"/>
+    <line x1="60" y1="66" x2="60" y2="26" stroke="#d8ccb0" stroke-width="3"/>
+    <path d="M60 28 L84 48 L60 48 Z" fill="#d8ccb0"/>
+    <circle cx="46" cy="74" r="2.4" fill="#101018"/><circle cx="60" cy="74" r="2.4" fill="#101018"/>
+    <path d="M48 80 Q54 83 60 80" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  boat2: c => `<path d="M20 66 L100 66 L84 88 L36 88 Z" fill="${c}"/>
+    <path d="M20 92 Q35 86 50 92 T80 92 T110 92" stroke="#3a5a7a" stroke-width="3" fill="none"/>
+    <line x1="60" y1="66" x2="60" y2="20" stroke="#d8ccb0" stroke-width="3"/>
+    <path d="M60 22 L86 42 L60 42 Z" fill="#f0ecf8"/>
+    <path d="M60 20 L44 25 L60 30 Z" fill="#ffd700"/>
+    <circle cx="46" cy="74" r="2.4" fill="#101018"/><circle cx="60" cy="74" r="2.4" fill="#101018"/>
+    <path d="M46 80 Q54 84 62 80" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  kraken: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="#1c1c26"/>
+    <path d="M60 18 C80 18 88 34 88 50 C88 62 80 66 60 66 C40 66 32 62 32 50 C32 34 40 18 60 18 Z" fill="${c}"/>
+    <path d="M36 64 C32 74 26 78 20 78 C26 82 34 80 40 72 Z M50 66 C48 78 42 84 36 86 C44 88 52 82 54 72 Z M70 66 C72 78 78 84 84 86 C76 88 68 82 66 72 Z M84 64 C88 74 94 78 100 78 C94 82 86 80 80 72 Z" fill="${c}"/>
+    ${eyes(50, 70, 44)}<path d="M52 56 Q60 60 68 56" stroke="#101018" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  peak: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="#1c1c26"/>
+    <path d="M60 24 L94 88 L26 88 Z" fill="${c}"/>
+    <path d="M50 42 L60 24 L70 42 L64 38 L60 44 L56 38 Z" fill="#f0ecf8"/>
+    <circle cx="52" cy="68" r="2.6" fill="#101018"/><circle cx="68" cy="68" r="2.6" fill="#101018"/>
+    <path d="M54 78 Q60 81 66 78" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  peakstar: c => `<ellipse cx="60" cy="90" rx="34" ry="5" fill="#1c1c26"/>
+    <path d="M60 26 L94 88 L26 88 Z" fill="${c}"/>
+    <path d="M52 44 L60 26 L68 44 L62 40 L60 46 L58 40 Z" fill="#f0ecf8"/>
+    <path d="M60 6 L63 13 L70 13 L64 18 L66 25 L60 21 L54 25 L56 18 L50 13 L57 13 Z" fill="#ffd700"/>
+    <circle cx="52" cy="68" r="2.6" fill="#101018"/><circle cx="68" cy="68" r="2.6" fill="#101018"/>
+    <path d="M54 78 Q60 81 66 78" stroke="#101018" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  orb: c => `<circle cx="60" cy="52" r="22" fill="${c}"/>
+    <ellipse cx="60" cy="52" rx="34" ry="9" fill="none" stroke="${c}" stroke-width="2.5" opacity=".6"/>
+    <circle cx="30" cy="48" r="3" fill="${c}"/><circle cx="90" cy="58" r="3" fill="${c}"/>
+    <ellipse cx="60" cy="94" rx="14" ry="3" fill="#1c1c26"/>
+    ${eyes(52, 68, 48, '#3a2a00')}<path d="M54 62 Q60 66 66 62" stroke="#3a2a00" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+};
+function spriteSvg(sp, evolved) {
+  const crown = evolved ? `<path d="M46 12 L52 20 L60 10 L68 20 L74 12 L72 26 L48 26 Z" fill="#ffd700"/>` : '';
+  return `<svg viewBox="0 0 120 100" role="img" aria-label="${sp.name}">${TPL[sp.tpl](sp.col)}${crown}</svg>`;
+}
+
+/* ── メッセージ(日替わり) ── */
 const MESSAGES = [
   { t: '重力 vs おまえ。今日の一勝は、起きたことだ。それ以上は全部ボーナス。', s: 'GRAVITY PROTOCOL' },
-  { t: 'アムンセンは天気が良くても1日30kmしか進まなかった。良い日に飛ばさない。悪い日にゼロにしない。', s: 'AMUNDSEN, 1911' },
-  { t: 'シャクルトンの募集広告:「成功の保証なし。ただし成功の暁には栄誉」。応募が殺到した。人は無理ゲーに惹かれる。', s: 'SHACKLETON, 1914' },
-  { t: 'ウィリアム・カムクワンバは村中に笑われながら廃品で風車を組んだ。動いた瞬間、笑ってたやつらが行列を作った。', s: 'THE BOY WHO HARNESSED THE WIND' },
-  { t: 'エルマーはりゅうを助けるのにライオンと戦ってない。リボンを渡してかわした。正面突破だけが攻略法じゃない。', s: 'MY FATHER\'S DRAGON' },
   { t: '起きられない朝は、血圧が重力に負けてるだけ。おまえのやる気の問題じゃない。物理の問題だ。', s: 'OD SCIENCE' },
+  { t: 'G-3の朝にだけ現れるやつがいる、という噂。一番重い朝が一番アツい。', s: 'FIELD RUMOR' },
+  { t: '朝のフィールドは4:00-11:00。それを過ぎても、必ず誰かは残ってる。ゼロの日はない。', s: 'FIELD RULE' },
+  { t: 'ルアーは夜のおまえが仕掛けた約束。朝のおまえは回収するだけでいい。', s: 'LURE THEORY' },
+  { t: 'タマゴは寝てる間しか育たない。つまり寝るのも攻略。', s: 'INCUBATION LAB' },
+  { t: '図鑑のヒント欄は読んだか。出現条件は自力で解くタイプの謎だ。', s: 'DEX INTEL' },
   { t: '音楽をかけろ。ビートが先、身体は後からついてくる。', s: 'MORNING BEAT' },
-  { t: '今日のログが1行増える。それはつまり、主治医への証拠が1行増えるってこと。データで殴れ。', s: 'DATA IS POWER' },
-  { t: '植村直己は「冒険とは生きて帰ることである」と言った。今日を生きて夜のキャンプまで戻れば、それで遠征成立。', s: 'UEMURA NAOMI' },
-  { t: '昨日の記録がなくても遠征は続いてる。キャンプで天候待ちしてただけだ。', s: 'BASE CAMP RULE' },
-  { t: '南極の隊員は毎朝、寝袋の中で30分かけて起きた。極地スタイルでいい。ゆっくりやれ。', s: 'POLAR MORNING' },
-  { t: 'G-3の朝に記録を残せるやつは、G-0の朝に自慢するやつより強い。', s: 'GRAVITY CHECK' },
-  { t: 'レベル上げと同じ。最初は雑魚戦がしんどい。データが溜まるほど、自分の攻略パターンが見えてくる。', s: 'GAME THEORY' },
-  { t: '図書館が世界を救った例:カムクワンバの風車。図書館は今日も開いてる。', s: 'LIBRARY WINS' },
-  { t: '7時に起きても11時に起きても、LAUNCHを押せば同じ20XP。この遠征は「起きた時刻」より「記録した事実」に払う。', s: 'FAIR PLAY RULE' },
-  { t: 'おまえの本質は「真冬にそびえる岩山」らしい。岩山は流行に流されない。1日1cmずつ標高を上げるだけだ。', s: 'GEO SURVEY' },
-  { t: '大器晩成型は序盤のステータスが低めに設定されてる。そのかわり後半の伸び率が壊れてる。ビルドは間違ってない。', s: 'CHARACTER BUILD' },
-  { t: '時間をかけて大きな山を築くタイプは、短距離走で勝負しなくていい。今日の1ログが標高になる。', s: 'MOUNTAIN LOGIC' },
-  { t: '決めたことを忘れるのは欠陥じゃなくて仕様。だから外部ストレージ(このアプリ)に書き出す。人類はそうやってきた。', s: 'EXTERNAL MEMORY' },
+  { t: '今日のログが1行増える=主治医への証拠が1行増える。データで殴れ。', s: 'DATA IS POWER' },
+  { t: '大器晩成型は序盤のステータスが低めに設定されてる。そのかわり後半の伸び率が壊れてる。', s: 'CHARACTER BUILD' },
+  { t: '決めたことを忘れるのは欠陥じゃなくて仕様。だから外部ストレージ(これ)に書き出す。', s: 'EXTERNAL MEMORY' },
+  { t: 'しばらく空いても遠征は続いてる。戻ってきた朝に、待ってるやつがいる。', s: 'COMEBACK PROTOCOL' },
+  { t: '7時に起きても11時に起きても、記録は同じ20XP。この遠征は「起きた時刻」より「記録した事実」に払う。', s: 'FAIR PLAY RULE' },
+  { t: '正直なG-3申告が一番得をする。この世界では正直がメタ。', s: 'HONESTY META' },
 ];
 
 /* ── ストレージ ── */
-const LS_DAYS = 'gq:days';
-const LS_META = 'gq:meta';
+const LS_DAYS = 'gq2:days', LS_META = 'gq2:meta';
 const store = {
   days() { try { return JSON.parse(localStorage.getItem(LS_DAYS)) || {}; } catch { return {}; } },
   saveDays(d) { localStorage.setItem(LS_DAYS, JSON.stringify(d)); },
   meta() { try { return JSON.parse(localStorage.getItem(LS_META)) || {}; } catch { return {}; } },
   saveMeta(m) { localStorage.setItem(LS_META, JSON.stringify(m)); },
 };
+function initMeta() {
+  const m = store.meta();
+  if (!m.salt) {
+    m.salt = Math.random().toString(36).slice(2, 10);
+    m.chapter = m.chapter || 1;
+    m.dex = m.dex || {};
+    m.egg = m.egg || { progress: 0 };
+    /* v1(GRAVITY ESCAPE)からの移行: 日次ログとXPを引き継ぐ */
+    try {
+      const old = JSON.parse(localStorage.getItem('gq:days'));
+      if (old) {
+        const days = store.days();
+        for (const [k, v] of Object.entries(old)) if (!days[k]) days[k] = v;
+        store.saveDays(days);
+        m.migratedV1 = true;
+        const oldMeta = JSON.parse(localStorage.getItem('gq:meta')) || {};
+        if (oldMeta.name) m.name = oldMeta.name;
+        if (oldMeta.lastTarget) m.lastTarget = oldMeta.lastTarget;
+        if (oldMeta.nextTarget) m.nextTarget = oldMeta.nextTarget;
+      }
+    } catch {}
+    store.saveMeta(m);
+  }
+  return m;
+}
 
-/* ── 日付ユーティリティ ──
-   「今日」の境界は朝4時。0〜4時の就寝ログは前日の夜として扱う。 */
+/* ── 日付ユーティリティ(朝4時境界) ── */
 const pad = n => String(n).padStart(2, '0');
 function dayKey(date, isNight) {
   const d = new Date(date);
@@ -454,10 +660,10 @@ function dayKey(date, isNight) {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 function todayKey() { return dayKey(new Date(), false); }
+function yesterdayKey() { const d = new Date(); d.setDate(d.getDate() - 1); return dayKey(d, false); }
 function fmtHM(ts) { const d = new Date(ts); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; }
 function minutesOf(ts) { const d = new Date(ts); return d.getHours() * 60 + d.getMinutes(); }
 function parseHM(s) { const [h, m] = (s || '0:0').split(':').map(Number); return h * 60 + (m || 0); }
-
 function getDay(key) { return store.days()[key] || null; }
 function patchDay(key, patch) {
   const days = store.days();
@@ -466,7 +672,17 @@ function patchDay(key, patch) {
   return days[key];
 }
 
-/* ── XP集計(単一情報源はdaysのみ) ── */
+/* ── シード付き乱数(日付で固定・リロードで引き直せない) ── */
+function makeRng(seedStr) {
+  let h = 2166136261;
+  for (const ch of seedStr) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); }
+  return function () {
+    h ^= h << 13; h ^= h >>> 17; h ^= h << 5;
+    return (h >>> 0) / 4294967296;
+  };
+}
+
+/* ── XP集計 ── */
 function dayXp(d) {
   if (!d) return 0;
   let x = 0;
@@ -478,23 +694,200 @@ function dayXp(d) {
   if (d.missionCleared === true) x += XP.missionClear.pts;
   if (d.nightAt) x += XP.night.pts;
   if (d.targetSet) x += XP.setTgt.pts;
+  if (d.care) x += ((d.care.teeth ? 1 : 0) + (d.care.supp ? 1 : 0) + (d.care.meals || []).filter(Boolean).length) * XP.care.pts;
   return x;
 }
-function totalXp() {
-  const days = store.days();
-  return Object.values(days).reduce((a, d) => a + dayXp(d), 0);
+function totalXp() { return Object.values(store.days()).reduce((a, d) => a + dayXp(d), 0); }
+function rankOf(xp) { let r = RANKS[0]; for (const k of RANKS) if (xp >= k.xp) r = k; return r; }
+
+/* ── 図鑑ヘルパー ── */
+function dexGet() { return store.meta().dex || {}; }
+function chapterCoverage(ch) {
+  const dex = dexGet();
+  const caught = SPECIES.filter(s => s.ch === ch && dex[s.id]).length;
+  return caught / CH_SIZE[ch - 1];
 }
-function rankOf(xp) {
-  let r = RANKS[0];
-  for (const k of RANKS) if (xp >= k.xp) r = k;
-  return r;
+function currentChapter() { return store.meta().chapter || 1; }
+function checkChapterUnlock() {
+  const m = store.meta();
+  while ((m.chapter || 1) < 5 && chapterCoverage(m.chapter) >= 0.7) {
+    m.chapter++;
+    store.saveMeta(m);
+    burst(); setTimeout(burst, 400);
+    setTimeout(() => alert(`★ NEW AREA ★\n${CHAPTERS[m.chapter - 1].name} が解放された。\n新しい気配がフィールドに増えた。`), 300);
+  }
 }
-function stageOf(xp) {
-  for (let i = 0; i < STAGES.length; i++) if (xp < STAGES[i].goal) return i;
-  return STAGES.length - 1; // 全クリ後は最終ステージ表示(エンドレス)
+function bossesCaughtCount() {
+  const dex = dexGet();
+  return [8, 15, 21, 26].filter(id => dex[id]).length;
 }
 
-/* ── パーティクル演出 ── */
+/* ── スポーンコンテキスト ── */
+function buildCtx(now, gravity) {
+  const days = store.days();
+  const meta = store.meta();
+  const yd = getDay(yesterdayKey()) || {};
+  const hour = new Date(now).getHours();
+  const dow = new Date(now).getDay();
+  const careY = yd.care ? (yd.care.teeth ? 1 : 0) + (yd.care.supp ? 1 : 0) + (yd.care.meals || []).filter(Boolean).length : 0;
+  /* 復帰判定: 直前の記録日からの空白日数 */
+  const keys = Object.keys(days).filter(k => k < todayKey() && (days[k].wakeAt || days[k].nightAt)).sort();
+  let gapDays = 0;
+  if (keys.length) {
+    const last = new Date(keys[keys.length - 1]);
+    gapDays = Math.round((new Date(todayKey()) - last) / 86400000) - 1;
+  }
+  const target = meta.nextTarget || null;
+  const diff = target ? Math.abs(minutesOf(now) - parseHM(target)) : 9999;
+  const lureHitsTotal = Object.values(days).filter(d => d.targetHit).length;
+  return {
+    hour, dow, gravity,
+    lureHit: diff <= 45, lureExact15: diff <= 15,
+    careY,
+    ydayLight: (yd.seq || []).includes('light'),
+    ydayMeals3: yd.care && (yd.care.meals || []).filter(Boolean).length === 3,
+    ydayMissionClear: yd.missionCleared === true,
+    ydayPerfect: yd.spawn && yd.spawn.quality === 4,
+    ydayTeethSupp: yd.care && yd.care.teeth && yd.care.supp,
+    lureHitsTotal, comeback: gapDays >= 3,
+    chapter: currentChapter(), bosses: bossesCaughtCount(),
+  };
+}
+
+/* ── 条件判定 ── */
+function condOk(sp, ctx, rng) {
+  switch (sp.cond) {
+    case undefined: case null: return true;
+    case 'band4_7': return ctx.hour >= 4 && ctx.hour < 7;
+    case 'band9_11': return ctx.hour >= 9 && ctx.hour < 11;
+    case 'hour5': return ctx.hour === 5;
+    case 'hour6': return ctx.hour === 6;
+    case 'dow1': return ctx.dow === 1;
+    case 'dow2': return ctx.dow === 2;
+    case 'dow6': return ctx.dow === 6;
+    case 'rand12': return rng() < 0.12;
+    case 'lureHits3': return ctx.lureHitsTotal >= 3 || (ctx.lureHit && ctx.lureHitsTotal >= 2);
+    case 'lureExact15': return ctx.lureExact15;
+    case 'ydayMissionClear': return ctx.ydayMissionClear;
+    case 'ydayPerfect': return ctx.ydayPerfect;
+    case 'ydayTeethSupp': return ctx.ydayTeethSupp;
+    case 'comeback': return ctx.comeback;
+    case 'boss': case 'finalBoss': return false; /* ボスは別ルート */
+    default: return false;
+  }
+}
+
+/* ── スポーン決定 ── */
+function decideSpawn(now, gravity) {
+  const rng = makeRng(todayKey() + ':' + store.meta().salt + ':g' + gravity);
+  const ctx = buildCtx(now, gravity);
+  const weekend = ctx.dow === 0 || ctx.dow === 6;
+
+  /* 1. 復帰確定: エンデュラ */
+  if (ctx.comeback) return 25;
+
+  /* 2. G-3ならヌシ判定 */
+  if (gravity === 3) {
+    const p = 0.35 + 0.05 * ctx.careY;
+    if (rng() < p) {
+      if (ctx.chapter >= 5 && ctx.bosses === 4) return 30; /* ムジュウリョク */
+      const bossIds = { 1: 8, 2: 15, 3: 21, 4: 26, 5: 26 };
+      return bossIds[Math.min(ctx.chapter, 4)];
+    }
+  }
+
+  /* 3. 通常プール(現在章+前章の未捕獲) */
+  const dex = dexGet();
+  const lateOnly = ctx.hour >= 11 || ctx.hour < 4;
+  const pool = [];
+  for (const sp of SPECIES) {
+    if (sp.cond === 'boss' || sp.cond === 'finalBoss') continue;
+    if (sp.ch > ctx.chapter) continue;
+    if (lateOnly && sp.rar !== 'C') continue;
+    if (!condOk(sp, ctx, rng)) continue;
+    let w;
+    if (sp.rar === 'C') {
+      w = 100;
+      if (sp.boost === 'ydayLight' && ctx.ydayLight) w *= 2.5;
+      if (sp.boost === 'ydayMeals3' && ctx.ydayMeals3) w *= 2.5;
+      if (weekend) w *= 1.4; /* 週末はCOMMON大量発生=進化素材集め */
+    } else if (sp.rar === 'R') {
+      w = 20 * (ctx.lureHit ? 2 : 1) * (1 + 0.1 * ctx.careY);
+    } else { /* EPIC(条件を満たしている時点でかなり出る) */
+      w = 80;
+    }
+    if (sp.ch < ctx.chapter) w *= dex[sp.id] ? 0.15 : 0.5; /* 前章は未捕獲優先で薄く残す */
+    pool.push([sp.id, w]);
+  }
+  if (!pool.length) return ctx.chapter === 1 ? 1 : SPECIES.find(s => s.ch === ctx.chapter && s.rar === 'C').id;
+  const total = pool.reduce((a, [, w]) => a + w, 0);
+  let r = rng() * total;
+  for (const [id, w] of pool) { r -= w; if (r <= 0) return id; }
+  return pool[pool.length - 1][0];
+}
+
+/* ── 捕獲(図鑑登録)と品質 ── */
+function qualityOf(d) {
+  if (!d || !d.wakeAt) return 0;
+  let q = 1;
+  if (d.gravity != null) q++;
+  if ((d.seq || []).length >= 2) q++;
+  if (d.gravity != null && (d.seq || []).length === 3) q++;
+  return q;
+}
+const Q_NAMES = ['', 'ノーマル', 'ブロンズ', 'シルバー', 'パーフェクト'];
+function registerCatch(id) {
+  const m = store.meta();
+  m.dex = m.dex || {};
+  const e = m.dex[id] || { count: 0, perfect: 0, evolved: false };
+  e.count++;
+  const isNew = e.count === 1;
+  const evolvedNow = !e.evolved && e.count >= 3;
+  if (evolvedNow) e.evolved = true;
+  m.dex[id] = e;
+  store.saveMeta(m);
+  return { isNew, evolvedNow };
+}
+function updateQuality() {
+  const key = todayKey();
+  const d = getDay(key);
+  if (!d || !d.spawn) return;
+  const q = qualityOf(d);
+  if (q !== d.spawn.quality) {
+    d.spawn.quality = q;
+    patchDay(key, { spawn: d.spawn });
+    if (q === 4) {
+      const m = store.meta();
+      const e = m.dex[d.spawn.id];
+      if (e) { e.perfect = (e.perfect || 0) + 1; store.saveMeta(m); }
+    }
+  }
+}
+
+/* ── タマゴ ── */
+const EGG_GOAL = 3000;
+function incubate(sleepMin, nightAt) {
+  if (!sleepMin || !nightAt) return 0;
+  const h = new Date(nightAt).getHours();
+  const mult = (h >= 4 && h < 22) ? 2.0 : (h === 22 ? 1.5 : 1.0);
+  return Math.round(sleepMin * mult);
+}
+function tryHatch(rngSeed) {
+  const m = store.meta();
+  if ((m.egg.progress || 0) < EGG_GOAL) return null;
+  const rng = makeRng(rngSeed + ':hatch');
+  const dex = m.dex || {};
+  const ch = m.chapter || 1;
+  let cands = SPECIES.filter(s => s.ch <= ch && (s.rar === 'R' || s.rar === 'E') && s.cond !== 'comeback');
+  const uncaught = cands.filter(s => !dex[s.id]);
+  if (uncaught.length) cands = uncaught;
+  const picked = cands[Math.floor(rng() * cands.length)];
+  m.egg.progress -= EGG_GOAL;
+  store.saveMeta(m);
+  return picked.id;
+}
+
+/* ── 演出 ── */
 function burst() {
   const wrap = document.createElement('div');
   wrap.className = 'pwrap';
@@ -514,14 +907,12 @@ function burst() {
   setTimeout(() => wrap.remove(), 1800);
 }
 
-/* ── ヘッダー ── */
+/* ── ヘッダー・時計・メッセージ ── */
 function renderHeader() {
   const xp = totalXp();
   document.getElementById('hRank').textContent = rankOf(xp).name;
-  document.getElementById('hXp').textContent = `${xp.toLocaleString()} XP // ${xp.toLocaleString()} km`;
+  document.getElementById('hXp').textContent = `${xp.toLocaleString()} XP`;
 }
-
-/* ── 時計 ── */
 function tickClock() {
   const now = new Date();
   const hm = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
@@ -531,65 +922,53 @@ function tickClock() {
   document.getElementById('clockDate').textContent =
     `${now.getFullYear()}.${pad(now.getMonth() + 1)}.${pad(now.getDate())} ${w}`;
 }
-
-/* ── 日替わりメッセージ(日付シードで固定) ── */
 function renderDailyMsg() {
   const seed = todayKey().split('-').reduce((a, b) => a + Number(b), 0);
   const m = MESSAGES[seed % MESSAGES.length];
-  document.getElementById('dailyMsg').innerHTML =
-    `${m.t}<span class="src">— ${m.s}</span>`;
+  document.getElementById('dailyMsg').innerHTML = `${m.t}<span class="src">— ${m.s}</span>`;
 }
 
-/* きのうの日付キー */
-function yesterdayKey() {
-  const d = new Date(); d.setDate(d.getDate() - 1);
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-}
-
-/* ══════════ LAUNCH(朝) ══════════ */
-function renderLaunch() {
+/* ══════════ HUNT(朝) ══════════ */
+function renderHunt() {
   const d = getDay(todayKey());
   const woke = d && d.wakeAt;
+  const spawned = woke && d.spawn;
   document.getElementById('preLaunch').style.display = woke ? 'none' : 'block';
-  document.getElementById('postLaunch').style.display = woke ? 'block' : 'none';
+  document.getElementById('presence').style.display = (woke && !spawned) ? 'block' : 'none';
+  document.getElementById('postSpawn').style.display = spawned ? 'block' : 'none';
 
   if (!woke) {
-    // 昨夜自分で決めたターゲットを表示(決めたことを本人に返す)
-    const tr = document.getElementById('targetReminder');
+    const lr = document.getElementById('lureReminder');
     const nt = store.meta().nextTarget;
-    tr.style.display = nt ? 'block' : 'none';
-    if (nt) { tr.style.marginTop = '10px'; tr.textContent = `TARGET ${nt} // 昨夜のおまえが決めた時刻`; }
+    lr.style.display = nt ? 'block' : 'none';
+    if (nt) lr.textContent = `LURE ${nt} // 昨夜のおまえが仕掛けた`;
     return;
   }
+  if (!spawned) return;
 
-  // きのうのミッション回収(未判定のものだけ)
-  const yd = getDay(yesterdayKey());
-  const review = document.getElementById('missionReview');
-  if (yd && yd.mission && yd.missionCleared === undefined) {
-    review.style.display = 'block';
-    document.getElementById('missionReviewText').textContent = `「${yd.mission}」`;
-  } else {
-    review.style.display = 'none';
-  }
+  /* スポーンカード */
+  const sp = SPECIES.find(s => s.id === d.spawn.id);
+  const dex = dexGet();
+  const entry = dex[sp.id] || { count: 1 };
+  document.getElementById('spawnCard').innerHTML = `
+    <h3>ENCOUNTER</h3>
+    <div class="spawn-stage pop">
+      ${spriteSvg(sp, entry.evolved)}
+      <div><span class="rar-badge rar-${sp.rar}">${{ C: 'COMMON', R: 'RARE', E: 'EPIC', L: 'ヌシ // LEGENDARY' }[sp.rar]}</span></div>
+      ${d.spawn.isNew ? '<div class="new-tag" style="margin-top:6px;">★ NEW ENTRY ★</div>' : ''}
+      <div class="sp-name">${sp.name}</div>
+      <div class="sp-desc">${sp.desc}</div>
+      <div class="note" style="margin-top:4px;">捕獲 ${entry.count}体目${entry.evolved ? ' // ★進化済み' : entry.count === 2 ? ' // あと1体で進化' : ''}</div>
+    </div>`;
 
-  // 起床結果サマリー
-  let html = `<div class="result-line"><span>起床時刻</span><span class="v">${fmtHM(d.wakeAt)}</span></div>`;
-  if (d.sleepMin != null) {
-    html += `<div class="result-line"><span>睡眠時間</span><span class="v">${Math.floor(d.sleepMin / 60)}h ${pad(d.sleepMin % 60)}m</span></div>`;
-  }
-  if (d.target) {
-    const hit = d.targetHit ? `HIT! +${XP.target.pts}XP` : 'MISS(距離は減らない)';
-    html += `<div class="result-line"><span>ターゲット ${d.target}</span><span class="v">${hit}</span></div>`;
-  }
-  html += `<div class="result-line"><span>今日の獲得</span><span class="v">+${dayXp(d)} XP</span></div>`;
-  document.getElementById('launchResult').innerHTML = html;
-
-  // 重力チェック
-  document.querySelectorAll('#gravityChips .chip').forEach(c => {
-    c.classList.toggle('on', d.gravity != null && Number(c.dataset.v) === d.gravity);
+  /* 品質メーター */
+  const q = d.spawn.quality || 1;
+  document.getElementById('qLabel').textContent = Q_NAMES[q];
+  document.querySelectorAll('#qMeter div').forEach((el, i) => {
+    el.className = i < q ? 'f' + q : '';
   });
 
-  // シーケンス
+  /* シーケンス */
   const seqDone = d.seq || [];
   document.getElementById('seqList').innerHTML = SEQ_STEPS.map(s => {
     const done = seqDone.includes(s.id);
@@ -605,11 +984,20 @@ function renderLaunch() {
       const id = el.dataset.id;
       seq.has(id) ? seq.delete(id) : seq.add(id);
       patchDay(todayKey(), { seq: [...seq] });
-      renderLaunch(); renderHeader();
+      updateQuality();
+      renderHunt(); renderHeader();
     };
   });
 
-  // ミッション
+  /* きのうのミッション回収 */
+  const yd = getDay(yesterdayKey());
+  const review = document.getElementById('missionReview');
+  if (yd && yd.mission && yd.missionCleared === undefined) {
+    review.style.display = 'block';
+    document.getElementById('missionReviewText').textContent = `「${yd.mission}」`;
+  } else review.style.display = 'none';
+
+  /* ミッション入力 */
   const mIn = document.getElementById('missionInput');
   const mBtn = document.getElementById('btnMission');
   const mDone = document.getElementById('missionDone');
@@ -617,148 +1005,204 @@ function renderLaunch() {
     mIn.style.display = 'none'; mBtn.style.display = 'none';
     mDone.style.display = 'block';
     mDone.textContent = `MISSION: ${d.mission}`;
-  } else {
-    mIn.style.display = 'block'; mBtn.style.display = 'block'; mDone.style.display = 'none';
-  }
+  } else { mIn.style.display = 'block'; mBtn.style.display = 'block'; mDone.style.display = 'none'; }
+
+  /* 今日のログサマリー */
+  let html = `<div class="result-line"><span>起床時刻</span><span class="v">${fmtHM(d.wakeAt)}</span></div>`;
+  if (d.sleepMin != null) html += `<div class="result-line"><span>睡眠時間</span><span class="v">${Math.floor(d.sleepMin / 60)}h ${pad(d.sleepMin % 60)}m</span></div>`;
+  if (d.target) html += `<div class="result-line"><span>ルアー ${d.target}</span><span class="v">${d.targetHit ? 'HIT! +' + XP.target.pts + 'XP' : 'MISS(何も失わない)'}</span></div>`;
+  html += `<div class="result-line"><span>今日の獲得</span><span class="v">+${dayXp(d)} XP</span></div>`;
+  document.getElementById('dayResult').innerHTML = html;
 }
 
 document.getElementById('btnLaunch').addEventListener('click', function () {
   const now = Date.now();
   const key = todayKey();
   const days = store.days();
-
-  // 直近16時間以内の就寝ログを探して睡眠時間を計算
-  let sleepMin = null;
-  let latestNight = 0;
+  /* 直近16時間以内の就寝ログ → 睡眠時間 */
+  let sleepMin = null, latestNight = 0;
   for (const d of Object.values(days)) {
     if (d.nightAt && d.nightAt > latestNight && now - d.nightAt < 16 * 3600 * 1000) latestNight = d.nightAt;
   }
   if (latestNight) sleepMin = Math.round((now - latestNight) / 60000);
 
-  // 前夜にセットしたターゲット判定(±45分)
   const meta = store.meta();
   const target = meta.nextTarget || null;
-  let targetHit = false;
-  if (target) targetHit = Math.abs(minutesOf(now) - parseHM(target)) <= 45;
+  const targetHit = target ? Math.abs(minutesOf(now) - parseHM(target)) <= 45 : false;
 
+  /* タマゴ孵化ポイント加算 */
+  if (sleepMin) {
+    meta.egg = meta.egg || { progress: 0 };
+    meta.egg.progress = (meta.egg.progress || 0) + incubate(sleepMin, latestNight);
+  }
   patchDay(key, { wakeAt: now, sleepMin, target, targetHit });
-  if (meta.nextTarget) { delete meta.nextTarget; store.saveMeta(meta); }
+  if (meta.nextTarget) delete meta.nextTarget;
+  store.saveMeta(meta);
 
   this.classList.add('flash');
-  burst();
-  checkStageClear();
-  renderLaunch(); renderHeader();
+  renderHunt(); renderHeader();
 });
 
+/* 重力観測 → スポーン確定(一度きり) */
 document.querySelectorAll('#gravityChips .chip').forEach(c => {
   c.addEventListener('click', () => {
-    patchDay(todayKey(), { gravity: Number(c.dataset.v) });
-    renderLaunch(); renderHeader();
+    const key = todayKey();
+    const d = getDay(key);
+    if (!d || !d.wakeAt || d.gravity != null) return;
+    const gravity = Number(c.dataset.v);
+    const spawnId = decideSpawn(d.wakeAt, gravity);
+    patchDay(key, { gravity });
+    const { isNew, evolvedNow } = registerCatch(spawnId);
+    const day = getDay(key);
+    day.spawn = { id: spawnId, quality: 0, isNew };
+    patchDay(key, { spawn: day.spawn });
+    updateQuality();
+
+    /* タマゴ孵化判定 */
+    const hatchedId = tryHatch(key);
+    if (hatchedId != null) {
+      const hsp = SPECIES.find(s => s.id === hatchedId);
+      const hres = registerCatch(hatchedId);
+      const hc = document.getElementById('hatchCard');
+      hc.style.display = 'block';
+      hc.innerHTML = `<h3>EGG HATCHED!</h3>
+        <div class="spawn-stage pop">${spriteSvg(hsp, false)}
+        <div><span class="rar-badge rar-${hsp.rar}">${hsp.rar === 'R' ? 'RARE' : 'EPIC'}</span>
+        ${hres.isNew ? '<span class="new-tag" style="margin-left:8px;">★ NEW ★</span>' : ''}</div>
+        <div class="sp-name">${hsp.name}</div><div class="sp-desc">${hsp.desc}</div></div>`;
+    } else document.getElementById('hatchCard').style.display = 'none';
+
+    burst();
+    const sp = SPECIES.find(s => s.id === spawnId);
+    if (sp.rar === 'L' || sp.rar === 'E' || evolvedNow) { setTimeout(burst, 350); setTimeout(burst, 700); }
+    checkChapterUnlock();
+    renderHunt(); renderHeader();
   });
 });
 
 document.getElementById('btnMissionClear').addEventListener('click', () => {
   patchDay(yesterdayKey(), { missionCleared: true });
   burst();
-  renderLaunch(); renderHeader();
+  renderHunt(); renderHeader();
 });
 document.getElementById('btnMissionCarry').addEventListener('click', () => {
   const yd = getDay(yesterdayKey());
   patchDay(yesterdayKey(), { missionCleared: false });
-  if (yd && yd.mission && !getDay(todayKey()).mission) {
-    document.getElementById('missionInput').value = yd.mission;
-  }
-  renderLaunch(); renderHeader();
+  if (yd && yd.mission && !getDay(todayKey()).mission) document.getElementById('missionInput').value = yd.mission;
+  renderHunt(); renderHeader();
 });
-
 document.getElementById('btnMission').addEventListener('click', () => {
   const v = document.getElementById('missionInput').value.trim();
   if (!v) return;
   patchDay(todayKey(), { mission: v });
-  renderLaunch(); renderHeader();
+  renderHunt(); renderHeader();
 });
 
-/* ══════════ BASE CAMP(夜) ══════════ */
+/* ══════════ CAMP(夜) ══════════ */
+function nightKey() { return dayKey(new Date(), true); }
+function getCare() {
+  const d = getDay(nightKey());
+  return (d && d.care) || { teeth: false, supp: false, meals: [false, false, false] };
+}
+function setCare(care) {
+  patchDay(nightKey(), { care });
+  renderCamp(); renderHeader();
+}
 function renderCamp() {
-  const key = dayKey(new Date(), true); // 0-4時は前日の夜扱い
+  const key = nightKey();
   const d = getDay(key);
   const slept = d && d.nightAt;
   document.getElementById('preNight').style.display = slept ? 'none' : 'block';
   document.getElementById('postNight').style.display = slept ? 'block' : 'none';
   if (slept) {
-    document.getElementById('nightResult').textContent =
-      `LOGGED ${fmtHM(d.nightAt)} // +${XP.night.pts + (d.targetSet ? XP.setTgt.pts : 0)} XP`;
+    document.getElementById('nightResult').textContent = `LOGGED ${fmtHM(d.nightAt)} // 孵化スタート`;
   }
   const meta = store.meta();
   if (meta.nextTarget) document.getElementById('targetInput').value = meta.nextTarget;
   else if (meta.lastTarget) document.getElementById('targetInput').value = meta.lastTarget;
   if (d && d.note) document.getElementById('noteInput').value = d.note;
-}
 
+  /* タマゴ */
+  const prog = (meta.egg && meta.egg.progress) || 0;
+  document.getElementById('eggText').textContent = `孵化まで ${Math.max(0, EGG_GOAL - prog).toLocaleString()} pt`;
+  document.getElementById('eggBar').style.width = Math.min(100, prog / EGG_GOAL * 100) + '%';
+
+  /* ケアトグル */
+  const care = getCare();
+  document.getElementById('careTeeth').classList.toggle('on', !!care.teeth);
+  document.getElementById('careSupp').classList.toggle('on', !!care.supp);
+  document.querySelectorAll('[data-meal]').forEach(b => {
+    b.classList.toggle('on', !!(care.meals || [])[Number(b.dataset.meal)]);
+  });
+}
+document.getElementById('careTeeth').addEventListener('click', () => {
+  const c = getCare(); c.teeth = !c.teeth; setCare(c);
+});
+document.getElementById('careSupp').addEventListener('click', () => {
+  const c = getCare(); c.supp = !c.supp; setCare(c);
+});
+document.querySelectorAll('[data-meal]').forEach(b => {
+  b.addEventListener('click', () => {
+    const c = getCare();
+    c.meals = c.meals || [false, false, false];
+    const i = Number(b.dataset.meal);
+    c.meals[i] = !c.meals[i];
+    setCare(c);
+  });
+});
 document.getElementById('btnNight').addEventListener('click', function () {
   const now = Date.now();
-  const key = dayKey(now, true);
+  const key = nightKey();
   const target = document.getElementById('targetInput').value;
   const note = document.getElementById('noteInput').value.trim();
-
   patchDay(key, { nightAt: now, note: note || undefined, targetSet: !!target });
   const meta = store.meta();
   if (target) { meta.nextTarget = target; meta.lastTarget = target; }
   store.saveMeta(meta);
-
   this.classList.add('flash');
-  checkStageClear();
   renderCamp(); renderHeader();
 });
 
-/* ══════════ MAP(遠征) ══════════ */
-function renderMap() {
-  const xp = totalXp();
-  const si = stageOf(xp);
-  const st = STAGES[si];
-  const prev = si === 0 ? 0 : STAGES[si - 1].goal;
-  const inStage = Math.min(xp, st.goal) - prev;
-  const stageLen = st.goal - prev;
-  const pct = Math.min(100, Math.round(inStage / stageLen * 100));
+/* ══════════ DEX(図鑑) ══════════ */
+function renderDex() {
+  const dex = dexGet();
+  const cur = currentChapter();
+  const caught = SPECIES.filter(s => dex[s.id]).length;
+  document.getElementById('dexPct').textContent = (caught / SPECIES.length * 100).toFixed(1) + '%';
+  document.getElementById('dexCount').textContent = `${caught}/${SPECIES.length}`;
 
-  document.getElementById('mapStageTag').textContent =
-    xp >= STAGES.at(-1).goal ? 'ALL STAGES CLEARED // ENDLESS' : `STAGE ${si + 1}/${STAGES.length} — ${st.from}`;
-  document.getElementById('mapStageName').textContent = st.name;
-  document.getElementById('mapStageStory').textContent = st.story;
-  document.getElementById('mapBar').style.width = pct + '%';
-  document.getElementById('mapKm').innerHTML = `<b>${inStage.toLocaleString()}</b> / ${stageLen.toLocaleString()} km`;
-  document.getElementById('mapKmGoal').textContent = `TOTAL ${xp.toLocaleString()} km`;
-
-  document.getElementById('stageList').innerHTML = STAGES.map((s, i) => {
-    const cls = xp >= s.goal ? 'cleared' : (i === si ? 'current' : (i > si ? 'locked' : ''));
-    const mark = xp >= s.goal ? '★' : (i === si ? '▶' : String(i + 1).padStart(2, '0'));
-    return `<div class="stage-row ${cls}"><span class="no">${mark}</span>
-      <span class="nm">${s.name}</span><span class="dist">${s.goal.toLocaleString()} km</span></div>`;
-  }).join('');
-
-  document.getElementById('xpRules').innerHTML =
-    Object.values(XP).map(r => `+${r.pts} … ${r.label}`).join('<br>') +
-    '<br>1 XP = 1 km。隠しパラメータなし。';
-}
-
-/* ステージクリア検出 → 祝砲 */
-function checkStageClear() {
-  const xp = totalXp();
-  const meta = store.meta();
-  const cleared = meta.cleared || 0;
-  let newly = 0;
-  for (const s of STAGES) if (xp >= s.goal) newly++;
-  if (newly > cleared) {
-    meta.cleared = newly;
-    store.saveMeta(meta);
-    burst(); setTimeout(burst, 400); setTimeout(burst, 800);
-    setTimeout(() => {
-      alert(`★ STAGE CLEAR ★\n「${STAGES[newly - 1].name}」踏破!\n次のルートが開いた。`);
-    }, 300);
+  let html = '';
+  for (let ch = 1; ch <= 5; ch++) {
+    const chCaught = SPECIES.filter(s => s.ch === ch && dex[s.id]).length;
+    if (ch > cur) {
+      html += `<div class="ch-head"><span class="t" style="color:var(--dim);">${CHAPTERS[ch - 1].name}</span></div>
+        <div class="ch-locked">LOCKED — ${CHAPTERS[ch - 2].name.replace(/第\d章 /, '')}の図鑑70%で解放</div>`;
+      continue;
+    }
+    html += `<div class="ch-head"><span class="t">${CHAPTERS[ch - 1].name}</span>
+      <span class="pc">${chCaught}/${CH_SIZE[ch - 1]} — ${CHAPTERS[ch - 1].from}</span></div><div class="dex-grid">`;
+    for (const sp of SPECIES.filter(s => s.ch === ch)) {
+      const e = dex[sp.id];
+      if (e) {
+        html += `<div class="dex-cell">
+          ${e.evolved ? '<span class="mark" style="color:var(--gold);">★</span>' : ''}
+          ${e.perfect ? '<span class="mark" style="top:18px;color:var(--gold);">♛</span>' : ''}
+          ${spriteSvg(sp, e.evolved)}
+          <div class="nm">${sp.name}</div>
+          <div class="cnt">×${e.count} ${sp.rar}</div></div>`;
+      } else {
+        html += `<div class="dex-cell uncaught">
+          ${spriteSvg(sp, false)}
+          <div class="nm" style="color:var(--dim);">???</div>
+          <div class="hint">${sp.hint}</div></div>`;
+      }
+    }
+    html += `</div>`;
   }
+  document.getElementById('dexBody').innerHTML = html;
 }
 
-/* ══════════ STATS ══════════ */
+/* ══════════ DATA ══════════ */
 function lastNDays(n) {
   const out = [];
   const d = new Date();
@@ -772,12 +1216,11 @@ function lastNDays(n) {
 function avg(arr) { return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null; }
 function fmtMin(m) { return `${pad(Math.floor(m / 60))}:${pad(Math.round(m) % 60)}`; }
 
-function renderStats() {
+function renderData() {
   const days14 = lastNDays(14);
   const thisW = days14.slice(7), lastW = days14.slice(0, 7);
   const wakes = w => w.filter(x => x.day && x.day.wakeAt).map(x => minutesOf(x.day.wakeAt));
   const logs = w => w.filter(x => x.day && (x.day.wakeAt || x.day.nightAt)).length;
-
   const awThis = avg(wakes(thisW)), awLast = avg(wakes(lastW));
   let deltaHtml = '—';
   if (awThis != null && awLast != null) {
@@ -787,33 +1230,33 @@ function renderStats() {
       : `<span class="delta-down">▼ ${diff}分 ゆっくり</span>`;
   }
   const sleeps = thisW.filter(x => x.day && x.day.sleepMin != null).map(x => x.day.sleepMin);
-  const asleep = avg(sleeps);
-
+  const careDays = thisW.filter(x => x.day && x.day.care &&
+    (x.day.care.teeth || x.day.care.supp || (x.day.care.meals || []).some(Boolean))).length;
   document.getElementById('statGrid').innerHTML = `
     <div class="stat-box"><div class="num">${awThis != null ? fmtMin(awThis) : '--:--'}</div><div class="cap">今週の平均起床</div></div>
     <div class="stat-box"><div class="num gold" style="font-size:14px;line-height:2;">${deltaHtml}</div><div class="cap">先週の自分との差</div></div>
     <div class="stat-box"><div class="num">${logs(thisW)}/7</div><div class="cap">今週のログ日数</div></div>
-    <div class="stat-box"><div class="num purple">${asleep != null ? (asleep / 60).toFixed(1) + 'h' : '--'}</div><div class="cap">平均睡眠時間</div></div>`;
-
+    <div class="stat-box"><div class="num purple">${avg(sleeps) != null ? (avg(sleeps) / 60).toFixed(1) + 'h' : '--'}</div><div class="cap">平均睡眠時間</div></div>
+    <div class="stat-box"><div class="num">${careDays}/7</div><div class="cap">手入れした日</div></div>
+    <div class="stat-box"><div class="num purple">${thisW.filter(x => x.day && x.day.gravity === 3).length}</div><div class="cap">今週のG-3日</div></div>`;
   renderWakeChart(days14);
   renderSleepChart(days14);
   renderJournal();
+  document.getElementById('xpRules').innerHTML =
+    Object.values(XP).map(r => `+${r.pts} … ${r.label}`).join('<br>') +
+    '<br>スポーン条件だけが隠し要素。数値ルールに隠しなし。';
 }
-
-/* 起床時刻チャート(SVG手描き) */
 function renderWakeChart(days) {
   const W = 380, H = 170, padL = 44, padB = 22, padT = 10;
-  const yMin = 4 * 60, yMax = 14 * 60; // 4:00〜14:00
+  const yMin = 4 * 60, yMax = 14 * 60;
   const xw = (W - padL - 10) / days.length;
   const y = m => padT + (Math.min(Math.max(m, yMin), yMax) - yMin) / (yMax - yMin) * (H - padT - padB);
   let g = '';
-  // 目盛り
   for (let h = 4; h <= 14; h += 2) {
     const yy = y(h * 60);
     g += `<line x1="${padL}" y1="${yy}" x2="${W - 6}" y2="${yy}" stroke="#222230" stroke-width="1"/>
       <text x="${padL - 6}" y="${yy + 3}" fill="#555570" font-size="9" text-anchor="end">${pad(h)}:00</text>`;
   }
-  // 点と折れ線
   let path = '', pts = '';
   days.forEach((x, i) => {
     const cx = padL + i * xw + xw / 2;
@@ -822,17 +1265,15 @@ function renderWakeChart(days) {
       const cy = y(minutesOf(x.day.wakeAt));
       path += (path ? 'L' : 'M') + `${cx},${cy}`;
       const col = x.day.targetHit ? '#ffd700' : '#00ff88';
-      pts += `<circle cx="${cx}" cy="${cy}" r="4" fill="${col}" style="filter:drop-shadow(0 0 4px ${col})"/>`;
+      pts += `<circle cx="${cx}" cy="${cy}" r="4" fill="${col}"/>`;
     }
   });
   if (path) g += `<path d="${path}" fill="none" stroke="#00ff8866" stroke-width="1.5"/>`;
   g += pts;
   document.getElementById('wakeChart').innerHTML =
     `<svg viewBox="0 0 ${W} ${H}" style="width:100%;">${g}</svg>
-     <p class="note" style="margin:4px 0 0;">● 起床時刻 / <span style="color:var(--gold)">●</span> ターゲット命中日</p>`;
+     <p class="note" style="margin:4px 0 0;">● 起床時刻 / <span style="color:var(--gold)">●</span> ルアー命中日</p>`;
 }
-
-/* 睡眠時間チャート */
 function renderSleepChart(days) {
   const W = 380, H = 140, padL = 30, padB = 22, padT = 8;
   const maxH = 12 * 60;
@@ -848,14 +1289,11 @@ function renderSleepChart(days) {
     g += `<text x="${cx + (xw - 6) / 2}" y="${H - 6}" fill="#555570" font-size="8" text-anchor="middle">${x.date.getDate()}</text>`;
     if (x.day && x.day.sleepMin != null) {
       const hh = Math.min(x.day.sleepMin, maxH) / maxH * (H - padT - padB);
-      g += `<rect x="${cx}" y="${H - padB - hh}" width="${xw - 6}" height="${hh}" rx="2"
-        fill="#bf00ff88" style="filter:drop-shadow(0 0 4px #bf00ff66)"/>`;
+      g += `<rect x="${cx}" y="${H - padB - hh}" width="${xw - 6}" height="${hh}" rx="2" fill="#bf00ff88"/>`;
     }
   });
   document.getElementById('sleepChart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;">${g}</svg>`;
 }
-
-/* ジャーナル */
 const GRAVITY_LABELS = ['G-0 軽い', 'G-1 普通', 'G-2 重い', 'G-3 ヤバい'];
 function renderJournal() {
   const days = store.days();
@@ -870,6 +1308,10 @@ function renderJournal() {
     if (d.wakeAt) bits.push(`<b>▲${fmtHM(d.wakeAt)}</b>`);
     if (d.nightAt) bits.push(`◼${fmtHM(d.nightAt)}`);
     if (d.gravity != null) bits.push(GRAVITY_LABELS[d.gravity]);
+    if (d.spawn) {
+      const sp = SPECIES.find(s => s.id === d.spawn.id);
+      if (sp) bits.push(`◆${sp.name}`);
+    }
     bits.push(`+${dayXp(d)}XP`);
     const memo = [d.mission ? `MISSION: ${d.mission}` : '', d.note || ''].filter(Boolean).join(' / ');
     return `<div class="jr"><div class="d">${k} ${bits.join(' · ')}</div>
@@ -877,18 +1319,17 @@ function renderJournal() {
   }).join('');
 }
 
-/* ══════════ CONFIG ══════════ */
+/* CONFIG */
 document.getElementById('nameInput').addEventListener('change', function () {
-  const meta = store.meta(); meta.name = this.value.trim(); store.saveMeta(meta);
-  applyName();
+  const m = store.meta(); m.name = this.value.trim(); store.saveMeta(m); applyName();
 });
 function applyName() {
-  const meta = store.meta();
-  document.getElementById('nameInput').value = meta.name || 'KENSHIN';
+  document.getElementById('nameInput').value = store.meta().name || 'KENSHIN';
 }
 document.getElementById('btnExport').addEventListener('click', () => {
-  const data = { app: 'GRAVITY ESCAPE', exported: new Date().toISOString(),
-    days: store.days(), meta: store.meta() };
+  const m = store.meta();
+  const data = { app: 'GRAVITY HUNT v2', exported: new Date().toISOString(),
+    days: store.days(), dex: m.dex, chapter: m.chapter };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -896,36 +1337,35 @@ document.getElementById('btnExport').addEventListener('click', () => {
   a.click();
 });
 document.getElementById('btnReset').addEventListener('click', () => {
-  if (confirm('全データを削除する。本当にいい?')) {
+  if (confirm('図鑑もログも全部消える。本当にいい?')) {
     localStorage.removeItem(LS_DAYS); localStorage.removeItem(LS_META);
     location.reload();
   }
 });
 
-/* ══════════ ナビゲーション ══════════ */
+/* ══════════ ナビ ══════════ */
 function show(scr) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
   document.getElementById('scr-' + scr).classList.add('on');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('on', b.dataset.scr === scr));
-  if (scr === 'launch') renderLaunch();
+  if (scr === 'hunt') renderHunt();
   if (scr === 'camp') renderCamp();
-  if (scr === 'map') renderMap();
-  if (scr === 'stats') renderStats();
+  if (scr === 'dex') renderDex();
+  if (scr === 'data') renderData();
 }
 document.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => show(b.dataset.scr)));
-
-/* 時間帯で初期画面を自動選択: 4-12時=LAUNCH / 20-4時=CAMP / それ以外=MAP */
 function defaultScreen() {
   const h = new Date().getHours();
-  if (h >= 4 && h < 12) return 'launch';
+  if (h >= 4 && h < 12) return 'hunt';
   if (h >= 20 || h < 4) return 'camp';
-  return 'map';
+  return 'dex';
 }
 
 /* ── 起動 ── */
 if (!window.localStorage) {
   document.getElementById('app').innerHTML = '<p style="padding:40px;text-align:center;">この端末ではlocalStorageが使えないため起動できない。</p>';
 } else {
+  initMeta();
   tickClock(); setInterval(tickClock, 1000 * 10);
   renderDailyMsg();
   renderHeader();
@@ -933,7 +1373,7 @@ if (!window.localStorage) {
   show(defaultScreen());
 }
 
-/* PWA: Service Worker登録(https/localhost配信時のみ。file://では何もしない) */
+/* PWA */
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }

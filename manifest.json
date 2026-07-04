@@ -1,7 +1,7 @@
 {
-  "name": "GRAVITY ESCAPE",
+  "name": "GRAVITY HUNT",
   "short_name": "GRAVITY",
-  "description": "重力脱出遠征 — 起床セルフマネジメントゲーム",
+  "description": "朝限定クリーチャー収集ゲーム",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0a0a0f",
