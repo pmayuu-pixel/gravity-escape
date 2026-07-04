@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>GRAVITY ESCAPE</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>
+/* ── カラーパレット(CYBER × HIP-HOP) ── */
+:root {
+  --bg: #0a0a0f;
+  --card: #111118;
+  --green: #00ff88;
+  --purple: #bf00ff;
+  --gold: #ffd700;
+  --cyan: #00e5ff;
+  --text: #e0e0e0;
+  --dim: #555570;
+  --danger: #ff3366;
+  --glow-green: 0 0 12px rgba(0,255,136,.4);
+  --glow-purple: 0 0 12px rgba(191,0,255,.4);
+  --glow-gold: 0 0 12px rgba(255,215,0,.4);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
+  font-family: 'Hiragino Sans','Noto Sans JP',sans-serif; }
+.mono { font-family: 'Courier New', Courier, monospace; }
+
+/* スキャンライン */
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px,
+    rgba(0,255,136,.012) 2px, rgba(0,255,136,.012) 4px);
+}
+
+#app { max-width: 430px; margin: 0 auto; min-height: 100vh; padding: 12px 14px 92px; }
+
+/* ── ヘッダー ── */
+header { display: flex; justify-content: space-between; align-items: center; padding: 4px 2px 10px; }
+.logo { font-family: 'Courier New', monospace; font-weight: bold; font-size: 15px;
+  letter-spacing: 2px; color: var(--green); text-shadow: var(--glow-green); }
+.logo span { color: var(--purple); text-shadow: var(--glow-purple); }
+.rank-chip { font-family: 'Courier New', monospace; font-size: 11px; text-align: right; line-height: 1.5; }
+.rank-chip .rk { color: var(--gold); text-shadow: var(--glow-gold); font-weight: bold; }
+.rank-chip .xp { color: var(--dim); }
+
+/* ── カード ── */
+.card { background: var(--card); border: 1px solid rgba(0,255,136,.33); border-radius: 12px;
+  box-shadow: 0 0 16px rgba(0,255,136,.14); padding: 16px; margin-bottom: 12px; }
+.card.p { border-color: rgba(191,0,255,.33); box-shadow: 0 0 16px rgba(191,0,255,.14); }
+.card.g { border-color: rgba(255,215,0,.33); box-shadow: 0 0 16px rgba(255,215,0,.14); }
+.card h3 { margin: 0 0 10px; font-size: 12px; letter-spacing: 2px; color: var(--dim);
+  font-family: 'Courier New', monospace; }
+
+/* ── 時計 ── */
+.clock { font-family: 'Courier New', monospace; font-size: 52px; font-weight: bold;
+  color: var(--green); text-shadow: var(--glow-green); text-align: center; letter-spacing: 3px; }
+.clock-sub { text-align: center; color: var(--dim); font-size: 12px; margin-top: 2px;
+  font-family: 'Courier New', monospace; }
+
+/* ── メッセージ ── */
+.daily-msg { font-size: 14px; line-height: 1.8; color: var(--text); }
+.daily-msg .src { display: block; margin-top: 6px; color: var(--dim); font-size: 11px;
+  font-family: 'Courier New', monospace; }
+
+/* ── ボタン ── */
+.btn { width: 100%; min-height: 56px; border-radius: 12px; font-weight: bold;
+  font-size: 15px; letter-spacing: 2px; cursor: pointer; transition: all .15s;
+  font-family: 'Courier New', monospace; }
+.btn:active { transform: scale(.97); }
+.btn-launch { min-height: 88px; font-size: 22px; background: rgba(0,255,136,.12);
+  border: 2px solid var(--green); color: var(--green);
+  box-shadow: 0 0 24px rgba(0,255,136,.35); position: relative; overflow: hidden; }
+.btn-night { background: rgba(191,0,255,.12); border: 2px solid var(--purple); color: var(--purple);
+  box-shadow: 0 0 20px rgba(191,0,255,.3); min-height: 72px; font-size: 18px; }
+.btn-sub { background: transparent; border: 1px solid var(--dim); color: var(--text);
+  min-height: 44px; font-size: 13px; }
+.btn:disabled { opacity: .35; pointer-events: none; }
+
+@keyframes neon-flash {
+  0% { box-shadow: 0 0 12px var(--gold), 0 0 30px var(--purple); }
+  50% { box-shadow: 0 0 60px var(--gold), 0 0 100px var(--purple), 0 0 140px var(--green); }
+  100% { box-shadow: 0 0 12px var(--gold), 0 0 30px var(--purple); }
+}
+.flash { animation: neon-flash .6s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.fadein { animation: fadein .3s ease forwards; }
+
+/* パーティクル */
+@keyframes particle { 0% { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; } }
+.pwrap { position: fixed; inset: 0; pointer-events: none; z-index: 999; }
+.pt { position: absolute; width: 8px; height: 8px; border-radius: 50%; opacity: 0; }
+
+/* ── 選択チップ ── */
+.chips { display: flex; gap: 8px; }
+.chip { flex: 1; min-height: 58px; border-radius: 10px; border: 1px solid var(--dim);
+  background: transparent; color: var(--text); font-size: 13px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  transition: all .15s; padding: 6px 2px; }
+.chip small { font-size: 10px; color: var(--dim); font-family: 'Courier New', monospace; letter-spacing: 1px; }
+.chip.on { border-color: var(--green); color: var(--green); box-shadow: var(--glow-green);
+  transform: scale(1.04); }
+.chip.on small { color: var(--green); }
+.chip.on.heavy { border-color: var(--purple); color: var(--purple); box-shadow: var(--glow-purple); }
+.chip.on.heavy small { color: var(--purple); }
+
+/* ── シーケンス(チェックリスト) ── */
+.seq-item { display: flex; align-items: center; gap: 12px; padding: 12px 10px;
+  border: 1px solid rgba(85,85,112,.6); border-radius: 10px; margin-bottom: 8px;
+  cursor: pointer; transition: all .15s; }
+.seq-item .box { width: 22px; height: 22px; border: 2px solid var(--dim); border-radius: 6px;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--green); }
+.seq-item.done { border-color: rgba(0,255,136,.5); box-shadow: var(--glow-green); }
+.seq-item.done .box { border-color: var(--green); }
+.seq-item .lbl { font-size: 13px; line-height: 1.5; }
+.seq-item .lbl small { display: block; color: var(--dim); font-size: 11px; }
+.seq-item .pts { margin-left: auto; font-family: 'Courier New', monospace; font-size: 11px; color: var(--dim); }
+.seq-item.done .pts { color: var(--green); }
+
+/* ── 入力 ── */
+input[type=text], input[type=time], textarea {
+  width: 100%; background: #0d0d14; color: var(--text); border: 1px solid var(--dim);
+  border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; }
+input:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: var(--glow-green); }
+input[type=time] { font-family: 'Courier New', monospace; font-size: 18px; color: var(--green); }
+
+/* ── XP表示 ── */
+.xp-pop { font-family: 'Courier New', monospace; color: var(--gold); text-shadow: var(--glow-gold);
+  font-weight: bold; font-size: 14px; text-align: center; }
+.result-line { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 2px;
+  border-bottom: 1px dashed rgba(85,85,112,.4); }
+.result-line .v { font-family: 'Courier New', monospace; color: var(--green); }
+
+/* ── マップ ── */
+.stage-title { font-size: 16px; font-weight: bold; margin: 2px 0 4px; }
+.stage-story { font-size: 12px; color: #9a9ab0; line-height: 1.7; }
+.progress-outer { height: 14px; background: #0d0d14; border-radius: 7px; overflow: hidden;
+  border: 1px solid rgba(85,85,112,.5); margin: 10px 0 4px; }
+.progress-inner { height: 100%; border-radius: 7px;
+  background: linear-gradient(90deg, var(--green), var(--cyan)); box-shadow: var(--glow-green);
+  transition: width .6s ease; }
+.km-line { display: flex; justify-content: space-between; font-family: 'Courier New', monospace;
+  font-size: 11px; color: var(--dim); }
+.km-line b { color: var(--green); }
+.stage-row { display: flex; gap: 10px; align-items: baseline; padding: 9px 4px;
+  border-bottom: 1px dashed rgba(85,85,112,.35); font-size: 13px; }
+.stage-row .no { font-family: 'Courier New', monospace; color: var(--dim); width: 30px; flex-shrink: 0; }
+.stage-row.cleared .no, .stage-row.cleared .nm { color: var(--gold); }
+.stage-row.current .no, .stage-row.current .nm { color: var(--green); font-weight: bold; }
+.stage-row.locked { opacity: .45; }
+.stage-row .dist { margin-left: auto; font-family: 'Courier New', monospace; font-size: 11px; color: var(--dim); }
+
+/* ── 統計 ── */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-box { background: #0d0d14; border: 1px solid rgba(85,85,112,.5); border-radius: 10px;
+  padding: 12px 10px; text-align: center; }
+.stat-box .num { font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; color: var(--green); }
+.stat-box .num.gold { color: var(--gold); }
+.stat-box .num.purple { color: var(--purple); }
+.stat-box .cap { font-size: 10px; color: var(--dim); letter-spacing: 1px; margin-top: 3px;
+  font-family: 'Courier New', monospace; }
+.delta-up { color: var(--green); } .delta-down { color: var(--purple); }
+svg text { font-family: 'Courier New', monospace; }
+
+/* ── ジャーナル ── */
+.jr { padding: 10px 4px; border-bottom: 1px dashed rgba(85,85,112,.35); font-size: 12px; }
+.jr .d { font-family: 'Courier New', monospace; color: var(--dim); margin-bottom: 3px; }
+.jr .d b { color: var(--green); }
+.jr .memo { color: var(--text); line-height: 1.6; }
+
+/* ── ボトムナビ ── */
+nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10,10,15,.95); border-top: 1px solid rgba(0,255,136,.25);
+  backdrop-filter: blur(8px); }
+.nav-inner { max-width: 430px; margin: 0 auto; display: flex; }
+.nav-btn { flex: 1; background: none; border: none; color: var(--dim); padding: 12px 0 16px;
+  font-size: 10px; letter-spacing: 1px; cursor: pointer; font-family: 'Courier New', monospace; }
+.nav-btn .ic { display: block; font-size: 17px; margin-bottom: 3px; font-family: inherit; }
+.nav-btn.on { color: var(--green); text-shadow: var(--glow-green); }
+
+.screen { display: none; } .screen.on { display: block; }
+.note { font-size: 11px; color: var(--dim); line-height: 1.7; }
+.divider { border: none; border-top: 1px dashed rgba(85,85,112,.4); margin: 14px 0; }
+.tag { display: inline-block; font-family: 'Courier New', monospace; font-size: 10px;
+  border: 1px solid var(--dim); border-radius: 4px; padding: 2px 6px; color: var(--dim);
+  letter-spacing: 1px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">GRAVITY<span>//</span>ESCAPE</div>
+    <div class="rank-chip">
+      <div class="rk" id="hRank">ROOKIE</div>
+      <div class="xp" id="hXp">0 XP</div>
+    </div>
+  </header>
+
+  <!-- ══════════ LAUNCH(朝) ══════════ -->
+  <section class="screen" id="scr-launch">
+    <div class="card">
+      <div class="clock mono" id="clock">--:--</div>
+      <div class="clock-sub" id="clockDate"></div>
+    </div>
+
+    <div class="card g">
+      <h3>TODAY'S TRANSMISSION</h3>
+      <div class="daily-msg" id="dailyMsg"></div>
+    </div>
+
+    <!-- 起床前 -->
+    <div id="preLaunch">
+      <button class="btn btn-launch" id="btnLaunch">▲ LAUNCH<br><span style="font-size:12px;letter-spacing:3px;">重力を振り切る</span></button>
+      <div id="targetReminder" style="display:none;" class="xp-pop" ></div>
+      <p class="note" style="text-align:center;margin-top:10px;">
+        押した瞬間が起床時刻として記録される。<br>何時でもいい。記録した時点で今日は前進。</p>
+    </div>
+
+    <!-- 起床後 -->
+    <div id="postLaunch" style="display:none;">
+      <!-- きのう決めたミッションの回収(決めたことを本人に返す) -->
+      <div class="card g" id="missionReview" style="display:none;">
+        <h3>YESTERDAY'S MISSION</h3>
+        <p style="font-size:14px;margin:0 0 10px;" id="missionReviewText"></p>
+        <div class="chips">
+          <button class="chip" id="btnMissionClear">クリアした<small>+15 XP</small></button>
+          <button class="chip" id="btnMissionCarry">持ち越す<small>今日に再セット</small></button>
+        </div>
+        <p class="note" style="margin:8px 0 0;">持ち越しはペナルティなし。岩山は焦らない。</p>
+      </div>
+      <div class="card">
+        <h3>ESCAPE CONFIRMED</h3>
+        <div id="launchResult"></div>
+      </div>
+
+      <div class="card">
+        <h3>GRAVITY CHECK <span style="float:right;">+10 XP</span></h3>
+        <p class="note" style="margin:0 0 10px;">今朝の重力(めまい・だるさ)はどのレベル?</p>
+        <div class="chips" id="gravityChips">
+          <button class="chip" data-v="0">軽い<small>G-0</small></button>
+          <button class="chip" data-v="1">普通<small>G-1</small></button>
+          <button class="chip heavy" data-v="2">重い<small>G-2</small></button>
+          <button class="chip heavy" data-v="3">ヤバい<small>G-3</small></button>
+        </div>
+        <p class="note" style="margin:10px 0 0;">G-3の日に記録できたら、それが一番デカい。データが主治医への最強の証拠になる。</p>
+      </div>
+
+      <div class="card">
+        <h3>LAUNCH SEQUENCE</h3>
+        <div id="seqList"></div>
+        <p class="note" style="margin:6px 0 0;">起立性調節障害の定番プロトコル。急に立つと重力に撃墜される。ゆっくりが正解。</p>
+      </div>
+
+      <div class="card">
+        <h3>TODAY'S ONE MISSION <span style="float:right;">+10 XP</span></h3>
+        <input type="text" id="missionInput" placeholder="今日はこれだけできればOK(なんでもいい)">
+        <button class="btn btn-sub" id="btnMission" style="margin-top:8px;">SET MISSION</button>
+        <div id="missionDone" style="display:none;" class="xp-pop"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ BASE CAMP(夜) ══════════ -->
+  <section class="screen" id="scr-camp">
+    <div class="card p">
+      <div class="clock mono" id="clockN" style="color:var(--purple);text-shadow:var(--glow-purple);">--:--</div>
+      <div class="clock-sub">BASE CAMP // 今日の遠征を締める</div>
+    </div>
+
+    <div class="card p">
+      <h3>TOMORROW'S TARGET <span style="float:right;">+10 XP</span></h3>
+      <p class="note" style="margin:0 0 8px;">明日の起床目標。決めるのはおまえ。誰にも共有されない。<br>ターゲット±45分以内に起きたら +40 XP。</p>
+      <input type="time" id="targetInput" value="07:30">
+    </div>
+
+    <div class="card p">
+      <h3>LOG BOOK <span style="float:right;">任意</span></h3>
+      <textarea id="noteInput" rows="2" placeholder="今日の一行。空白でもいい。"></textarea>
+    </div>
+
+    <div id="preNight">
+      <button class="btn btn-night" id="btnNight">◼ GOOD NIGHT<br><span style="font-size:11px;letter-spacing:3px;">就寝を記録 +20 XP</span></button>
+    </div>
+    <div id="postNight" style="display:none;">
+      <div class="card p"><div class="xp-pop" id="nightResult"></div>
+        <p class="note" style="text-align:center;margin:8px 0 0;">おつかれ。ゆっくり休め。遠征は明日も続く。</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════ MAP(遠征) ══════════ -->
+  <section class="screen" id="scr-map">
+    <div class="card g">
+      <div class="tag" id="mapStageTag">STAGE 1/5</div>
+      <div class="stage-title" id="mapStageName"></div>
+      <div class="stage-story" id="mapStageStory"></div>
+      <div class="progress-outer"><div class="progress-inner" id="mapBar" style="width:0%"></div></div>
+      <div class="km-line"><span id="mapKm"></span><span id="mapKmGoal"></span></div>
+    </div>
+
+    <div class="card">
+      <h3>EXPEDITION ROUTE</h3>
+      <div id="stageList"></div>
+    </div>
+
+    <div class="card">
+      <h3>XP RULES(全公開)</h3>
+      <div class="note" id="xpRules"></div>
+      <hr class="divider">
+      <p class="note">記録しない日はキャンプで天候待ち。距離は1kmも減らない。<br>
+      シャクルトンの隊は流氷の上で10ヶ月停滞した。それでも全員生還した。遠征に「失敗した日」はない。あるのは「進んだ日」と「待った日」だけ。</p>
+    </div>
+  </section>
+
+  <!-- ══════════ STATS(データ) ══════════ -->
+  <section class="screen" id="scr-stats">
+    <div class="card">
+      <h3>THIS WEEK vs LAST WEEK</h3>
+      <div class="stat-grid" id="statGrid"></div>
+      <p class="note" style="margin:10px 0 0;">比較対象は過去の自分だけ。他人は出てこない。</p>
+    </div>
+
+    <div class="card">
+      <h3>WAKE TIME // 14 DAYS</h3>
+      <div id="wakeChart"></div>
+    </div>
+
+    <div class="card">
+      <h3>SLEEP HOURS // 14 DAYS</h3>
+      <div id="sleepChart"></div>
+    </div>
+
+    <div class="card">
+      <h3>LOG BOOK</h3>
+      <div id="journal"></div>
+    </div>
+
+    <div class="card">
+      <h3>CONFIG</h3>
+      <p class="note" style="margin:0 0 6px;">プレイヤー名</p>
+      <input type="text" id="nameInput" maxlength="12">
+      <hr class="divider">
+      <p class="note">データはこの端末のlocalStorageだけに保存。どこにも送信されない。見られるのはおまえだけ。</p>
+      <button class="btn btn-sub" id="btnExport" style="margin-top:10px;">EXPORT DATA (JSON)</button>
+      <p class="note" style="margin-top:8px;">↑ 病院に持っていく用。医者に「毎日のログをつけて」と言われたやつは、これで完了。</p>
+      <hr class="divider">
+      <button class="btn btn-sub" id="btnReset" style="border-color:var(--danger);color:var(--danger);">ALL RESET</button>
+    </div>
+  </section>
+
+  <nav><div class="nav-inner">
+    <button class="nav-btn" data-scr="launch"><span class="ic">▲</span>LAUNCH</button>
+    <button class="nav-btn" data-scr="camp"><span class="ic">◼</span>CAMP</button>
+    <button class="nav-btn" data-scr="map"><span class="ic">◆</span>MAP</button>
+    <button class="nav-btn" data-scr="stats"><span class="ic">≡</span>STATS</button>
+  </div></nav>
+</div>
+
+<script>
+'use strict';
+/* ════════════════════════════════════════════════════════
+   GRAVITY // ESCAPE — 重力脱出遠征
+   起立性調節障害の敵は怠けじゃない。文字通り「重力」だ。
+   朝起きる=重力からの脱出。記録の積み重ね=遠征の距離。
+   ════════════════════════════════════════════════════════ */
+
+/* ── XPルール(全部ここ。隠しパラメータなし) ── */
+const XP = {
+  wake:    { pts: 20, label: '起床ログ(LAUNCHを押す)' },
+  target:  { pts: 40, label: 'ターゲット±45分以内に起床' },
+  gravity: { pts: 10, label: 'GRAVITY CHECK(重力レベル記録)' },
+  seq:     { pts: 10, label: 'LAUNCH SEQUENCE 各ステップ(×3)' },
+  mission: { pts: 10, label: '今日のミッションを決める' },
+  missionClear: { pts: 15, label: 'きのうのミッションをクリア' },
+  night:   { pts: 20, label: '就寝ログ(GOOD NIGHT)' },
+  setTgt:  { pts: 10, label: '明日のターゲットを決める' },
+};
+
+/* ── LAUNCH SEQUENCE(起立性調節障害の標準プロトコル) ── */
+const SEQ_STEPS = [
+  { id: 'water', label: '水分+塩分を入れる', sub: '水・OS-1・味噌汁なんでも。血圧の燃料。' },
+  { id: 'sit',   label: '30秒座ってから立つ', sub: '急に立つと重力に撃墜される。段階式リフトオフ。' },
+  { id: 'light', label: '光を浴びる', sub: 'カーテンを開ける。体内時計にモーニングコール。' },
+];
+
+/* ── 遠征ステージ(本棚から引いてきたルート) ──
+   年中で読んだエルマーから始まり、小5で読んだ風をつかまえた少年、
+   その先の極地探検家たちへ。1 XP = 1 km。 */
+const STAGES = [
+  { name: 'どうぶつ島遠征', from: 'エルマーのぼうけん', goal: 1000,
+    story: 'みかん島からどうぶつ島へ。りゅうの子を助けに行く最初の遠征。エルマーの装備はリュックひとつ。おまえの装備はボタンひとつ。' },
+  { name: 'ウィンベ村の風車', from: '風をつかまえた少年', goal: 3000,
+    story: 'ウィリアム・カムクワンバ14歳、学費が払えず学校を追われ、図書館の本だけで風車を建てて村に電気を灯した。図書館は最強。これは実話。' },
+  { name: '南極点レース', from: 'アムンセン 1911', goal: 6000,
+    story: 'アムンセンは犬ぞりで1日30kmずつ、淡々と進んで人類初の南極点に立った。派手さゼロ。毎日同じことをやっただけ。それが一番強い。' },
+  { name: 'エンデュアランス漂流', from: 'シャクルトン 1916', goal: 10000,
+    story: '船が氷に潰されて沈没。流氷の上で10ヶ月停滞。それでもシャクルトンは隊員28人全員を生きて連れ帰った。停滞は敗北じゃない。' },
+  { name: 'SEVEN SUMMITS', from: '七大陸最高峰', goal: 17000,
+    story: 'キリマンジャロ、デナリ、アコンカグア、エベレスト…。7大陸の頂点を全部踏む。ここまで来たやつに言うことはもうない。' },
+];
+const RANKS = [
+  { xp: 0,     name: 'ROOKIE' },
+  { xp: 1000,  name: 'TREKKER' },
+  { xp: 3000,  name: 'NAVIGATOR' },
+  { xp: 6000,  name: 'ICE PILOT' },
+  { xp: 10000, name: 'EXPEDITION LEADER' },
+  { xp: 17000, name: 'LEGEND' },
+];
+
+/* ── 朝のメッセージプール(日替わり) ── */
+const MESSAGES = [
+  { t: '重力 vs おまえ。今日の一勝は、起きたことだ。それ以上は全部ボーナス。', s: 'GRAVITY PROTOCOL' },
+  { t: 'アムンセンは天気が良くても1日30kmしか進まなかった。良い日に飛ばさない。悪い日にゼロにしない。', s: 'AMUNDSEN, 1911' },
+  { t: 'シャクルトンの募集広告:「成功の保証なし。ただし成功の暁には栄誉」。応募が殺到した。人は無理ゲーに惹かれる。', s: 'SHACKLETON, 1914' },
+  { t: 'ウィリアム・カムクワンバは村中に笑われながら廃品で風車を組んだ。動いた瞬間、笑ってたやつらが行列を作った。', s: 'THE BOY WHO HARNESSED THE WIND' },
+  { t: 'エルマーはりゅうを助けるのにライオンと戦ってない。リボンを渡してかわした。正面突破だけが攻略法じゃない。', s: 'MY FATHER\'S DRAGON' },
+  { t: '起きられない朝は、血圧が重力に負けてるだけ。おまえのやる気の問題じゃない。物理の問題だ。', s: 'OD SCIENCE' },
+  { t: '音楽をかけろ。ビートが先、身体は後からついてくる。', s: 'MORNING BEAT' },
+  { t: '今日のログが1行増える。それはつまり、主治医への証拠が1行増えるってこと。データで殴れ。', s: 'DATA IS POWER' },
+  { t: '植村直己は「冒険とは生きて帰ることである」と言った。今日を生きて夜のキャンプまで戻れば、それで遠征成立。', s: 'UEMURA NAOMI' },
+  { t: '昨日の記録がなくても遠征は続いてる。キャンプで天候待ちしてただけだ。', s: 'BASE CAMP RULE' },
+  { t: '南極の隊員は毎朝、寝袋の中で30分かけて起きた。極地スタイルでいい。ゆっくりやれ。', s: 'POLAR MORNING' },
+  { t: 'G-3の朝に記録を残せるやつは、G-0の朝に自慢するやつより強い。', s: 'GRAVITY CHECK' },
+  { t: 'レベル上げと同じ。最初は雑魚戦がしんどい。データが溜まるほど、自分の攻略パターンが見えてくる。', s: 'GAME THEORY' },
+  { t: '図書館が世界を救った例:カムクワンバの風車。図書館は今日も開いてる。', s: 'LIBRARY WINS' },
+  { t: '7時に起きても11時に起きても、LAUNCHを押せば同じ20XP。この遠征は「起きた時刻」より「記録した事実」に払う。', s: 'FAIR PLAY RULE' },
+  { t: 'おまえの本質は「真冬にそびえる岩山」らしい。岩山は流行に流されない。1日1cmずつ標高を上げるだけだ。', s: 'GEO SURVEY' },
+  { t: '大器晩成型は序盤のステータスが低めに設定されてる。そのかわり後半の伸び率が壊れてる。ビルドは間違ってない。', s: 'CHARACTER BUILD' },
+  { t: '時間をかけて大きな山を築くタイプは、短距離走で勝負しなくていい。今日の1ログが標高になる。', s: 'MOUNTAIN LOGIC' },
+  { t: '決めたことを忘れるのは欠陥じゃなくて仕様。だから外部ストレージ(このアプリ)に書き出す。人類はそうやってきた。', s: 'EXTERNAL MEMORY' },
+];
+
+/* ── ストレージ ── */
+const LS_DAYS = 'gq:days';
+const LS_META = 'gq:meta';
+const store = {
+  days() { try { return JSON.parse(localStorage.getItem(LS_DAYS)) || {}; } catch { return {}; } },
+  saveDays(d) { localStorage.setItem(LS_DAYS, JSON.stringify(d)); },
+  meta() { try { return JSON.parse(localStorage.getItem(LS_META)) || {}; } catch { return {}; } },
+  saveMeta(m) { localStorage.setItem(LS_META, JSON.stringify(m)); },
+};
+
+/* ── 日付ユーティリティ ──
+   「今日」の境界は朝4時。0〜4時の就寝ログは前日の夜として扱う。 */
+const pad = n => String(n).padStart(2, '0');
+function dayKey(date, isNight) {
+  const d = new Date(date);
+  if (isNight && d.getHours() < 4) d.setDate(d.getDate() - 1);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+function todayKey() { return dayKey(new Date(), false); }
+function fmtHM(ts) { const d = new Date(ts); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; }
+function minutesOf(ts) { const d = new Date(ts); return d.getHours() * 60 + d.getMinutes(); }
+function parseHM(s) { const [h, m] = (s || '0:0').split(':').map(Number); return h * 60 + (m || 0); }
+
+function getDay(key) { return store.days()[key] || null; }
+function patchDay(key, patch) {
+  const days = store.days();
+  days[key] = Object.assign(days[key] || {}, patch);
+  store.saveDays(days);
+  return days[key];
+}
+
+/* ── XP集計(単一情報源はdaysのみ) ── */
+function dayXp(d) {
+  if (!d) return 0;
+  let x = 0;
+  if (d.wakeAt) x += XP.wake.pts;
+  if (d.targetHit) x += XP.target.pts;
+  if (d.gravity != null) x += XP.gravity.pts;
+  x += (d.seq || []).length * XP.seq.pts;
+  if (d.mission) x += XP.mission.pts;
+  if (d.missionCleared === true) x += XP.missionClear.pts;
+  if (d.nightAt) x += XP.night.pts;
+  if (d.targetSet) x += XP.setTgt.pts;
+  return x;
+}
+function totalXp() {
+  const days = store.days();
+  return Object.values(days).reduce((a, d) => a + dayXp(d), 0);
+}
+function rankOf(xp) {
+  let r = RANKS[0];
+  for (const k of RANKS) if (xp >= k.xp) r = k;
+  return r;
+}
+function stageOf(xp) {
+  for (let i = 0; i < STAGES.length; i++) if (xp < STAGES[i].goal) return i;
+  return STAGES.length - 1; // 全クリ後は最終ステージ表示(エンドレス)
+}
+
+/* ── パーティクル演出 ── */
+function burst() {
+  const wrap = document.createElement('div');
+  wrap.className = 'pwrap';
+  const colors = ['#00ff88', '#bf00ff', '#ffd700', '#00e5ff', '#ff0099'];
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'pt';
+    const ang = (i / 28) * Math.PI * 2;
+    const dist = 90 + Math.random() * 130;
+    const c = colors[i % colors.length];
+    p.style.cssText = `top:40%;left:50%;background:${c};box-shadow:0 0 8px ${c};
+      --px:${Math.cos(ang) * dist}px;--py:${Math.sin(ang) * dist - 60}px;
+      animation:particle .8s ${(i * .02).toFixed(2)}s ease-out forwards;`;
+    wrap.appendChild(p);
+  }
+  document.body.appendChild(wrap);
+  setTimeout(() => wrap.remove(), 1800);
+}
+
+/* ── ヘッダー ── */
+function renderHeader() {
+  const xp = totalXp();
+  document.getElementById('hRank').textContent = rankOf(xp).name;
+  document.getElementById('hXp').textContent = `${xp.toLocaleString()} XP // ${xp.toLocaleString()} km`;
+}
+
+/* ── 時計 ── */
+function tickClock() {
+  const now = new Date();
+  const hm = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  document.getElementById('clock').textContent = hm;
+  document.getElementById('clockN').textContent = hm;
+  const w = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][now.getDay()];
+  document.getElementById('clockDate').textContent =
+    `${now.getFullYear()}.${pad(now.getMonth() + 1)}.${pad(now.getDate())} ${w}`;
+}
+
+/* ── 日替わりメッセージ(日付シードで固定) ── */
+function renderDailyMsg() {
+  const seed = todayKey().split('-').reduce((a, b) => a + Number(b), 0);
+  const m = MESSAGES[seed % MESSAGES.length];
+  document.getElementById('dailyMsg').innerHTML =
+    `${m.t}<span class="src">— ${m.s}</span>`;
+}
+
+/* きのうの日付キー */
+function yesterdayKey() {
+  const d = new Date(); d.setDate(d.getDate() - 1);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+/* ══════════ LAUNCH(朝) ══════════ */
+function renderLaunch() {
+  const d = getDay(todayKey());
+  const woke = d && d.wakeAt;
+  document.getElementById('preLaunch').style.display = woke ? 'none' : 'block';
+  document.getElementById('postLaunch').style.display = woke ? 'block' : 'none';
+
+  if (!woke) {
+    // 昨夜自分で決めたターゲットを表示(決めたことを本人に返す)
+    const tr = document.getElementById('targetReminder');
+    const nt = store.meta().nextTarget;
+    tr.style.display = nt ? 'block' : 'none';
+    if (nt) { tr.style.marginTop = '10px'; tr.textContent = `TARGET ${nt} // 昨夜のおまえが決めた時刻`; }
+    return;
+  }
+
+  // きのうのミッション回収(未判定のものだけ)
+  const yd = getDay(yesterdayKey());
+  const review = document.getElementById('missionReview');
+  if (yd && yd.mission && yd.missionCleared === undefined) {
+    review.style.display = 'block';
+    document.getElementById('missionReviewText').textContent = `「${yd.mission}」`;
+  } else {
+    review.style.display = 'none';
+  }
+
+  // 起床結果サマリー
+  let html = `<div class="result-line"><span>起床時刻</span><span class="v">${fmtHM(d.wakeAt)}</span></div>`;
+  if (d.sleepMin != null) {
+    html += `<div class="result-line"><span>睡眠時間</span><span class="v">${Math.floor(d.sleepMin / 60)}h ${pad(d.sleepMin % 60)}m</span></div>`;
+  }
+  if (d.target) {
+    const hit = d.targetHit ? `HIT! +${XP.target.pts}XP` : 'MISS(距離は減らない)';
+    html += `<div class="result-line"><span>ターゲット ${d.target}</span><span class="v">${hit}</span></div>`;
+  }
+  html += `<div class="result-line"><span>今日の獲得</span><span class="v">+${dayXp(d)} XP</span></div>`;
+  document.getElementById('launchResult').innerHTML = html;
+
+  // 重力チェック
+  document.querySelectorAll('#gravityChips .chip').forEach(c => {
+    c.classList.toggle('on', d.gravity != null && Number(c.dataset.v) === d.gravity);
+  });
+
+  // シーケンス
+  const seqDone = d.seq || [];
+  document.getElementById('seqList').innerHTML = SEQ_STEPS.map(s => {
+    const done = seqDone.includes(s.id);
+    return `<div class="seq-item ${done ? 'done' : ''}" data-id="${s.id}">
+      <div class="box">${done ? '✓' : ''}</div>
+      <div class="lbl">${s.label}<small>${s.sub}</small></div>
+      <div class="pts">+${XP.seq.pts}</div></div>`;
+  }).join('');
+  document.querySelectorAll('.seq-item').forEach(el => {
+    el.onclick = () => {
+      const day = getDay(todayKey());
+      const seq = new Set(day.seq || []);
+      const id = el.dataset.id;
+      seq.has(id) ? seq.delete(id) : seq.add(id);
+      patchDay(todayKey(), { seq: [...seq] });
+      renderLaunch(); renderHeader();
+    };
+  });
+
+  // ミッション
+  const mIn = document.getElementById('missionInput');
+  const mBtn = document.getElementById('btnMission');
+  const mDone = document.getElementById('missionDone');
+  if (d.mission) {
+    mIn.style.display = 'none'; mBtn.style.display = 'none';
+    mDone.style.display = 'block';
+    mDone.textContent = `MISSION: ${d.mission}`;
+  } else {
+    mIn.style.display = 'block'; mBtn.style.display = 'block'; mDone.style.display = 'none';
+  }
+}
+
+document.getElementById('btnLaunch').addEventListener('click', function () {
+  const now = Date.now();
+  const key = todayKey();
+  const days = store.days();
+
+  // 直近16時間以内の就寝ログを探して睡眠時間を計算
+  let sleepMin = null;
+  let latestNight = 0;
+  for (const d of Object.values(days)) {
+    if (d.nightAt && d.nightAt > latestNight && now - d.nightAt < 16 * 3600 * 1000) latestNight = d.nightAt;
+  }
+  if (latestNight) sleepMin = Math.round((now - latestNight) / 60000);
+
+  // 前夜にセットしたターゲット判定(±45分)
+  const meta = store.meta();
+  const target = meta.nextTarget || null;
+  let targetHit = false;
+  if (target) targetHit = Math.abs(minutesOf(now) - parseHM(target)) <= 45;
+
+  patchDay(key, { wakeAt: now, sleepMin, target, targetHit });
+  if (meta.nextTarget) { delete meta.nextTarget; store.saveMeta(meta); }
+
+  this.classList.add('flash');
+  burst();
+  checkStageClear();
+  renderLaunch(); renderHeader();
+});
+
+document.querySelectorAll('#gravityChips .chip').forEach(c => {
+  c.addEventListener('click', () => {
+    patchDay(todayKey(), { gravity: Number(c.dataset.v) });
+    renderLaunch(); renderHeader();
+  });
+});
+
+document.getElementById('btnMissionClear').addEventListener('click', () => {
+  patchDay(yesterdayKey(), { missionCleared: true });
+  burst();
+  renderLaunch(); renderHeader();
+});
+document.getElementById('btnMissionCarry').addEventListener('click', () => {
+  const yd = getDay(yesterdayKey());
+  patchDay(yesterdayKey(), { missionCleared: false });
+  if (yd && yd.mission && !getDay(todayKey()).mission) {
+    document.getElementById('missionInput').value = yd.mission;
+  }
+  renderLaunch(); renderHeader();
+});
+
+document.getElementById('btnMission').addEventListener('click', () => {
+  const v = document.getElementById('missionInput').value.trim();
+  if (!v) return;
+  patchDay(todayKey(), { mission: v });
+  renderLaunch(); renderHeader();
+});
+
+/* ══════════ BASE CAMP(夜) ══════════ */
+function renderCamp() {
+  const key = dayKey(new Date(), true); // 0-4時は前日の夜扱い
+  const d = getDay(key);
+  const slept = d && d.nightAt;
+  document.getElementById('preNight').style.display = slept ? 'none' : 'block';
+  document.getElementById('postNight').style.display = slept ? 'block' : 'none';
+  if (slept) {
+    document.getElementById('nightResult').textContent =
+      `LOGGED ${fmtHM(d.nightAt)} // +${XP.night.pts + (d.targetSet ? XP.setTgt.pts : 0)} XP`;
+  }
+  const meta = store.meta();
+  if (meta.nextTarget) document.getElementById('targetInput').value = meta.nextTarget;
+  else if (meta.lastTarget) document.getElementById('targetInput').value = meta.lastTarget;
+  if (d && d.note) document.getElementById('noteInput').value = d.note;
+}
+
+document.getElementById('btnNight').addEventListener('click', function () {
+  const now = Date.now();
+  const key = dayKey(now, true);
+  const target = document.getElementById('targetInput').value;
+  const note = document.getElementById('noteInput').value.trim();
+
+  patchDay(key, { nightAt: now, note: note || undefined, targetSet: !!target });
+  const meta = store.meta();
+  if (target) { meta.nextTarget = target; meta.lastTarget = target; }
+  store.saveMeta(meta);
+
+  this.classList.add('flash');
+  checkStageClear();
+  renderCamp(); renderHeader();
+});
+
+/* ══════════ MAP(遠征) ══════════ */
+function renderMap() {
+  const xp = totalXp();
+  const si = stageOf(xp);
+  const st = STAGES[si];
+  const prev = si === 0 ? 0 : STAGES[si - 1].goal;
+  const inStage = Math.min(xp, st.goal) - prev;
+  const stageLen = st.goal - prev;
+  const pct = Math.min(100, Math.round(inStage / stageLen * 100));
+
+  document.getElementById('mapStageTag').textContent =
+    xp >= STAGES.at(-1).goal ? 'ALL STAGES CLEARED // ENDLESS' : `STAGE ${si + 1}/${STAGES.length} — ${st.from}`;
+  document.getElementById('mapStageName').textContent = st.name;
+  document.getElementById('mapStageStory').textContent = st.story;
+  document.getElementById('mapBar').style.width = pct + '%';
+  document.getElementById('mapKm').innerHTML = `<b>${inStage.toLocaleString()}</b> / ${stageLen.toLocaleString()} km`;
+  document.getElementById('mapKmGoal').textContent = `TOTAL ${xp.toLocaleString()} km`;
+
+  document.getElementById('stageList').innerHTML = STAGES.map((s, i) => {
+    const cls = xp >= s.goal ? 'cleared' : (i === si ? 'current' : (i > si ? 'locked' : ''));
+    const mark = xp >= s.goal ? '★' : (i === si ? '▶' : String(i + 1).padStart(2, '0'));
+    return `<div class="stage-row ${cls}"><span class="no">${mark}</span>
+      <span class="nm">${s.name}</span><span class="dist">${s.goal.toLocaleString()} km</span></div>`;
+  }).join('');
+
+  document.getElementById('xpRules').innerHTML =
+    Object.values(XP).map(r => `+${r.pts} … ${r.label}`).join('<br>') +
+    '<br>1 XP = 1 km。隠しパラメータなし。';
+}
+
+/* ステージクリア検出 → 祝砲 */
+function checkStageClear() {
+  const xp = totalXp();
+  const meta = store.meta();
+  const cleared = meta.cleared || 0;
+  let newly = 0;
+  for (const s of STAGES) if (xp >= s.goal) newly++;
+  if (newly > cleared) {
+    meta.cleared = newly;
+    store.saveMeta(meta);
+    burst(); setTimeout(burst, 400); setTimeout(burst, 800);
+    setTimeout(() => {
+      alert(`★ STAGE CLEAR ★\n「${STAGES[newly - 1].name}」踏破!\n次のルートが開いた。`);
+    }, 300);
+  }
+}
+
+/* ══════════ STATS ══════════ */
+function lastNDays(n) {
+  const out = [];
+  const d = new Date();
+  for (let i = n - 1; i >= 0; i--) {
+    const dd = new Date(d); dd.setDate(d.getDate() - i);
+    const key = `${dd.getFullYear()}-${pad(dd.getMonth() + 1)}-${pad(dd.getDate())}`;
+    out.push({ key, day: getDay(key), date: dd });
+  }
+  return out;
+}
+function avg(arr) { return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null; }
+function fmtMin(m) { return `${pad(Math.floor(m / 60))}:${pad(Math.round(m) % 60)}`; }
+
+function renderStats() {
+  const days14 = lastNDays(14);
+  const thisW = days14.slice(7), lastW = days14.slice(0, 7);
+  const wakes = w => w.filter(x => x.day && x.day.wakeAt).map(x => minutesOf(x.day.wakeAt));
+  const logs = w => w.filter(x => x.day && (x.day.wakeAt || x.day.nightAt)).length;
+
+  const awThis = avg(wakes(thisW)), awLast = avg(wakes(lastW));
+  let deltaHtml = '—';
+  if (awThis != null && awLast != null) {
+    const diff = Math.round(awThis - awLast);
+    deltaHtml = diff <= 0
+      ? `<span class="delta-up">▲ ${Math.abs(diff)}分 早くなった</span>`
+      : `<span class="delta-down">▼ ${diff}分 ゆっくり</span>`;
+  }
+  const sleeps = thisW.filter(x => x.day && x.day.sleepMin != null).map(x => x.day.sleepMin);
+  const asleep = avg(sleeps);
+
+  document.getElementById('statGrid').innerHTML = `
+    <div class="stat-box"><div class="num">${awThis != null ? fmtMin(awThis) : '--:--'}</div><div class="cap">今週の平均起床</div></div>
+    <div class="stat-box"><div class="num gold" style="font-size:14px;line-height:2;">${deltaHtml}</div><div class="cap">先週の自分との差</div></div>
+    <div class="stat-box"><div class="num">${logs(thisW)}/7</div><div class="cap">今週のログ日数</div></div>
+    <div class="stat-box"><div class="num purple">${asleep != null ? (asleep / 60).toFixed(1) + 'h' : '--'}</div><div class="cap">平均睡眠時間</div></div>`;
+
+  renderWakeChart(days14);
+  renderSleepChart(days14);
+  renderJournal();
+}
+
+/* 起床時刻チャート(SVG手描き) */
+function renderWakeChart(days) {
+  const W = 380, H = 170, padL = 44, padB = 22, padT = 10;
+  const yMin = 4 * 60, yMax = 14 * 60; // 4:00〜14:00
+  const xw = (W - padL - 10) / days.length;
+  const y = m => padT + (Math.min(Math.max(m, yMin), yMax) - yMin) / (yMax - yMin) * (H - padT - padB);
+  let g = '';
+  // 目盛り
+  for (let h = 4; h <= 14; h += 2) {
+    const yy = y(h * 60);
+    g += `<line x1="${padL}" y1="${yy}" x2="${W - 6}" y2="${yy}" stroke="#222230" stroke-width="1"/>
+      <text x="${padL - 6}" y="${yy + 3}" fill="#555570" font-size="9" text-anchor="end">${pad(h)}:00</text>`;
+  }
+  // 点と折れ線
+  let path = '', pts = '';
+  days.forEach((x, i) => {
+    const cx = padL + i * xw + xw / 2;
+    g += `<text x="${cx}" y="${H - 6}" fill="#555570" font-size="8" text-anchor="middle">${x.date.getDate()}</text>`;
+    if (x.day && x.day.wakeAt) {
+      const cy = y(minutesOf(x.day.wakeAt));
+      path += (path ? 'L' : 'M') + `${cx},${cy}`;
+      const col = x.day.targetHit ? '#ffd700' : '#00ff88';
+      pts += `<circle cx="${cx}" cy="${cy}" r="4" fill="${col}" style="filter:drop-shadow(0 0 4px ${col})"/>`;
+    }
+  });
+  if (path) g += `<path d="${path}" fill="none" stroke="#00ff8866" stroke-width="1.5"/>`;
+  g += pts;
+  document.getElementById('wakeChart').innerHTML =
+    `<svg viewBox="0 0 ${W} ${H}" style="width:100%;">${g}</svg>
+     <p class="note" style="margin:4px 0 0;">● 起床時刻 / <span style="color:var(--gold)">●</span> ターゲット命中日</p>`;
+}
+
+/* 睡眠時間チャート */
+function renderSleepChart(days) {
+  const W = 380, H = 140, padL = 30, padB = 22, padT = 8;
+  const maxH = 12 * 60;
+  const xw = (W - padL - 10) / days.length;
+  let g = '';
+  for (let h = 0; h <= 12; h += 4) {
+    const yy = padT + (1 - h * 60 / maxH) * (H - padT - padB);
+    g += `<line x1="${padL}" y1="${yy}" x2="${W - 6}" y2="${yy}" stroke="#222230"/>
+      <text x="${padL - 5}" y="${yy + 3}" fill="#555570" font-size="9" text-anchor="end">${h}h</text>`;
+  }
+  days.forEach((x, i) => {
+    const cx = padL + i * xw + 3;
+    g += `<text x="${cx + (xw - 6) / 2}" y="${H - 6}" fill="#555570" font-size="8" text-anchor="middle">${x.date.getDate()}</text>`;
+    if (x.day && x.day.sleepMin != null) {
+      const hh = Math.min(x.day.sleepMin, maxH) / maxH * (H - padT - padB);
+      g += `<rect x="${cx}" y="${H - padB - hh}" width="${xw - 6}" height="${hh}" rx="2"
+        fill="#bf00ff88" style="filter:drop-shadow(0 0 4px #bf00ff66)"/>`;
+    }
+  });
+  document.getElementById('sleepChart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;">${g}</svg>`;
+}
+
+/* ジャーナル */
+const GRAVITY_LABELS = ['G-0 軽い', 'G-1 普通', 'G-2 重い', 'G-3 ヤバい'];
+function renderJournal() {
+  const days = store.days();
+  const keys = Object.keys(days).sort().reverse().slice(0, 30);
+  if (!keys.length) {
+    document.getElementById('journal').innerHTML = '<p class="note">まだ記録なし。最初のLAUNCHからすべてが始まる。</p>';
+    return;
+  }
+  document.getElementById('journal').innerHTML = keys.map(k => {
+    const d = days[k];
+    const bits = [];
+    if (d.wakeAt) bits.push(`<b>▲${fmtHM(d.wakeAt)}</b>`);
+    if (d.nightAt) bits.push(`◼${fmtHM(d.nightAt)}`);
+    if (d.gravity != null) bits.push(GRAVITY_LABELS[d.gravity]);
+    bits.push(`+${dayXp(d)}XP`);
+    const memo = [d.mission ? `MISSION: ${d.mission}` : '', d.note || ''].filter(Boolean).join(' / ');
+    return `<div class="jr"><div class="d">${k} ${bits.join(' · ')}</div>
+      ${memo ? `<div class="memo">${memo.replace(/</g, '&lt;')}</div>` : ''}</div>`;
+  }).join('');
+}
+
+/* ══════════ CONFIG ══════════ */
+document.getElementById('nameInput').addEventListener('change', function () {
+  const meta = store.meta(); meta.name = this.value.trim(); store.saveMeta(meta);
+  applyName();
+});
+function applyName() {
+  const meta = store.meta();
+  document.getElementById('nameInput').value = meta.name || 'KENSHIN';
+}
+document.getElementById('btnExport').addEventListener('click', () => {
+  const data = { app: 'GRAVITY ESCAPE', exported: new Date().toISOString(),
+    days: store.days(), meta: store.meta() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `gravity-log-${todayKey()}.json`;
+  a.click();
+});
+document.getElementById('btnReset').addEventListener('click', () => {
+  if (confirm('全データを削除する。本当にいい?')) {
+    localStorage.removeItem(LS_DAYS); localStorage.removeItem(LS_META);
+    location.reload();
+  }
+});
+
+/* ══════════ ナビゲーション ══════════ */
+function show(scr) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+  document.getElementById('scr-' + scr).classList.add('on');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('on', b.dataset.scr === scr));
+  if (scr === 'launch') renderLaunch();
+  if (scr === 'camp') renderCamp();
+  if (scr === 'map') renderMap();
+  if (scr === 'stats') renderStats();
+}
+document.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', () => show(b.dataset.scr)));
+
+/* 時間帯で初期画面を自動選択: 4-12時=LAUNCH / 20-4時=CAMP / それ以外=MAP */
+function defaultScreen() {
+  const h = new Date().getHours();
+  if (h >= 4 && h < 12) return 'launch';
+  if (h >= 20 || h < 4) return 'camp';
+  return 'map';
+}
+
+/* ── 起動 ── */
+if (!window.localStorage) {
+  document.getElementById('app').innerHTML = '<p style="padding:40px;text-align:center;">この端末ではlocalStorageが使えないため起動できない。</p>';
+} else {
+  tickClock(); setInterval(tickClock, 1000 * 10);
+  renderDailyMsg();
+  renderHeader();
+  applyName();
+  show(defaultScreen());
+}
+
+/* PWA: Service Worker登録(https/localhost配信時のみ。file://では何もしない) */
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>
